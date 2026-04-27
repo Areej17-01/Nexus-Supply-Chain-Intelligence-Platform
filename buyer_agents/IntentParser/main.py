@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from google.adk.cli.fast_api import get_fast_api_app
-from buyer_agents.IntentParser.intent_agent import root_agent
+from buyer_agents.IntentParser.agent import root_agent
 
 
 adk_app = get_fast_api_app(

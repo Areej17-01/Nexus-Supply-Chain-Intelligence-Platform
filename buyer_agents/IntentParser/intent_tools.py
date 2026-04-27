@@ -3,7 +3,9 @@ from datetime import datetime,timedelta
 # from google.adk.tools import tool
 from db import get_conn
 import uuid
+from logger import setup_logger
 
+log = setup_logger("intent_parser.tools")
 
 def extract_and_save_order(
     buyer_id: str,
@@ -41,6 +43,8 @@ def extract_and_save_order(
     cur = conn.cursor()
  
     try:
+        log.info(f"[TOOL 1] extract_and_save_order | buyer={buyer_id} product='{product}' qty={quantity} target={target_price} max={max_price} region={delivery_region}")
+
         order_id = f"ord-{uuid.uuid4().hex[:8]}"
         line_item_id = f"li-{uuid.uuid4().hex[:8]}"
         now = datetime.utcnow().isoformat() + "Z"
@@ -67,6 +71,8 @@ def extract_and_save_order(
         ))
  
         conn.commit()
+        log.info(f"[TOOL 1] Order saved | order_id={order_id} line_item_id={line_item_id}")
+
         return {
             "success": True,
             "order_id": order_id,
@@ -75,6 +81,8 @@ def extract_and_save_order(
         }
  
     except Exception as e:
+        log.error(f"[TOOL 1] DB error | {str(e)}")
+
         conn.rollback()
         return {"success": False, "error": str(e)}
     finally:
@@ -93,6 +101,8 @@ def lookup_product_catalog(product_name:str,category_hint:str="") -> dict:
     Returns:
         Dictionary with matched products and their specs
     """
+    log.info(f"[TOOL 2] lookup_product_catalog | product='{product_name}' hint='{category_hint}'")
+
     conn = get_conn()
     cur = conn.cursor()
 
@@ -116,7 +126,8 @@ def lookup_product_catalog(product_name:str,category_hint:str="") -> dict:
         ORDER BY total_stock DESC
         LIMIT 8
     """ 
-    params = [f"%{product_name}",f"%{product_name}"]
+    params = [f"%{product_name}%", f"%{product_name}%"]
+
 
     if category_hint:
         query = base_query.format(category_filter = "AND LOWER(product_category) LIKE LOWER(%s)")
@@ -128,7 +139,7 @@ def lookup_product_catalog(product_name:str,category_hint:str="") -> dict:
     rows = cur.fetchall()
     conn.close()
 
-    if not "rows":
+    if not rows:
         return {
             "found": False,
             "matches": [],
@@ -151,12 +162,15 @@ def lookup_product_catalog(product_name:str,category_hint:str="") -> dict:
             "min_lead_time_days": row["min_lead_time"],
             "total_stock": row["total_stock"]
         })
- 
+    log.info(f"[TOOL 2] Found {len(matches)} matches")
+    log.debug(f"[TOOL 2] Matches: {json.dumps(matches, indent=2)}")
     return {"found": True, "match_count": len(matches), "matches": matches}
 
 
 
 def get_category_certifications(product_category: str, delivery_region: str) -> dict:
+    log.info(f"[TOOL 3] get_category_certifications | category={product_category} region={delivery_region}")
+
     """
     Get certifications commonly required for a product category and delivery region.
     Use this when buyer hasn't specified certifications.
@@ -210,6 +224,7 @@ def get_category_certifications(product_category: str, delivery_region: str) -> 
     for cert in {"EU": ["CE", "RoHS"], "North America": ["UL"], "Asia": []}.get(delivery_region, []):
         if cert not in required:
             required.append(cert)
+    log.info(f"[TOOL 3] Required certs: {required} | Optional: {optional}")
  
     return {
         "product_category": product_category,
@@ -235,6 +250,8 @@ def validate_bom_completeness(
     key_specs: str,
     required_certifications: str
 ) -> dict:
+    log.info(f"[TOOL 4] validate_bom_completeness | product='{resolved_product_name}' qty={quantity}")
+
     """
     Validate whether the parsed BOM is complete enough to send RFQs.
     Use this after resolving the product.
@@ -304,6 +321,8 @@ def validate_bom_completeness(
  
     confidence = round(max(0.0, min(1.0, confidence)), 2)
     ready = len(missing) == 0 and confidence >= 0.70
+    log.info(f"[TOOL 4] Result: {ready} | confidence={confidence} | missing={missing}")
+
  
     return {
         "ready_for_rfq": ready,
@@ -326,6 +345,7 @@ def save_parsed_bom(
     required_certifications: str,
     intent_confidence_score: float
 ) -> dict:
+    log.info(f"[TOOL 5] save_parsed_bom | line_item_id={line_item_id} confidence={intent_confidence_score}")
     """
     Save the resolved BOM fields to order_line_items.
     Call ONLY after validate_bom_completeness returns ready_for_rfq = true.
@@ -367,8 +387,11 @@ def save_parsed_bom(
         conn.commit()
  
         if cur.rowcount == 0:
+            log.info(f"[TOOL 5] success: False, error No line item found with id {line_item_id}")
             return {"success": False, "error": f"No line item found with id '{line_item_id}'"}
- 
+
+
+        log.info(f"[TOOL 5] BOM saved | status=discovering found with id {line_item_id}")
         return {
             "success": True,
             "line_item_id": line_item_id,
@@ -377,6 +400,7 @@ def save_parsed_bom(
         }
  
     except Exception as e:
+        log.error(f"[TOOL 5] Save failed | {str(e)}")
         conn.rollback()
         return {"success": False, "error": str(e)}
     finally:
