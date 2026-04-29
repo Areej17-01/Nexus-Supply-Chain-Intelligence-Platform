@@ -1,0 +1,19 @@
+{
+  "capabilities": {},
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["application/json"],
+  "description": "Parses buyer requests and orchestrates the full procurement pipeline.",
+  "name": "BuyerAgent",
+  "preferredTransport": "JSONRPC",
+  "protocolVersion": "0.3.0",
+  "skills": [
+    {
+      "description": "Processes a natural-language procurement request and negotiates with suppliers",
+      "id": "procure",
+      "name": "Procure",
+      "tags": []
+    }
+  ],
+  "url": "http://127.0.0.1:8010/buyer/a2a/BuyerAgent",
+  "version": "1.0.0"
+}

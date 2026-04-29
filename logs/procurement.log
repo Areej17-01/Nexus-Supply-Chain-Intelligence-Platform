@@ -1,0 +1,42 @@
+2026-04-27 15:17:52 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 15:17:52 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 15:17:52 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 15:18:22 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 15:18:22 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 15:18:22 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 15:18:33 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 15:18:33 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 15:18:33 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 15:18:43 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 15:18:43 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 15:18:43 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 15:21:37 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 15:21:37 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 15:21:37 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 15:22:48 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 15:22:48 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 15:22:48 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 15:27:55 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 15:27:55 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 15:27:55 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 15:28:01 | INFO | nexus.server | [REQUEST] GET /
+2026-04-27 15:28:01 | INFO | nexus.server | [REQUEST] GET /static/output-onlinegiftools.gif
+2026-04-27 15:28:30 | INFO | nexus.server | [REQUEST] POST /api/rfq
+2026-04-27 15:38:34 | INFO | nexus.server | [REQUEST] GET /
+2026-04-27 15:38:58 | INFO | nexus.server | [REQUEST] GET /
+2026-04-27 15:41:22 | INFO | nexus.server | [REQUEST] GET /
+2026-04-27 15:50:06 | ERROR | nexus.supplier_registry | discover_suppliers failed capability=temperature_sensors region=US country=None
+Traceback (most recent call last):
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\supplier\supplier_registry.py", line 266, in discover_suppliers
+    cur.execute(query, tuple(params))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Local\Programs\Python\Python314\Lib\site-packages\psycopg2\extras.py", line 236, in execute
+    return super().execute(query, vars)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column "trust_score" does not exist
+LINE 1: ...ppliers WHERE is_active = 1 AND region = 'US' AND trust_scor...
+                                                             ^
+
+2026-04-27 16:13:44 | INFO | nexus.server | [REQUEST] GET /
+2026-04-27 16:13:50 | INFO | nexus.server | [REQUEST] GET /
+2026-04-27 16:13:52 | INFO | nexus.server | [REQUEST] GET /

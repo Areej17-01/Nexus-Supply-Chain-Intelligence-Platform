@@ -1,0 +1,5 @@
+fix entire front end information 
+
+check why am i taking the expensive offer
+check if rl is working
+the values are still way off

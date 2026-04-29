@@ -1,0 +1,1320 @@
+2026-04-27 16:15:44 | INFO | supplier.quote_agent | QuoteAgent initialized with model=gemini-2.0-flash
+2026-04-27 16:16:30 | INFO | supplier.quote_agent | QuoteAgent initialized with model=gemini-2.0-flash
+2026-04-27 16:16:30 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 16:16:30 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 16:16:30 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 16:16:36 | INFO | nexus.server | [99c588e6] [REQUEST] GET / meta={}
+2026-04-27 16:16:36 | INFO | nexus.server | [99c588e6] [RESPONSE] status=200 duration_ms=2.38
+2026-04-27 16:17:06 | INFO | nexus.server | [18d50c7a] [REQUEST] POST /api/rfq meta={'buyer_id': 'buyer-nexus', 'delivery_region': 'US', 'item_count': 1}
+2026-04-27 16:17:06 | INFO | nexus.api.platform | [RFQ_IN] {"trace_id": "d99b560e", "buyer_id": "buyer-nexus", "delivery_region": "US", "deadline_days": 14, "items": [{"product_id": "prod-demo", "quantity": 200}]}
+2026-04-27 16:17:06 | ERROR | nexus.api.platform | [RFQ_SUPPLIER_ERROR] trace_id=d99b560e supplier_id=sup-003 error='LlmAgent' object has no attribute 'ainvoke'
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\nexus\api\platform.py", line 110, in handle_rfq
+    result = await agent.ainvoke({"messages": [{"role": "user", "content": json.dumps(rfq_message)}]})
+                   ^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\pydantic\main.py", line 1042, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'LlmAgent' object has no attribute 'ainvoke'
+2026-04-27 16:17:06 | INFO | nexus.api.platform | [RFQ_OUT] trace_id=d99b560e quotes=0
+2026-04-27 16:17:06 | INFO | nexus.server | [18d50c7a] [RESPONSE] status=200 duration_ms=26.78
+2026-04-27 16:21:11 | INFO | nexus.server | [bf0bac0c] [REQUEST] POST /api/rfq meta={'buyer_id': 'buyer-nexus', 'delivery_region': 'US', 'item_count': 1}
+2026-04-27 16:21:11 | INFO | nexus.api.platform | [RFQ_IN] {"trace_id": "8b051cd5", "buyer_id": "buyer-nexus", "delivery_region": "US", "deadline_days": 14, "items": [{"product_id": "prod-demo", "quantity": 200}]}
+2026-04-27 16:21:11 | ERROR | nexus.api.platform | [RFQ_SUPPLIER_ERROR] trace_id=8b051cd5 supplier_id=sup-003 error='LlmAgent' object has no attribute 'ainvoke'
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\nexus\api\platform.py", line 110, in handle_rfq
+    "supplier_name": supplier_name,
+                       ^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\pydantic\main.py", line 1042, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'LlmAgent' object has no attribute 'ainvoke'
+2026-04-27 16:21:11 | INFO | nexus.api.platform | [RFQ_OUT] trace_id=8b051cd5 quotes=0
+2026-04-27 16:21:11 | INFO | nexus.server | [bf0bac0c] [RESPONSE] status=200 duration_ms=14.69
+2026-04-27 16:22:47 | INFO | nexus.server | [49191be6] [REQUEST] GET / meta={}
+2026-04-27 16:22:47 | INFO | nexus.server | [49191be6] [RESPONSE] status=200 duration_ms=1.57
+2026-04-27 16:22:57 | INFO | nexus.server | [98253a3d] [REQUEST] POST /api/rfq meta={'buyer_id': 'buyer-nexus', 'delivery_region': 'US', 'item_count': 1}
+2026-04-27 16:22:57 | INFO | nexus.api.platform | [RFQ_IN] {"trace_id": "27519d38", "buyer_id": "buyer-nexus", "delivery_region": "US", "deadline_days": 14, "items": [{"product_id": "prod-demo", "quantity": 200}]}
+2026-04-27 16:22:57 | ERROR | nexus.api.platform | [RFQ_SUPPLIER_ERROR] trace_id=27519d38 supplier_id=sup-003 error='LlmAgent' object has no attribute 'ainvoke'
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\nexus\api\platform.py", line 110, in handle_rfq
+    "supplier_name": supplier_name,
+                       ^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\pydantic\main.py", line 1042, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'LlmAgent' object has no attribute 'ainvoke'
+2026-04-27 16:22:57 | INFO | nexus.api.platform | [RFQ_OUT] trace_id=27519d38 quotes=0
+2026-04-27 16:22:57 | INFO | nexus.server | [98253a3d] [RESPONSE] status=200 duration_ms=3.76
+2026-04-27 16:23:27 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 16:23:27 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 16:23:27 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 16:24:00 | INFO | nexus.server | [a8bc1440] [REQUEST] GET / meta={}
+2026-04-27 16:24:00 | INFO | nexus.server | [a8bc1440] [RESPONSE] status=200 duration_ms=4.66
+2026-04-27 16:24:15 | INFO | nexus.server | [edba23f3] [REQUEST] POST /api/rfq meta={'buyer_id': 'buyer-nexus', 'delivery_region': 'US', 'item_count': 1}
+2026-04-27 16:24:15 | INFO | nexus.api.platform | [RFQ_IN] {"trace_id": "05ec466e", "buyer_id": "buyer-nexus", "delivery_region": "US", "deadline_days": 14, "items": [{"product_id": "prod-demo", "quantity": 200}]}
+2026-04-27 16:24:15 | INFO | nexus.api.platform | [RFQ_OUT] trace_id=05ec466e quotes=1
+2026-04-27 16:24:15 | INFO | nexus.server | [edba23f3] [RESPONSE] status=200 duration_ms=6.93
+2026-04-27 16:36:54 | INFO | nexus.server | [8fe3d03e] [REQUEST] GET / meta={}
+2026-04-27 16:36:54 | INFO | nexus.server | [8fe3d03e] [RESPONSE] status=200 duration_ms=5.93
+2026-04-27 16:40:11 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=058add52 buyer_id=buyer-nexus query=500 temperature sensors, budget 2000, deliver to Munich in 10 days
+2026-04-27 16:40:11 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 16:40:11 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 16:40:11 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=False missing=['CE']
+2026-04-27 16:40:11 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 16:40:11 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=False missing=['CE']
+2026-04-27 16:40:11 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 16:40:11 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 16:40:11 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 16:40:11 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=11 deadline_met=False
+2026-04-27 16:40:11 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=3 deadline_met=True
+2026-04-27 16:40:11 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=4 deadline_met=True
+2026-04-27 16:40:11 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-ff10b902 buyer_id=buyer-nexus supplier_id=sup-004 initial=1395.0 budget=2000.0
+2026-04-27 16:40:11 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-ff10b902 status=accepted final=1326.37 savings_pct=4.92 reward=0.765
+2026-04-27 16:40:11 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-74715618 buyer_id=buyer-nexus supplier_id=sup-001 initial=3690.0 budget=2000.0
+2026-04-27 16:40:12 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-74715618 status=hitl_required final=None savings_pct=0.0 reward=-0.05
+2026-04-27 16:40:12 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-d1018b0c buyer_id=buyer-nexus supplier_id=sup-005 initial=8440.0 budget=2000.0
+2026-04-27 16:40:12 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-d1018b0c status=hitl_required final=None savings_pct=0.0 reward=-0.05
+2026-04-27 16:40:12 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-4724B4B0 supplier_id=sup-004 total=1326.37
+2026-04-27 16:40:12 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=058add52 status=completed winner=sup-004
+2026-04-27 16:47:12 | INFO | nexus.server | [a6ce740e] [REQUEST] GET / meta={}
+2026-04-27 16:47:12 | INFO | nexus.server | [a6ce740e] [RESPONSE] status=200 duration_ms=7.35
+2026-04-27 16:47:20 | INFO | nexus.server | [ba12be42] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 16:47:20 | INFO | nexus.server | [ba12be42] [RESPONSE] status=405 duration_ms=0.81
+2026-04-27 17:04:56 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=3bda6d5f buyer_id=buyer-nexus query=100 LiDAR units to San Francisco under 10000 euros in 14 days
+2026-04-27 17:04:58 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 1.326382559s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '1s'}]}}
+2026-04-27 17:04:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 17:04:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 17:04:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=False missing=['CE']
+2026-04-27 17:04:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 17:04:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=False missing=['CE']
+2026-04-27 17:04:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 17:04:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 17:04:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 17:04:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=14 deadline_met=True
+2026-04-27 17:04:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=8 deadline_met=True
+2026-04-27 17:04:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=5 deadline_met=True
+2026-04-27 17:04:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-fcc1105e buyer_id=buyer-nexus supplier_id=sup-004 initial=6270.0 budget=10000.0
+2026-04-27 17:04:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-fcc1105e status=accepted final=5961.51 savings_pct=4.92 reward=0.765
+2026-04-27 17:04:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-65eb64d9 buyer_id=buyer-nexus supplier_id=sup-001 initial=7410.0 budget=10000.0
+2026-04-27 17:04:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-65eb64d9 status=accepted final=7045.43 savings_pct=4.92 reward=0.765
+2026-04-27 17:04:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-ed993665 buyer_id=buyer-nexus supplier_id=sup-005 initial=8408.0 budget=10000.0
+2026-04-27 17:04:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-ed993665 status=accepted final=7994.32 savings_pct=4.92 reward=0.765
+2026-04-27 17:04:59 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-4BDA94DB supplier_id=sup-004 total=5961.51
+2026-04-27 17:04:59 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=3bda6d5f status=completed winner=sup-004
+2026-04-27 17:18:24 | INFO | nexus.server | [70936ec3] [REQUEST] GET / meta={}
+2026-04-27 17:18:24 | INFO | nexus.server | [70936ec3] [RESPONSE] status=200 duration_ms=2.44
+2026-04-27 17:18:24 | INFO | nexus.server | [e0b30b59] [REQUEST] GET /static/output-onlinegiftools.gif meta={}
+2026-04-27 17:18:24 | INFO | nexus.server | [e0b30b59] [RESPONSE] status=200 duration_ms=4.01
+2026-04-27 17:18:25 | INFO | nexus.server | [65c5313f] [REQUEST] GET /favicon.ico meta={}
+2026-04-27 17:18:25 | INFO | nexus.server | [65c5313f] [RESPONSE] status=404 duration_ms=0.89
+2026-04-27 17:18:38 | INFO | nexus.server | [28affc50] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 17:18:38 | INFO | nexus.server | [28affc50] [RESPONSE] status=405 duration_ms=0.76
+2026-04-27 17:19:14 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 17:19:14 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 17:19:14 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 17:19:38 | INFO | nexus.server | [c6deddfc] [REQUEST] GET / meta={}
+2026-04-27 17:19:38 | INFO | nexus.server | [c6deddfc] [RESPONSE] status=200 duration_ms=3.66
+2026-04-27 17:19:45 | INFO | nexus.server | [c7880c06] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 17:19:45 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=4206cb74 buyer_id=buyer-nexus query=500 temperature sensors • Berlin
+2026-04-27 17:19:45 | INFO | nexus.server | [c7880c06] [RESPONSE] status=200 duration_ms=6.6
+2026-04-27 17:19:45 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 14.294536259s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '14s'}]}}
+2026-04-27 17:19:46 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 17:19:46 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 17:19:46 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=False missing=['CE']
+2026-04-27 17:19:46 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 17:19:46 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=False missing=['CE']
+2026-04-27 17:19:46 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 17:19:46 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 17:19:46 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 17:19:46 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=11 deadline_met=True
+2026-04-27 17:19:46 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=3 deadline_met=True
+2026-04-27 17:19:46 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=4 deadline_met=True
+2026-04-27 17:19:46 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-2da4ba3b buyer_id=buyer-nexus supplier_id=sup-004 initial=1395.0 budget=1353.1499999999999
+2026-04-27 17:19:46 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-2da4ba3b status=accepted final=1326.37 savings_pct=4.92 reward=0.765
+2026-04-27 17:19:46 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-9deb97d3 buyer_id=buyer-nexus supplier_id=sup-001 initial=3690.0 budget=3579.2999999999997
+2026-04-27 17:19:46 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-9deb97d3 status=accepted final=3508.45 savings_pct=4.92 reward=0.765
+2026-04-27 17:19:46 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-398d58f9 buyer_id=buyer-nexus supplier_id=sup-005 initial=8440.0 budget=8186.8
+2026-04-27 17:19:46 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-398d58f9 status=accepted final=8024.75 savings_pct=4.92 reward=0.765
+2026-04-27 17:19:46 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-489751FB supplier_id=sup-004 total=1326.37
+2026-04-27 17:19:46 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=4206cb74 status=completed winner=sup-004
+2026-04-27 17:40:19 | INFO | nexus.server | [62020ef0] [REQUEST] GET / meta={}
+2026-04-27 17:40:19 | INFO | nexus.server | [62020ef0] [RESPONSE] status=200 duration_ms=15.28
+2026-04-27 17:40:38 | INFO | nexus.server | [aedce714] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 17:40:38 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=9c2170ec buyer_id=buyer-nexus query=500 temperature sensors • Berlin
+2026-04-27 17:40:38 | INFO | nexus.server | [aedce714] [RESPONSE] status=200 duration_ms=3.41
+2026-04-27 17:40:39 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 20.849497545s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '20s'}]}}
+2026-04-27 17:40:39 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 17:40:39 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 17:40:39 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=False missing=['CE']
+2026-04-27 17:40:39 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 17:40:39 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=False missing=['CE']
+2026-04-27 17:40:39 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 17:40:39 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 17:40:39 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 17:40:39 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=11 deadline_met=True
+2026-04-27 17:40:39 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=3 deadline_met=True
+2026-04-27 17:40:39 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=4 deadline_met=True
+2026-04-27 17:40:40 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-6ea30b9f buyer_id=buyer-nexus supplier_id=sup-004 initial=1395.0 budget=1353.1499999999999
+2026-04-27 17:40:40 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-6ea30b9f status=accepted final=1326.37 savings_pct=4.92 reward=0.765
+2026-04-27 17:40:40 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-bcbedb4d buyer_id=buyer-nexus supplier_id=sup-001 initial=3690.0 budget=3579.2999999999997
+2026-04-27 17:40:40 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-bcbedb4d status=accepted final=3508.45 savings_pct=4.92 reward=0.765
+2026-04-27 17:40:40 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-163a9f85 buyer_id=buyer-nexus supplier_id=sup-005 initial=8440.0 budget=8186.8
+2026-04-27 17:40:40 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-163a9f85 status=accepted final=8024.75 savings_pct=4.92 reward=0.765
+2026-04-27 17:40:40 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-98CE945B supplier_id=sup-004 total=1326.37
+2026-04-27 17:40:40 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=9c2170ec status=completed winner=sup-004
+2026-04-27 17:42:59 | INFO | nexus.server | [e1d61312] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 17:42:59 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=ec25ba4a buyer_id=buyer-nexus query=100 LiDAR units • San Francisco
+2026-04-27 17:42:59 | INFO | nexus.server | [e1d61312] [RESPONSE] status=200 duration_ms=6.06
+2026-04-27 17:43:01 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 58.994579296s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '58s'}]}}
+2026-04-27 17:43:01 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 17:43:01 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 17:43:01 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=True missing=[]
+2026-04-27 17:43:01 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 17:43:01 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=True missing=[]
+2026-04-27 17:43:01 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 17:43:01 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 17:43:01 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-003 buyer_id=buyer-nexus items=1
+2026-04-27 17:43:01 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 17:43:01 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-002 buyer_id=buyer-nexus items=1
+2026-04-27 17:43:01 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=14 deadline_met=True
+2026-04-27 17:43:01 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=12 deadline_met=True
+2026-04-27 17:43:01 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-003 days=18 deadline_met=False
+2026-04-27 17:43:01 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=9 deadline_met=True
+2026-04-27 17:43:01 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-002 days=16 deadline_met=False
+2026-04-27 17:43:01 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-8b2d3908 buyer_id=buyer-nexus supplier_id=sup-002 initial=4940.0 budget=4791.8
+2026-04-27 17:43:01 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-8b2d3908 status=accepted final=4696.95 savings_pct=4.92 reward=0.765
+2026-04-27 17:43:01 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-a8ff49e8 buyer_id=buyer-nexus supplier_id=sup-004 initial=6270.0 budget=6081.9
+2026-04-27 17:43:01 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-a8ff49e8 status=accepted final=5961.51 savings_pct=4.92 reward=0.765
+2026-04-27 17:43:01 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-bb7a7365 buyer_id=buyer-nexus supplier_id=sup-001 initial=7410.0 budget=7187.7
+2026-04-27 17:43:01 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-bb7a7365 status=accepted final=7045.43 savings_pct=4.92 reward=0.765
+2026-04-27 17:43:02 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-EC77D878 supplier_id=sup-002 total=4696.95
+2026-04-27 17:43:02 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=ec25ba4a status=completed winner=sup-002
+2026-04-27 17:44:58 | INFO | nexus.server | [655d2a35] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 17:44:58 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=385485d9 buyer_id=buyer-nexus query=100 LiDAR units • San Francisco under 500 usd
+
+2026-04-27 17:44:58 | INFO | nexus.server | [655d2a35] [RESPONSE] status=200 duration_ms=1.72
+2026-04-27 17:44:58 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 1.198798801s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '1s'}]}}
+2026-04-27 17:44:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 17:44:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 17:44:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=True missing=[]
+2026-04-27 17:44:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 17:44:59 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=True missing=[]
+2026-04-27 17:44:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 17:44:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 17:44:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-003 buyer_id=buyer-nexus items=1
+2026-04-27 17:44:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 17:44:59 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-002 buyer_id=buyer-nexus items=1
+2026-04-27 17:44:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=14 deadline_met=True
+2026-04-27 17:44:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=12 deadline_met=True
+2026-04-27 17:44:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-003 days=18 deadline_met=False
+2026-04-27 17:44:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=9 deadline_met=True
+2026-04-27 17:44:59 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-002 days=16 deadline_met=False
+2026-04-27 17:44:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-db45b525 buyer_id=buyer-nexus supplier_id=sup-002 initial=4940.0 budget=500.0
+2026-04-27 17:44:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-db45b525 status=hitl_required final=None savings_pct=0.0 reward=-0.05
+2026-04-27 17:44:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-cf3de8d6 buyer_id=buyer-nexus supplier_id=sup-004 initial=6270.0 budget=500.0
+2026-04-27 17:44:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-cf3de8d6 status=hitl_required final=None savings_pct=0.0 reward=-0.05
+2026-04-27 17:44:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-2665ab22 buyer_id=buyer-nexus supplier_id=sup-001 initial=7410.0 budget=500.0
+2026-04-27 17:44:59 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-2665ab22 status=hitl_required final=None savings_pct=0.0 reward=-0.05
+2026-04-27 17:44:59 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=385485d9 status=hitl_required winner=None
+2026-04-27 17:46:55 | INFO | nexus.server | [d4aec860] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 17:46:55 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=e020dcdd buyer_id=buyer-nexus query=1000 PCB boards • Chicago
+2026-04-27 17:46:55 | INFO | nexus.server | [d4aec860] [RESPONSE] status=200 duration_ms=1.74
+2026-04-27 17:46:55 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 4.289897738s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '4s'}]}}
+2026-04-27 17:46:56 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 17:46:56 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 17:46:56 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=True missing=[]
+2026-04-27 17:46:56 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 17:46:56 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 17:46:56 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-002 buyer_id=buyer-nexus items=1
+2026-04-27 17:46:56 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=10 deadline_met=True
+2026-04-27 17:46:56 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=9 deadline_met=True
+2026-04-27 17:46:56 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-002 days=15 deadline_met=False
+2026-04-27 17:46:56 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-b1b3c751 buyer_id=buyer-nexus supplier_id=sup-002 initial=5440.0 budget=5276.8
+2026-04-27 17:46:56 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-b1b3c751 status=accepted final=5172.35 savings_pct=4.92 reward=0.765
+2026-04-27 17:46:56 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-f9b4e09b buyer_id=buyer-nexus supplier_id=sup-005 initial=10290.0 budget=9981.3
+2026-04-27 17:46:56 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-f9b4e09b status=accepted final=9783.73 savings_pct=4.92 reward=0.765
+2026-04-27 17:46:56 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-cf3cb3b6 buyer_id=buyer-nexus supplier_id=sup-001 initial=12070.0 budget=11707.9
+2026-04-27 17:46:56 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-cf3cb3b6 status=accepted final=11476.15 savings_pct=4.92 reward=0.765
+2026-04-27 17:46:56 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-660F5958 supplier_id=sup-002 total=5172.35
+2026-04-27 17:46:56 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=e020dcdd status=completed winner=sup-002
+2026-04-27 17:52:21 | INFO | nexus.server | [4f260ce8] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 17:52:21 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=c95cabef buyer_id=buyer-nexus query=30 sensor to austin
+2026-04-27 17:52:21 | INFO | nexus.server | [4f260ce8] [RESPONSE] status=200 duration_ms=1.9
+2026-04-27 17:52:23 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 36.959133208s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '36s'}]}}
+2026-04-27 17:52:23 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 17:52:23 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 17:52:23 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=True missing=[]
+2026-04-27 17:52:23 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 17:52:23 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=True missing=[]
+2026-04-27 17:52:23 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 17:52:23 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 17:52:23 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-003 buyer_id=buyer-nexus items=1
+2026-04-27 17:52:23 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 17:52:23 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-002 buyer_id=buyer-nexus items=1
+2026-04-27 17:52:23 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=11 deadline_met=True
+2026-04-27 17:52:23 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=7 deadline_met=True
+2026-04-27 17:52:23 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-003 days=20 deadline_met=False
+2026-04-27 17:52:23 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=8 deadline_met=True
+2026-04-27 17:52:23 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-002 days=14 deadline_met=True
+2026-04-27 17:52:23 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-5757e9f1 buyer_id=buyer-nexus supplier_id=sup-004 initial=93.0 budget=90.21
+2026-04-27 17:52:23 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-5757e9f1 status=accepted final=88.42 savings_pct=4.92 reward=0.765
+2026-04-27 17:52:23 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-b911f4e3 buyer_id=buyer-nexus supplier_id=sup-002 initial=162.0 budget=157.14
+2026-04-27 17:52:23 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-b911f4e3 status=accepted final=154.03 savings_pct=4.92 reward=0.765
+2026-04-27 17:52:23 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-b0c87572 buyer_id=buyer-nexus supplier_id=sup-001 initial=246.0 budget=238.62
+2026-04-27 17:52:23 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-b0c87572 status=accepted final=233.89 savings_pct=4.92 reward=0.765
+2026-04-27 17:52:24 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-4BC5CC0F supplier_id=sup-004 total=88.42
+2026-04-27 17:52:24 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=c95cabef status=completed winner=sup-004
+2026-04-27 18:45:22 | INFO | nexus.server | [9a4e203d] [REQUEST] GET / meta={}
+2026-04-27 18:45:22 | INFO | nexus.server | [9a4e203d] [RESPONSE] status=200 duration_ms=2.4
+2026-04-27 18:45:24 | INFO | nexus.server | [6fa96201] [REQUEST] GET /api/registry meta={}
+2026-04-27 18:45:24 | INFO | nexus.server | [6fa96201] [RESPONSE] status=200 duration_ms=43.7
+2026-04-27 18:45:24 | INFO | nexus.server | [0098f4bd] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 18:45:24 | INFO | nexus.server | [0098f4bd] [RESPONSE] status=404 duration_ms=4.27
+2026-04-27 18:45:31 | INFO | nexus.server | [ed097301] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 18:45:31 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=fdb7ef87 buyer_id=buyer-nexus query=500 temperature sensors • Berlin
+2026-04-27 18:45:31 | INFO | nexus.server | [ed097301] [RESPONSE] status=200 duration_ms=1.54
+2026-04-27 18:45:32 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 27.166091067s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '27s'}]}}
+2026-04-27 18:45:33 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-004 passed=True missing=[]
+2026-04-27 18:45:33 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 18:45:33 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-003 passed=False missing=['CE']
+2026-04-27 18:45:33 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 18:45:33 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=False missing=['CE']
+2026-04-27 18:45:33 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-004 buyer_id=buyer-nexus items=1
+2026-04-27 18:45:33 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 18:45:33 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 18:45:33 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-004 days=11 deadline_met=True
+2026-04-27 18:45:33 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=3 deadline_met=True
+2026-04-27 18:45:33 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=4 deadline_met=True
+2026-04-27 18:45:33 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-113f11c2 buyer_id=buyer-nexus supplier_id=sup-004 initial=1395.0 budget=1353.1499999999999
+2026-04-27 18:45:33 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-113f11c2 status=accepted final=1326.37 savings_pct=4.92 reward=0.765
+2026-04-27 18:45:33 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-984f17e8 buyer_id=buyer-nexus supplier_id=sup-001 initial=3690.0 budget=3579.2999999999997
+2026-04-27 18:45:33 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-984f17e8 status=accepted final=3508.45 savings_pct=4.92 reward=0.765
+2026-04-27 18:45:33 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-2ab99e9d buyer_id=buyer-nexus supplier_id=sup-005 initial=8440.0 budget=8186.8
+2026-04-27 18:45:33 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-2ab99e9d status=accepted final=8024.75 savings_pct=4.92 reward=0.765
+2026-04-27 18:45:33 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-EA458A6A supplier_id=sup-004 total=1326.37
+2026-04-27 18:45:33 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=fdb7ef87 status=completed winner=sup-004
+2026-04-27 18:45:33 | INFO | nexus.server | [7dd3e054] [REQUEST] GET /api/registry meta={}
+2026-04-27 18:45:33 | INFO | nexus.server | [7dd3e054] [RESPONSE] status=200 duration_ms=7.57
+2026-04-27 18:45:33 | INFO | nexus.server | [deaf0bc3] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 18:45:33 | INFO | nexus.server | [deaf0bc3] [RESPONSE] status=404 duration_ms=1.28
+2026-04-27 18:59:37 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 18:59:37 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 18:59:37 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 18:59:37 | INFO | nexus.server | [f8c76265] [REQUEST] GET / meta={}
+2026-04-27 18:59:37 | INFO | nexus.server | [f8c76265] [RESPONSE] status=200 duration_ms=2.62
+2026-04-27 18:59:39 | INFO | nexus.server | [95c39618] [REQUEST] GET /api/registry meta={}
+2026-04-27 18:59:39 | INFO | nexus.server | [a1b29e58] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 18:59:39 | INFO | nexus.server | [95c39618] [RESPONSE] status=200 duration_ms=7.72
+2026-04-27 18:59:39 | INFO | nexus.server | [a1b29e58] [RESPONSE] status=200 duration_ms=3.77
+2026-04-27 19:00:00 | INFO | nexus.server | [b8de49c4] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 19:00:00 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=3a4aca72 buyer_id=buyer-nexus query=1000 PCB boards • Chicago
+2026-04-27 19:00:00 | INFO | nexus.server | [b8de49c4] [RESPONSE] status=200 duration_ms=2.89
+2026-04-27 19:00:01 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 58.230267421s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '58s'}]}}
+2026-04-27 19:00:02 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 19:00:02 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 19:00:02 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=True missing=[]
+2026-04-27 19:00:02 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 19:00:02 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 19:00:02 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-002 buyer_id=buyer-nexus items=1
+2026-04-27 19:00:02 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=10 deadline_met=True
+2026-04-27 19:00:02 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=9 deadline_met=True
+2026-04-27 19:00:02 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-002 days=15 deadline_met=False
+2026-04-27 19:00:02 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-70558891 buyer_id=buyer-nexus supplier_id=sup-002 initial=5440.0 budget=5330.83715248187
+2026-04-27 19:00:02 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-70558891 status=accepted final=5296.74 savings_pct=2.63 reward=0.711
+2026-04-27 19:00:02 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-5ed38300 buyer_id=buyer-nexus supplier_id=sup-005 initial=10290.0 budget=10007.127924956108
+2026-04-27 19:00:02 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-5ed38300 status=accepted final=9868.03 savings_pct=4.1 reward=0.746
+2026-04-27 19:00:02 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-cdb26030 buyer_id=buyer-nexus supplier_id=sup-001 initial=12070.0 budget=11728.34413233699
+2026-04-27 19:00:02 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-cdb26030 status=accepted final=11590.1 savings_pct=3.98 reward=0.743
+2026-04-27 19:00:02 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-60C3DEDA supplier_id=sup-002 total=5296.74
+2026-04-27 19:00:02 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=3a4aca72 status=completed winner=sup-002
+2026-04-27 19:00:02 | INFO | nexus.server | [14886aad] [REQUEST] GET /api/registry meta={}
+2026-04-27 19:00:02 | INFO | nexus.server | [807826e4] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 19:00:02 | INFO | nexus.server | [14886aad] [RESPONSE] status=200 duration_ms=4.87
+2026-04-27 19:00:02 | INFO | nexus.server | [807826e4] [RESPONSE] status=200 duration_ms=2.64
+2026-04-27 19:57:16 | INFO | nexus.server | [5443b58b] [REQUEST] GET /api/procure/stream meta={}
+2026-04-27 19:57:16 | INFO | nexus.agents.orchestrator | [PROCURE_START] trace_id=2564dd0a buyer_id=buyer-nexus query=1000 PCB boards • Chicago
+2026-04-27 19:57:16 | INFO | nexus.server | [5443b58b] [RESPONSE] status=200 duration_ms=49.58
+2026-04-27 19:57:18 | ERROR | nexus.agents.intent_parser | [LLM_PARSE_ERROR] Falling back to deterministic parser
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 19, in parse
+    parsed = await asyncio.to_thread(self._parse_with_gemini, query, categories, api_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\agents\intent_parser.py", line 71, in _parse_with_gemini
+    response = client.models.generate_content(model=model, contents=prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Areej\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "c:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 41.781345471s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '41s'}]}}
+2026-04-27 19:57:18 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-001 passed=True missing=[]
+2026-04-27 19:57:18 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-005 passed=True missing=[]
+2026-04-27 19:57:18 | INFO | nexus.agents.compliance | [COMPLIANCE] supplier_id=sup-002 passed=True missing=[]
+2026-04-27 19:57:18 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-001 buyer_id=buyer-nexus items=1
+2026-04-27 19:57:18 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-005 buyer_id=buyer-nexus items=1
+2026-04-27 19:57:18 | INFO | nexus.agents.supplier | [SUPPLIER_AGENT] quote supplier_id=sup-002 buyer_id=buyer-nexus items=1
+2026-04-27 19:57:18 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-001 days=10 deadline_met=True
+2026-04-27 19:57:18 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-005 days=9 deadline_met=True
+2026-04-27 19:57:18 | INFO | nexus.agents.logistics | [LOGISTICS] supplier_id=sup-002 days=15 deadline_met=False
+2026-04-27 19:57:19 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-f44c25e6 buyer_id=buyer-nexus supplier_id=sup-002 initial=5440.0 budget=5220.078752602779
+2026-04-27 19:57:19 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-f44c25e6 status=accepted final=5218.1 savings_pct=4.08 reward=0.745
+2026-04-27 19:57:19 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-be37a931 buyer_id=buyer-nexus supplier_id=sup-005 initial=10290.0 budget=9942.085160977585
+2026-04-27 19:57:19 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-be37a931 status=accepted final=9853.96 savings_pct=4.24 reward=0.749
+2026-04-27 19:57:19 | INFO | nexus.agents.negotiation | [NEGOTIATION_START] session_id=neg-9ef16750 buyer_id=buyer-nexus supplier_id=sup-001 initial=12070.0 budget=11722.086580839894
+2026-04-27 19:57:19 | INFO | nexus.agents.negotiation | [NEGOTIATION_END] session_id=neg-9ef16750 status=accepted final=11638.13 savings_pct=3.58 reward=0.734
+2026-04-27 19:57:19 | INFO | nexus.execution.contract | [CONTRACT] generated po_id=PO-C439A82C supplier_id=sup-002 total=5218.1
+2026-04-27 19:57:19 | INFO | nexus.agents.orchestrator | [PROCURE_END] trace_id=2564dd0a status=completed winner=sup-002
+2026-04-27 19:57:19 | INFO | nexus.server | [9db3c885] [REQUEST] GET /api/registry meta={}
+2026-04-27 19:57:19 | INFO | nexus.server | [6d9363b3] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 19:57:19 | INFO | nexus.server | [9db3c885] [RESPONSE] status=200 duration_ms=8.58
+2026-04-27 19:57:19 | INFO | nexus.server | [6d9363b3] [RESPONSE] status=200 duration_ms=8.9
+2026-04-27 19:58:08 | INFO | nexus.server | [ba646793] [REQUEST] GET / meta={}
+2026-04-27 19:58:08 | INFO | nexus.server | [ba646793] [RESPONSE] status=200 duration_ms=7.17
+2026-04-27 19:58:10 | INFO | nexus.server | [925ceb78] [REQUEST] GET /api/registry meta={}
+2026-04-27 19:58:10 | INFO | nexus.server | [fba7157a] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 19:58:10 | INFO | nexus.server | [925ceb78] [RESPONSE] status=200 duration_ms=4.4
+2026-04-27 19:58:10 | INFO | nexus.server | [fba7157a] [RESPONSE] status=200 duration_ms=2.94
+2026-04-27 20:06:15 | INFO | nexus.server | [0dc1ad1d] [REQUEST] GET / meta={}
+2026-04-27 20:06:15 | INFO | nexus.server | [0dc1ad1d] [RESPONSE] status=200 duration_ms=1.57
+2026-04-27 20:17:05 | INFO | nexus.server | [3f96bfe7] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 20:17:05 | INFO | nexus.server | [c5ab03d4] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:17:05 | INFO | nexus.server | [3f96bfe7] [RESPONSE] status=200 duration_ms=12.76
+2026-04-27 20:17:05 | INFO | nexus.server | [c5ab03d4] [RESPONSE] status=200 duration_ms=8.14
+2026-04-27 20:17:27 | INFO | nexus.server | [3493422a] [REQUEST] GET / meta={}
+2026-04-27 20:17:27 | INFO | nexus.server | [3493422a] [RESPONSE] status=200 duration_ms=11.64
+2026-04-27 20:30:12 | INFO | nexus.server | [d3f76dca] [REQUEST] GET / meta={}
+2026-04-27 20:30:12 | INFO | nexus.server | [d3f76dca] [RESPONSE] status=200 duration_ms=2.87
+2026-04-27 20:30:17 | INFO | nexus.server | [74da67c4] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:30:17 | INFO | nexus.server | [74da67c4] [RESPONSE] status=200 duration_ms=3.27
+2026-04-27 20:30:17 | INFO | nexus.server | [f6ac0889] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 20:30:17 | INFO | nexus.server | [f6ac0889] [RESPONSE] status=200 duration_ms=10.17
+2026-04-27 20:30:23 | INFO | nexus.server | [23064eaa] [REQUEST] GET / meta={}
+2026-04-27 20:30:23 | INFO | nexus.server | [23064eaa] [RESPONSE] status=200 duration_ms=1.77
+2026-04-27 20:30:26 | INFO | nexus.server | [eff69807] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:30:26 | INFO | nexus.server | [427434a7] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 20:30:26 | INFO | nexus.server | [eff69807] [RESPONSE] status=200 duration_ms=12.46
+2026-04-27 20:30:26 | INFO | nexus.server | [427434a7] [RESPONSE] status=200 duration_ms=6.13
+2026-04-27 20:30:35 | INFO | nexus.server | [c5571db8] [REQUEST] GET / meta={}
+2026-04-27 20:30:35 | INFO | nexus.server | [c5571db8] [RESPONSE] status=200 duration_ms=1.41
+2026-04-27 20:45:00 | INFO | nexus.server | [69c410e8] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:45:00 | INFO | nexus.server | [5039e134] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 20:45:00 | INFO | nexus.server | [69c410e8] [RESPONSE] status=200 duration_ms=17.84
+2026-04-27 20:45:00 | INFO | nexus.server | [5039e134] [RESPONSE] status=200 duration_ms=14.04
+2026-04-27 20:45:06 | INFO | nexus.server | [7947d2c7] [REQUEST] GET / meta={}
+2026-04-27 20:45:06 | INFO | nexus.server | [7947d2c7] [RESPONSE] status=200 duration_ms=4.72
+2026-04-27 20:45:07 | INFO | nexus.server | [ae8e5fec] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 20:45:07 | INFO | nexus.server | [aef1e2b3] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:45:07 | INFO | nexus.server | [ae8e5fec] [RESPONSE] status=200 duration_ms=25.03
+2026-04-27 20:45:07 | INFO | nexus.server | [aef1e2b3] [RESPONSE] status=200 duration_ms=23.56
+2026-04-27 20:45:09 | INFO | nexus.server | [54491da0] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:45:09 | INFO | nexus.server | [c210a365] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 20:45:09 | INFO | nexus.server | [46715104] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 20:45:09 | INFO | nexus.server | [54491da0] [RESPONSE] status=200 duration_ms=5.73
+2026-04-27 20:45:09 | INFO | nexus.server | [c210a365] [RESPONSE] status=200 duration_ms=4.3
+2026-04-27 20:45:09 | INFO | nexus.server | [46715104] [RESPONSE] status=200 duration_ms=4.61
+2026-04-27 20:45:21 | INFO | nexus.server | [9910fd65] [REQUEST] GET / meta={}
+2026-04-27 20:45:21 | INFO | nexus.server | [9910fd65] [RESPONSE] status=200 duration_ms=2.7
+2026-04-27 20:45:21 | INFO | nexus.server | [f6ae102a] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:45:21 | INFO | nexus.server | [cd8505d8] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 20:45:21 | INFO | nexus.server | [f6ae102a] [RESPONSE] status=200 duration_ms=8.89
+2026-04-27 20:45:21 | INFO | nexus.server | [cd8505d8] [RESPONSE] status=200 duration_ms=9.55
+2026-04-27 20:45:49 | INFO | nexus.server | [f032b05c] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:45:49 | INFO | nexus.server | [fbb94baf] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 20:45:49 | INFO | nexus.server | [9cee17e6] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 20:45:49 | INFO | nexus.server | [f032b05c] [RESPONSE] status=200 duration_ms=10.28
+2026-04-27 20:45:49 | INFO | nexus.server | [fbb94baf] [RESPONSE] status=200 duration_ms=7.75
+2026-04-27 20:45:49 | INFO | nexus.server | [9cee17e6] [RESPONSE] status=200 duration_ms=5.05
+2026-04-27 20:50:38 | INFO | nexus.server | [12481622] [REQUEST] GET / meta={}
+2026-04-27 20:50:38 | INFO | nexus.server | [12481622] [RESPONSE] status=200 duration_ms=1.88
+2026-04-27 20:50:39 | INFO | nexus.server | [b2bc3d8f] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:50:39 | INFO | nexus.server | [7b71e008] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 20:50:39 | INFO | nexus.server | [b2bc3d8f] [RESPONSE] status=200 duration_ms=5.03
+2026-04-27 20:50:39 | INFO | nexus.server | [7b71e008] [RESPONSE] status=200 duration_ms=5.95
+2026-04-27 20:50:43 | INFO | nexus.server | [8ffcc11e] [REQUEST] GET /api/registry meta={}
+2026-04-27 20:50:43 | INFO | nexus.server | [1fda0ebf] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 20:50:43 | INFO | nexus.server | [532a5dbd] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 20:50:43 | INFO | nexus.server | [8ffcc11e] [RESPONSE] status=200 duration_ms=14.88
+2026-04-27 20:50:43 | INFO | nexus.server | [1fda0ebf] [RESPONSE] status=200 duration_ms=14.19
+2026-04-27 20:50:43 | INFO | nexus.server | [532a5dbd] [RESPONSE] status=200 duration_ms=6.5
+2026-04-27 21:03:00 | INFO | nexus.server | [1c3b8d38] [REQUEST] GET / meta={}
+2026-04-27 21:03:00 | INFO | nexus.server | [1c3b8d38] [RESPONSE] status=200 duration_ms=2.39
+2026-04-27 21:03:00 | INFO | nexus.server | [f32b24f4] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:03:01 | INFO | nexus.server | [5f00f916] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:03:01 | INFO | nexus.server | [f32b24f4] [RESPONSE] status=200 duration_ms=9.3
+2026-04-27 21:03:01 | INFO | nexus.server | [5f00f916] [RESPONSE] status=200 duration_ms=5.0
+2026-04-27 21:03:06 | INFO | nexus.server | [737f65df] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:03:06 | INFO | nexus.server | [1c3b314b] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:03:06 | INFO | nexus.server | [3c61c434] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 21:03:06 | INFO | nexus.server | [737f65df] [RESPONSE] status=200 duration_ms=15.74
+2026-04-27 21:03:06 | INFO | nexus.server | [1c3b314b] [RESPONSE] status=200 duration_ms=15.33
+2026-04-27 21:03:06 | INFO | nexus.server | [3c61c434] [RESPONSE] status=200 duration_ms=14.89
+2026-04-27 21:28:14 | INFO | nexus.server | [dfd8d9e8] [REQUEST] GET / meta={}
+2026-04-27 21:28:14 | INFO | nexus.server | [dfd8d9e8] [RESPONSE] status=200 duration_ms=2.05
+2026-04-27 21:28:14 | INFO | nexus.server | [3611c7bc] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:28:14 | INFO | nexus.server | [57b7ca45] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:28:14 | INFO | nexus.server | [3611c7bc] [RESPONSE] status=200 duration_ms=5.7
+2026-04-27 21:28:14 | INFO | nexus.server | [57b7ca45] [RESPONSE] status=200 duration_ms=5.83
+2026-04-27 21:30:19 | INFO | nexus.server | [4ff1e536] [REQUEST] GET / meta={}
+2026-04-27 21:30:19 | INFO | nexus.server | [4ff1e536] [RESPONSE] status=200 duration_ms=2.0
+2026-04-27 21:30:19 | INFO | nexus.server | [e7dee76f] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:30:19 | INFO | nexus.server | [92bd2ab6] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:30:19 | INFO | nexus.server | [e7dee76f] [RESPONSE] status=200 duration_ms=5.79
+2026-04-27 21:30:19 | INFO | nexus.server | [92bd2ab6] [RESPONSE] status=200 duration_ms=4.24
+2026-04-27 21:30:22 | INFO | nexus.server | [741f73c5] [REQUEST] GET / meta={}
+2026-04-27 21:30:22 | INFO | nexus.server | [741f73c5] [RESPONSE] status=200 duration_ms=2.07
+2026-04-27 21:30:23 | INFO | nexus.server | [f4b1fc6d] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:30:23 | INFO | nexus.server | [faa14c04] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:30:23 | INFO | nexus.server | [f4b1fc6d] [RESPONSE] status=200 duration_ms=8.83
+2026-04-27 21:30:23 | INFO | nexus.server | [faa14c04] [RESPONSE] status=200 duration_ms=8.64
+2026-04-27 21:38:55 | INFO | nexus.server | [a27b0d83] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:38:55 | INFO | nexus.server | [7d47e803] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:38:55 | INFO | nexus.server | [5bec4899] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 21:38:55 | INFO | nexus.server | [a27b0d83] [RESPONSE] status=200 duration_ms=12.59
+2026-04-27 21:38:55 | INFO | nexus.server | [7d47e803] [RESPONSE] status=200 duration_ms=14.69
+2026-04-27 21:38:55 | INFO | nexus.server | [5bec4899] [RESPONSE] status=200 duration_ms=6.25
+2026-04-27 21:39:56 | INFO | nexus.server | [b879d987] [REQUEST] POST /api/supplier/register meta={}
+2026-04-27 21:39:56 | INFO | nexus.server | [b879d987] [RESPONSE] status=200 duration_ms=84.31
+2026-04-27 21:39:56 | INFO | nexus.server | [e6d7cb1c] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:39:56 | INFO | nexus.server | [6b17b596] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:39:56 | INFO | nexus.server | [e6d7cb1c] [RESPONSE] status=200 duration_ms=6.78
+2026-04-27 21:39:56 | INFO | nexus.server | [c5cddbbf] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 21:39:56 | INFO | nexus.server | [6b17b596] [RESPONSE] status=200 duration_ms=4.08
+2026-04-27 21:39:56 | INFO | nexus.server | [c5cddbbf] [RESPONSE] status=200 duration_ms=3.52
+2026-04-27 21:40:42 | INFO | nexus.server | [3cdf660c] [REQUEST] POST /api/supplier/sup-471/catalog meta={}
+2026-04-27 21:40:42 | INFO | nexus.server | [3cdf660c] [RESPONSE] status=200 duration_ms=16.9
+2026-04-27 21:40:42 | INFO | nexus.server | [d4015def] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 21:40:42 | INFO | nexus.server | [559f513b] [REQUEST] GET /api/registry meta={}
+2026-04-27 21:40:42 | INFO | nexus.server | [e65e419d] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 21:40:42 | INFO | nexus.server | [d4015def] [RESPONSE] status=200 duration_ms=7.08
+2026-04-27 21:40:42 | INFO | nexus.server | [559f513b] [RESPONSE] status=200 duration_ms=8.84
+2026-04-27 21:40:42 | INFO | nexus.server | [e65e419d] [RESPONSE] status=200 duration_ms=4.08
+2026-04-27 22:22:18 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=groq/llama-3.1-8b-instant
+2026-04-27 22:25:00 | INFO | nexus.server | [fa9f5f79] [REQUEST] GET / meta={}
+2026-04-27 22:25:00 | INFO | nexus.server | [fa9f5f79] [RESPONSE] status=200 duration_ms=27.6
+2026-04-27 22:25:01 | INFO | nexus.server | [aacfafc1] [REQUEST] GET /api/registry meta={}
+2026-04-27 22:25:01 | INFO | nexus.server | [edc9302a] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 22:25:01 | INFO | nexus.server | [aacfafc1] [RESPONSE] status=200 duration_ms=13.82
+2026-04-27 22:25:01 | INFO | nexus.server | [edc9302a] [RESPONSE] status=200 duration_ms=5.95
+2026-04-27 22:25:21 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 22:25:21 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 22:25:21 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 22:25:29 | INFO | nexus.server | [7ad08c52] [REQUEST] GET /api/registry meta={}
+2026-04-27 22:25:29 | INFO | nexus.server | [0b05e417] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 22:25:29 | INFO | nexus.server | [9da99867] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 22:25:29 | INFO | nexus.server | [7ad08c52] [RESPONSE] status=200 duration_ms=19.64
+2026-04-27 22:25:29 | INFO | nexus.server | [0b05e417] [RESPONSE] status=200 duration_ms=19.61
+2026-04-27 22:25:29 | INFO | nexus.server | [9da99867] [RESPONSE] status=200 duration_ms=6.88
+2026-04-27 22:26:14 | INFO | nexus.server | [b9a0a8f9] [REQUEST] GET / meta={}
+2026-04-27 22:26:14 | INFO | nexus.server | [b9a0a8f9] [RESPONSE] status=200 duration_ms=8.93
+2026-04-27 22:26:14 | INFO | nexus.server | [dcfaf11a] [REQUEST] GET /api/registry meta={}
+2026-04-27 22:26:14 | INFO | nexus.server | [88a633a6] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 22:26:14 | INFO | nexus.server | [dcfaf11a] [RESPONSE] status=200 duration_ms=7.41
+2026-04-27 22:26:14 | INFO | nexus.server | [88a633a6] [RESPONSE] status=200 duration_ms=4.37
+2026-04-27 22:26:23 | INFO | nexus.server | [4b0ce5da] [REQUEST] GET /api/registry meta={}
+2026-04-27 22:26:23 | INFO | nexus.server | [4fd4dd5d] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 22:26:23 | INFO | nexus.server | [4c6a6327] [REQUEST] GET /api/supplier/sup-471/catalog meta={}
+2026-04-27 22:26:23 | INFO | nexus.server | [4b0ce5da] [RESPONSE] status=200 duration_ms=25.64
+2026-04-27 22:26:23 | INFO | nexus.server | [4fd4dd5d] [RESPONSE] status=200 duration_ms=12.19
+2026-04-27 22:26:23 | INFO | nexus.server | [4c6a6327] [RESPONSE] status=200 duration_ms=11.73
+2026-04-27 22:26:41 | INFO | nexus.server | [3bfcffa2] [REQUEST] GET / meta={}
+2026-04-27 22:26:41 | INFO | nexus.server | [3bfcffa2] [RESPONSE] status=200 duration_ms=2.93
+2026-04-27 22:26:42 | INFO | nexus.server | [9ecbf809] [REQUEST] GET /api/registry meta={}
+2026-04-27 22:26:42 | INFO | nexus.server | [9f25a0f5] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 22:26:42 | INFO | nexus.server | [9ecbf809] [RESPONSE] status=200 duration_ms=6.64
+2026-04-27 22:26:42 | INFO | nexus.server | [9f25a0f5] [RESPONSE] status=200 duration_ms=3.8
+2026-04-27 22:26:51 | INFO | nexus.server | [61a1d220] [REQUEST] GET /api/registry meta={}
+2026-04-27 22:26:51 | INFO | nexus.server | [61a1d220] [RESPONSE] status=200 duration_ms=16.09
+2026-04-27 22:26:51 | INFO | nexus.server | [345f4799] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 22:26:51 | INFO | nexus.server | [378011dd] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 22:26:51 | INFO | nexus.server | [345f4799] [RESPONSE] status=200 duration_ms=10.25
+2026-04-27 22:26:51 | INFO | nexus.server | [378011dd] [RESPONSE] status=200 duration_ms=5.41
+2026-04-27 22:27:02 | INFO | nexus.server | [af9aab4e] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-27 22:27:02 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=groq/llama-3.1-8b-instant
+2026-04-27 22:27:02 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=groq/llama-3.1-8b-instant
+2026-04-27 22:27:16 | INFO | nexus.server | [af9aab4e] [RESPONSE] status=404 duration_ms=13722.76
+2026-04-27 23:07:47 | INFO | nexus.server | [65fb5bd3] [REQUEST] GET / meta={}
+2026-04-27 23:07:47 | INFO | nexus.server | [65fb5bd3] [RESPONSE] status=200 duration_ms=6.27
+2026-04-27 23:07:48 | INFO | nexus.server | [e8991f04] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:07:48 | INFO | nexus.server | [0781926c] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:07:48 | INFO | nexus.server | [e8991f04] [RESPONSE] status=200 duration_ms=13.45
+2026-04-27 23:07:48 | INFO | nexus.server | [0781926c] [RESPONSE] status=200 duration_ms=9.46
+2026-04-27 23:07:51 | INFO | nexus.server | [1acc0e16] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:07:51 | INFO | nexus.server | [9030520b] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:07:51 | INFO | nexus.server | [1acc0e16] [RESPONSE] status=200 duration_ms=17.88
+2026-04-27 23:07:51 | INFO | nexus.server | [5eb0fae4] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 23:07:51 | INFO | nexus.server | [9030520b] [RESPONSE] status=200 duration_ms=12.3
+2026-04-27 23:07:51 | INFO | nexus.server | [5eb0fae4] [RESPONSE] status=200 duration_ms=7.18
+2026-04-27 23:07:58 | INFO | nexus.server | [55e8507b] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-27 23:08:03 | INFO | nexus.server | [55e8507b] [RESPONSE] status=404 duration_ms=4127.7
+2026-04-27 23:17:14 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-27 23:18:04 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-27 23:30:42 | INFO | nexus.server | [3c1e9eee] [REQUEST] GET / meta={}
+2026-04-27 23:30:42 | INFO | nexus.server | [3c1e9eee] [RESPONSE] status=200 duration_ms=5.66
+2026-04-27 23:30:42 | INFO | nexus.server | [b5815616] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:30:42 | INFO | nexus.server | [1db45284] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:30:42 | INFO | nexus.server | [b5815616] [RESPONSE] status=200 duration_ms=56.25
+2026-04-27 23:30:42 | INFO | nexus.server | [1db45284] [RESPONSE] status=200 duration_ms=39.87
+2026-04-27 23:30:46 | INFO | nexus.server | [1c451078] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:30:46 | INFO | nexus.server | [7445b843] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:30:46 | INFO | nexus.server | [1c451078] [RESPONSE] status=200 duration_ms=31.62
+2026-04-27 23:30:46 | INFO | nexus.server | [7445b843] [RESPONSE] status=200 duration_ms=16.72
+2026-04-27 23:30:46 | INFO | nexus.server | [1c44e5dc] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 23:30:46 | INFO | nexus.server | [1c44e5dc] [RESPONSE] status=200 duration_ms=7.59
+2026-04-27 23:30:53 | INFO | nexus.server | [485dac11] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-27 23:31:01 | INFO | nexus.server | [485dac11] [RESPONSE] status=404 duration_ms=7606.23
+2026-04-27 23:36:59 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 23:36:59 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 23:36:59 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 23:37:20 | INFO | nexus.server | [4160156e] [REQUEST] GET / meta={}
+2026-04-27 23:37:20 | INFO | nexus.server | [4160156e] [RESPONSE] status=200 duration_ms=3.02
+2026-04-27 23:37:21 | INFO | nexus.server | [a1e874b3] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:37:21 | INFO | nexus.server | [9a75df1b] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:37:21 | INFO | nexus.server | [a1e874b3] [RESPONSE] status=200 duration_ms=8.39
+2026-04-27 23:37:21 | INFO | nexus.server | [9a75df1b] [RESPONSE] status=200 duration_ms=5.83
+2026-04-27 23:37:24 | INFO | nexus.server | [325f8ab5] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:37:24 | INFO | nexus.server | [6c393c34] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:37:24 | INFO | nexus.server | [a9f0c085] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 23:37:24 | INFO | nexus.server | [325f8ab5] [RESPONSE] status=200 duration_ms=13.85
+2026-04-27 23:37:24 | INFO | nexus.server | [6c393c34] [RESPONSE] status=200 duration_ms=10.12
+2026-04-27 23:37:24 | INFO | nexus.server | [a9f0c085] [RESPONSE] status=200 duration_ms=9.98
+2026-04-27 23:37:34 | INFO | nexus.server | [b8c350cb] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-27 23:37:34 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-27 23:37:34 | INFO | nexus.server | [b8c350cb] [RESPONSE] status=200 duration_ms=48.22
+2026-04-27 23:41:17 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 23:41:17 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 23:41:17 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 23:41:24 | INFO | nexus.server | [dd938aa6] [REQUEST] GET / meta={}
+2026-04-27 23:41:24 | INFO | nexus.server | [dd938aa6] [RESPONSE] status=200 duration_ms=3.56
+2026-04-27 23:41:25 | INFO | nexus.server | [a830c66a] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:41:25 | INFO | nexus.server | [61005136] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:41:25 | INFO | nexus.server | [a830c66a] [RESPONSE] status=200 duration_ms=10.39
+2026-04-27 23:41:25 | INFO | nexus.server | [61005136] [RESPONSE] status=200 duration_ms=5.94
+2026-04-27 23:41:26 | INFO | nexus.server | [81e2b289] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:41:26 | INFO | nexus.server | [567a54cb] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:41:26 | INFO | nexus.server | [8237af4c] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 23:41:26 | INFO | nexus.server | [81e2b289] [RESPONSE] status=200 duration_ms=30.21
+2026-04-27 23:41:26 | INFO | nexus.server | [567a54cb] [RESPONSE] status=200 duration_ms=30.0
+2026-04-27 23:41:26 | INFO | nexus.server | [8237af4c] [RESPONSE] status=200 duration_ms=29.45
+2026-04-27 23:41:32 | INFO | nexus.server | [53a928ee] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-27 23:41:32 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-27 23:41:32 | INFO | nexus.server | [53a928ee] [RESPONSE] status=200 duration_ms=42.29
+2026-04-27 23:43:11 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 23:43:11 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 23:43:11 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 23:43:35 | INFO | nexus.server | [9fba3f89] [REQUEST] GET / meta={}
+2026-04-27 23:43:35 | INFO | nexus.server | [9fba3f89] [RESPONSE] status=200 duration_ms=3.64
+2026-04-27 23:43:36 | INFO | nexus.server | [392a88fc] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:43:36 | INFO | nexus.server | [46622c36] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:43:36 | INFO | nexus.server | [392a88fc] [RESPONSE] status=200 duration_ms=11.1
+2026-04-27 23:43:36 | INFO | nexus.server | [46622c36] [RESPONSE] status=200 duration_ms=7.15
+2026-04-27 23:45:07 | INFO | nexus.server | [ac0517e0] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:45:07 | INFO | nexus.server | [ac0517e0] [RESPONSE] status=200 duration_ms=18.1
+2026-04-27 23:45:07 | INFO | nexus.server | [aca834b1] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:45:07 | INFO | nexus.server | [a667c907] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-27 23:45:07 | INFO | nexus.server | [aca834b1] [RESPONSE] status=200 duration_ms=13.97
+2026-04-27 23:45:07 | INFO | nexus.server | [a667c907] [RESPONSE] status=200 duration_ms=9.93
+2026-04-27 23:45:13 | INFO | nexus.server | [3a60b06e] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-27 23:45:13 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-27 23:45:13 | INFO | nexus.server | [3a60b06e] [RESPONSE] status=200 duration_ms=49.82
+2026-04-27 23:58:09 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-27 23:58:09 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-27 23:58:09 | INFO | nexus.server | === Platform Ready ===
+2026-04-27 23:58:14 | INFO | nexus.server | [1bad910d] [REQUEST] GET / meta={}
+2026-04-27 23:58:14 | INFO | nexus.server | [1bad910d] [RESPONSE] status=200 duration_ms=10.59
+2026-04-27 23:58:15 | INFO | nexus.server | [26e7d076] [REQUEST] GET /api/registry meta={}
+2026-04-27 23:58:15 | INFO | nexus.server | [b2e0f817] [REQUEST] GET /api/suppliers meta={}
+2026-04-27 23:58:15 | INFO | nexus.server | [26e7d076] [RESPONSE] status=200 duration_ms=11.42
+2026-04-27 23:58:15 | INFO | nexus.server | [b2e0f817] [RESPONSE] status=200 duration_ms=5.22
+2026-04-28 00:02:04 | INFO | nexus.server | [faa03aac] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:02:04 | INFO | nexus.server | [faa03aac] [RESPONSE] status=200 duration_ms=16.23
+2026-04-28 00:02:05 | INFO | nexus.server | [7b79dde9] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:02:05 | INFO | nexus.server | [bf8e0f67] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:02:05 | INFO | nexus.server | [7b79dde9] [RESPONSE] status=200 duration_ms=12.35
+2026-04-28 00:02:05 | INFO | nexus.server | [bf8e0f67] [RESPONSE] status=200 duration_ms=6.25
+2026-04-28 00:02:08 | INFO | nexus.server | [e2a4726f] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-28 00:02:08 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-1.5-flash
+2026-04-28 00:02:08 | INFO | nexus.server | [e2a4726f] [RESPONSE] status=200 duration_ms=80.0
+2026-04-28 00:03:17 | INFO | nexus.server | [34dcbc07] [REQUEST] GET / meta={}
+2026-04-28 00:03:17 | INFO | nexus.server | [34dcbc07] [RESPONSE] status=200 duration_ms=2.64
+2026-04-28 00:03:18 | INFO | nexus.server | [b530fc3a] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:03:18 | INFO | nexus.server | [9306626b] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:03:18 | INFO | nexus.server | [b530fc3a] [RESPONSE] status=200 duration_ms=6.22
+2026-04-28 00:03:18 | INFO | nexus.server | [9306626b] [RESPONSE] status=200 duration_ms=4.59
+2026-04-28 00:03:19 | INFO | nexus.server | [83b0ce62] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:03:19 | INFO | nexus.server | [b38d890b] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:03:19 | INFO | nexus.server | [83b0ce62] [RESPONSE] status=200 duration_ms=24.76
+2026-04-28 00:03:19 | INFO | nexus.server | [b38d890b] [RESPONSE] status=200 duration_ms=11.61
+2026-04-28 00:03:19 | INFO | nexus.server | [1c6bb3bd] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:03:19 | INFO | nexus.server | [1c6bb3bd] [RESPONSE] status=200 duration_ms=3.49
+2026-04-28 00:03:23 | INFO | nexus.server | [9a77b736] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-28 00:03:23 | INFO | nexus.server | [9a77b736] [RESPONSE] status=200 duration_ms=8.27
+2026-04-28 00:04:47 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 00:04:48 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 00:04:48 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 00:04:48 | INFO | nexus.server | [96b0a1d8] [REQUEST] GET / meta={}
+2026-04-28 00:04:48 | INFO | nexus.server | [96b0a1d8] [RESPONSE] status=200 duration_ms=9.45
+2026-04-28 00:04:48 | INFO | nexus.server | [2b931fd6] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:04:48 | INFO | nexus.server | [e38b8d14] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:04:48 | INFO | nexus.server | [2b931fd6] [RESPONSE] status=200 duration_ms=12.24
+2026-04-28 00:04:48 | INFO | nexus.server | [e38b8d14] [RESPONSE] status=200 duration_ms=6.17
+2026-04-28 00:04:52 | INFO | nexus.server | [aef1dd25] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:04:52 | INFO | nexus.server | [382e15d5] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:04:52 | INFO | nexus.server | [f83188bd] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:04:52 | INFO | nexus.server | [aef1dd25] [RESPONSE] status=200 duration_ms=29.97
+2026-04-28 00:04:52 | INFO | nexus.server | [382e15d5] [RESPONSE] status=200 duration_ms=18.9
+2026-04-28 00:04:52 | INFO | nexus.server | [f83188bd] [RESPONSE] status=200 duration_ms=18.82
+2026-04-28 00:04:57 | INFO | nexus.server | [a7fee8f3] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-28 00:04:57 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-1.5-pro
+2026-04-28 00:04:57 | INFO | nexus.server | [a7fee8f3] [RESPONSE] status=200 duration_ms=47.12
+2026-04-28 00:07:58 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 00:07:58 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 00:07:58 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 00:07:59 | INFO | nexus.server | [23da797b] [REQUEST] GET / meta={}
+2026-04-28 00:07:59 | INFO | nexus.server | [23da797b] [RESPONSE] status=200 duration_ms=3.13
+2026-04-28 00:07:59 | INFO | nexus.server | [14222c08] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:07:59 | INFO | nexus.server | [864c30b6] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:07:59 | INFO | nexus.server | [14222c08] [RESPONSE] status=200 duration_ms=10.96
+2026-04-28 00:07:59 | INFO | nexus.server | [864c30b6] [RESPONSE] status=200 duration_ms=5.68
+2026-04-28 00:09:09 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 00:09:09 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 00:09:09 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 00:09:15 | INFO | nexus.server | [f9230b73] [REQUEST] GET / meta={}
+2026-04-28 00:09:15 | INFO | nexus.server | [f9230b73] [RESPONSE] status=200 duration_ms=4.68
+2026-04-28 00:09:15 | INFO | nexus.server | [0d592b4c] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:09:15 | INFO | nexus.server | [893b8f52] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:09:15 | INFO | nexus.server | [0d592b4c] [RESPONSE] status=200 duration_ms=10.83
+2026-04-28 00:09:15 | INFO | nexus.server | [893b8f52] [RESPONSE] status=200 duration_ms=6.03
+2026-04-28 00:09:19 | INFO | nexus.server | [1a0d3d54] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:09:19 | INFO | nexus.server | [cdee890c] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:09:19 | INFO | nexus.server | [1a0d3d54] [RESPONSE] status=200 duration_ms=4.45
+2026-04-28 00:09:19 | INFO | nexus.server | [5a9ee3a9] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:09:19 | INFO | nexus.server | [cdee890c] [RESPONSE] status=200 duration_ms=8.79
+2026-04-28 00:09:19 | INFO | nexus.server | [5a9ee3a9] [RESPONSE] status=200 duration_ms=6.66
+2026-04-28 00:09:24 | INFO | nexus.server | [30c411af] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-28 00:09:24 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-28 00:09:24 | INFO | nexus.server | [30c411af] [RESPONSE] status=200 duration_ms=19.94
+2026-04-28 00:11:40 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 00:11:40 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 00:11:40 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 00:11:42 | INFO | nexus.server | [25eb050c] [REQUEST] GET / meta={}
+2026-04-28 00:11:42 | INFO | nexus.server | [25eb050c] [RESPONSE] status=200 duration_ms=4.06
+2026-04-28 00:11:42 | INFO | nexus.server | [3d53864a] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:11:42 | INFO | nexus.server | [eb319927] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:11:42 | INFO | nexus.server | [3d53864a] [RESPONSE] status=200 duration_ms=9.27
+2026-04-28 00:11:42 | INFO | nexus.server | [eb319927] [RESPONSE] status=200 duration_ms=5.54
+2026-04-28 00:11:52 | INFO | nexus.server | [93eeb69b] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:11:52 | INFO | nexus.server | [dcd8bdb9] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:11:52 | INFO | nexus.server | [1572ce00] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:11:52 | INFO | nexus.server | [93eeb69b] [RESPONSE] status=200 duration_ms=8.9
+2026-04-28 00:11:52 | INFO | nexus.server | [dcd8bdb9] [RESPONSE] status=200 duration_ms=5.95
+2026-04-28 00:11:52 | INFO | nexus.server | [1572ce00] [RESPONSE] status=200 duration_ms=6.17
+2026-04-28 00:11:56 | INFO | nexus.server | [0c91b3b9] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-28 00:11:56 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-28 00:11:56 | INFO | nexus.server | [0c91b3b9] [RESPONSE] status=200 duration_ms=22.01
+2026-04-28 00:25:46 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 00:25:46 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 00:25:46 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 00:26:12 | INFO | nexus.server | [a4a8203d] [REQUEST] GET / meta={}
+2026-04-28 00:26:12 | INFO | nexus.server | [a4a8203d] [RESPONSE] status=200 duration_ms=3.31
+2026-04-28 00:26:13 | INFO | nexus.server | [813b1daa] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:26:13 | INFO | nexus.server | [7d7abb42] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:26:13 | INFO | nexus.server | [813b1daa] [RESPONSE] status=200 duration_ms=14.8
+2026-04-28 00:26:13 | INFO | nexus.server | [7d7abb42] [RESPONSE] status=200 duration_ms=5.01
+2026-04-28 00:26:15 | INFO | nexus.server | [6b43c54d] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:26:15 | INFO | nexus.server | [9c509305] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:26:15 | INFO | nexus.server | [40a45486] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:26:15 | INFO | nexus.server | [6b43c54d] [RESPONSE] status=200 duration_ms=8.58
+2026-04-28 00:26:15 | INFO | nexus.server | [9c509305] [RESPONSE] status=200 duration_ms=9.05
+2026-04-28 00:26:15 | INFO | nexus.server | [40a45486] [RESPONSE] status=200 duration_ms=9.66
+2026-04-28 00:26:21 | INFO | nexus.server | [7976b361] [REQUEST] POST /buyer/run_sse meta={}
+2026-04-28 00:26:21 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-28 00:26:21 | INFO | nexus.server | [7976b361] [RESPONSE] status=200 duration_ms=20.96
+2026-04-28 00:27:27 | ERROR | procurement_orchestrator.tools | discover_suppliers_for_line_item failed
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\buyer_agents\ProcurementOrchestrator\tools.py", line 307, in discover_suppliers_for_line_item
+    deadline = _safe_parse_iso_date(li["delivery_deadline"]) if li.get("delivery_deadline") else datetime.utcnow().date()
+                                                                ^^^^^^
+AttributeError: 'sqlite3.Row' object has no attribute 'get'
+2026-04-28 00:27:32 | ERROR | procurement_orchestrator.tools | discover_suppliers_for_line_item failed
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\buyer_agents\ProcurementOrchestrator\tools.py", line 307, in discover_suppliers_for_line_item
+    deadline = _safe_parse_iso_date(li["delivery_deadline"]) if li.get("delivery_deadline") else datetime.utcnow().date()
+                                                                ^^^^^^
+AttributeError: 'sqlite3.Row' object has no attribute 'get'
+2026-04-28 00:28:01 | ERROR | procurement_orchestrator.tools | discover_suppliers_for_line_item failed
+Traceback (most recent call last):
+  File "C:\Users\Areej\Desktop\Projects\Nexus-Supply-Chain-Intelligence-Platform\backend\buyer_agents\ProcurementOrchestrator\tools.py", line 307, in discover_suppliers_for_line_item
+    deadline = _safe_parse_iso_date(li["delivery_deadline"]) if li.get("delivery_deadline") else datetime.utcnow().date()
+                                                                ^^^^^^
+AttributeError: 'sqlite3.Row' object has no attribute 'get'
+2026-04-28 00:43:18 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 00:43:18 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 00:43:18 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 00:43:27 | INFO | nexus.server | [bab68b27] [REQUEST] GET / meta={}
+2026-04-28 00:43:27 | INFO | nexus.server | [bab68b27] [RESPONSE] status=200 duration_ms=2.92
+2026-04-28 00:43:27 | INFO | nexus.server | [0c7c54de] [REQUEST] GET /static/output-onlinegiftools.gif meta={}
+2026-04-28 00:43:27 | INFO | nexus.server | [0c7c54de] [RESPONSE] status=304 duration_ms=2.47
+2026-04-28 00:43:28 | INFO | nexus.server | [40190454] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:43:28 | INFO | nexus.server | [9dd7eb65] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:43:28 | INFO | nexus.server | [40190454] [RESPONSE] status=200 duration_ms=11.91
+2026-04-28 00:43:28 | INFO | nexus.server | [9dd7eb65] [RESPONSE] status=200 duration_ms=7.56
+2026-04-28 00:43:30 | INFO | nexus.server | [849273c9] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:43:30 | INFO | nexus.server | [ae0ec626] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:43:30 | INFO | nexus.server | [849273c9] [RESPONSE] status=200 duration_ms=12.7
+2026-04-28 00:43:30 | INFO | nexus.server | [ae0ec626] [RESPONSE] status=200 duration_ms=4.16
+2026-04-28 00:43:30 | INFO | nexus.server | [33df74ef] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:43:30 | INFO | nexus.server | [33df74ef] [RESPONSE] status=200 duration_ms=3.09
+2026-04-28 00:43:37 | INFO | nexus.server | [d5083bb0] [REQUEST] POST /buyer/run_sse meta={'app_name': None, 'user_id': None, 'session_id': None, 'message_count': 0}
+2026-04-28 00:43:37 | INFO | nexus.server | [d5083bb0] [REQUEST] Applying 10.10s delay before /buyer/run_sse
+2026-04-28 00:43:47 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-28 00:47:16 | INFO | nexus.server | [d5083bb0] [RESPONSE] status=200 duration_ms=219205.95 path=/buyer/run_sse
+2026-04-28 00:55:48 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 00:55:48 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 00:55:48 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 00:55:48 | INFO | nexus.server | [9020ed07] [REQUEST] GET / meta={}
+2026-04-28 00:55:48 | INFO | nexus.server | [9020ed07] [RESPONSE] status=200 duration_ms=5.69
+2026-04-28 00:55:48 | INFO | nexus.server | [8a007e78] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:55:48 | INFO | nexus.server | [db321596] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:55:48 | INFO | nexus.server | [8a007e78] [RESPONSE] status=200 duration_ms=13.5
+2026-04-28 00:55:48 | INFO | nexus.server | [db321596] [RESPONSE] status=200 duration_ms=6.26
+2026-04-28 00:56:00 | INFO | nexus.server | [dab71e2b] [REQUEST] GET /api/registry meta={}
+2026-04-28 00:56:00 | INFO | nexus.server | [a269caeb] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 00:56:00 | INFO | nexus.server | [9c8486ce] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 00:56:00 | INFO | nexus.server | [dab71e2b] [RESPONSE] status=200 duration_ms=20.33
+2026-04-28 00:56:00 | INFO | nexus.server | [a269caeb] [RESPONSE] status=200 duration_ms=10.21
+2026-04-28 00:56:00 | INFO | nexus.server | [9c8486ce] [RESPONSE] status=200 duration_ms=9.7
+2026-04-28 00:56:08 | INFO | nexus.server | [cbf1b691] [REQUEST] POST /buyer/run_sse meta={'app_name': 'ProcurementOrchestrator', 'user_id': 'buyer-nexus', 'session_id': 'ui-1777319768067-0c1e28', 'message_count': 0}
+2026-04-28 00:56:08 | INFO | nexus.server | [cbf1b691] [REQUEST] Applying 10.80s delay before /buyer/run_sse
+2026-04-28 00:56:18 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-28 01:00:00 | INFO | nexus.server | [cbf1b691] [RESPONSE] status=200 duration_ms=232581.54 path=/buyer/run_sse
+2026-04-28 13:59:38 | INFO | nexus.server | === NEXUS Supply Chain Intelligence Platform Starting ===
+2026-04-28 13:59:38 | INFO | nexus.server | Database seeding checked/completed.
+2026-04-28 13:59:38 | INFO | nexus.server | === Platform Ready ===
+2026-04-28 14:00:20 | INFO | nexus.server | [a8f7a209] [REQUEST] GET / meta={}
+2026-04-28 14:00:20 | INFO | nexus.server | [a8f7a209] [RESPONSE] status=200 duration_ms=4.99
+2026-04-28 14:00:20 | INFO | nexus.server | [da872b35] [REQUEST] GET /static/output-onlinegiftools.gif meta={}
+2026-04-28 14:00:20 | INFO | nexus.server | [da872b35] [RESPONSE] status=304 duration_ms=2.66
+2026-04-28 14:00:21 | INFO | nexus.server | [f49ab8ae] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 14:00:21 | INFO | nexus.server | [3b1a577b] [REQUEST] GET /api/registry meta={}
+2026-04-28 14:00:21 | INFO | nexus.server | [f49ab8ae] [RESPONSE] status=200 duration_ms=16.45
+2026-04-28 14:00:21 | INFO | nexus.server | [3b1a577b] [RESPONSE] status=200 duration_ms=12.6
+2026-04-28 14:00:21 | INFO | nexus.server | [eabb8a4f] [REQUEST] GET /favicon.ico meta={}
+2026-04-28 14:00:21 | INFO | nexus.server | [eabb8a4f] [RESPONSE] status=404 duration_ms=0.99
+2026-04-28 14:00:24 | INFO | nexus.server | [ad23c706] [REQUEST] GET /api/registry meta={}
+2026-04-28 14:00:24 | INFO | nexus.server | [d72d0ac5] [REQUEST] GET /api/suppliers meta={}
+2026-04-28 14:00:24 | INFO | nexus.server | [ad23c706] [RESPONSE] status=200 duration_ms=10.18
+2026-04-28 14:00:24 | INFO | nexus.server | [d72d0ac5] [RESPONSE] status=200 duration_ms=6.17
+2026-04-28 14:00:24 | INFO | nexus.server | [d4225ab9] [REQUEST] GET /api/buyer/buyer-nexus/orders meta={}
+2026-04-28 14:00:24 | INFO | nexus.server | [d4225ab9] [RESPONSE] status=200 duration_ms=3.89
+2026-04-28 14:00:24 | INFO | nexus.server | [d03a7ece] [REQUEST] GET /api/buyer/buyer-nexus/orders/PO-C439A82C meta={}
+2026-04-28 14:00:24 | INFO | nexus.server | [d03a7ece] [RESPONSE] status=200 duration_ms=3.59
+2026-04-28 14:00:32 | INFO | nexus.server | [13a72305] [REQUEST] POST /buyer/run_sse meta={'app_name': 'ProcurementOrchestrator', 'user_id': 'buyer-nexus', 'session_id': 'ui-1777366832654-6fac0e', 'message_count': 0}
+2026-04-28 14:00:32 | INFO | nexus.server | [13a72305] [REQUEST] Applying 10.09s delay before /buyer/run_sse
+2026-04-28 14:00:42 | INFO | procurement_orchestrator.agent | ProcurementOrchestrator initialized with model=gemini-2.0-flash
+2026-04-28 14:04:52 | INFO | nexus.server | [13a72305] [RESPONSE] status=200 duration_ms=259619.62 path=/buyer/run_sse
