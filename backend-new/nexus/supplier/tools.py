@@ -61,6 +61,15 @@ async def handle_counter_offer(counter: dict) -> dict:
 
         category = neg.product_category or "sensors"
         base_price, price_floor = get_base_and_floor(supplier.base_price_map, supplier.price_floor_map, category)
+        reduction = 0.0
+        if (neg.quantity or 0) >= 1000:
+            reduction = 0.10
+        elif (neg.quantity or 0) >= 500:
+            reduction = 0.07
+        elif (neg.quantity or 0) >= 100:
+            reduction = 0.03
+        price_floor = round(price_floor * (1 - reduction), 2)
+
 
     buyer_offer = msg.buyer_price
     if buyer_offer >= price_floor:

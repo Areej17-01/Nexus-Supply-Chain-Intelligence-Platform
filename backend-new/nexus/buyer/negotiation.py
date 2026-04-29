@@ -25,6 +25,7 @@ from nexus.protocols.schemas import (
     QuoteResponse,
     RFQMessage,
 )
+from nexus.rl.bandit import choose_discount, record_outcome
 from nexus.rl.updater import compute_reward, update_scores
 
 MAX_ROUNDS = 3
@@ -299,13 +300,13 @@ def select_winner(quotes: List[QuoteResponse], bom: BOM) -> tuple[QuoteResponse,
 
 def compute_negotiation_params(winner: QuoteResponse, bom: BOM) -> dict:
     supplier_price = winner.unit_price
+    discount = choose_discount(winner.supplier_id)
+    open_offer = round(supplier_price * (1 - discount), 2)
     if bom.budget:
         budget_per_unit = bom.budget / bom.items[0].quantity
-        open_offer = round(budget_per_unit * 0.85, 2)
         counter_offer = round(budget_per_unit * 0.95, 2)
         walkaway = round(budget_per_unit * 1.00, 2)
     else:
-        open_offer = round(supplier_price * 0.85, 2)
         counter_offer = round(supplier_price * 0.92, 2)
         walkaway = round(supplier_price * 1.00, 2)
     return {
@@ -361,6 +362,8 @@ def _finalize_negotiation(negotiation_id: str, outcome: str, buyer_budget: float
         supplier.fit_score = updated.new_fit
         supplier.total_deals = total_deals + 1
         supplier.successful_deals = successful + (1 if outcome == "accepted" else 0)
+        discount_asked = 1.0 - (float(neg.open_offer) / float(neg.initial_supplier_ask)) if neg.initial_supplier_ask else 0.15
+        discount_achieved = max(initial_ask - final_price, 0.0) / initial_ask if initial_ask else 0.0
         db.add(
             Message(
                 negotiation_id=negotiation_id,
@@ -373,6 +376,7 @@ def _finalize_negotiation(negotiation_id: str, outcome: str, buyer_budget: float
             )
         )
         db.commit()
+        record_outcome(supplier.id, discount_asked, discount_achieved)
 
 
 def _accepted_result(neg: Negotiation, supplier_name: str, lead_time_days: int, rounds: int) -> ProcurementResult:
@@ -683,12 +687,19 @@ async def run_procurement_tool(
     budget: float | None = None,
     deadline_days: int | None = 7,
 ) -> dict:
+    def _coerce(val, typ):
+        if val is None or str(val).strip().lower() in ("none", "null", ""):
+            return None
+        try:
+            return typ(val)
+        except Exception:
+            return None
     result = await run_procurement(
         ProcurementRequest(
             request=request,
-            destination_region=destination_region,
-            budget=budget,
-            deadline_days=deadline_days,
+            destination_region=_coerce(destination_region, str),
+            budget=_coerce(budget, float),
+            deadline_days=_coerce(deadline_days, int) or 7,
         )
     )
     return result.model_dump()

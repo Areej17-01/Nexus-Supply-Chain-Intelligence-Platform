@@ -21,7 +21,7 @@ ADK_DATABASE_URL = os.getenv(
 )
 
 OPENROUTER_KEY = os.getenv("OPENROUTER_KEY", "")
-OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3-super-120b-a12b:free")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-oss-120b:free")
 
 A2A_SUPPLIER_URL = os.getenv(
     "A2A_SUPPLIER_URL",

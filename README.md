@@ -59,7 +59,7 @@ DEBUG=false
 
 # LLM
 OPENROUTER_KEY=your_openrouter_key_here
-OPENROUTER_MODEL=nvidia/nemotron-3-super-120b-a12b:free
+OPENROUTER_MODEL=openai/gpt-oss-120b:free
 
 # A2A endpoints (optional; defaults use same PORT)
 # A2A_SUPPLIER_URL=http://127.0.0.1:8010/supplier/a2a/QuoteAgent

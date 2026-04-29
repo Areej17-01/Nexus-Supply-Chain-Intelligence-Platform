@@ -1815,6 +1815,44 @@
                     return await res.json();
                 };
 
+                const callBuyerAgentProcure = async (requestText) => {
+                    const makeId = (prefix) => `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
+                    const rpc = await postJson('/buyer/a2a/BuyerAgent', {
+                        jsonrpc: '2.0',
+                        id: makeId('rpc'),
+                        method: 'message/send',
+                        params: {
+                            message: {
+                                role: 'user',
+                                messageId: makeId('msg'),
+                                contextId: makeId('ctx'),
+                                parts: [{ kind: 'text', text: String(requestText || '') }]
+                            }
+                        }
+                    });
+
+                    const extractText = (payload) => {
+                        const result = payload?.result;
+                        const pickPart = (parts) => (Array.isArray(parts) ? parts.find(p => p && (p.text || p.kind === 'text')) : null);
+                        if (!result || typeof result !== 'object') return '';
+                        if (result.kind === 'message') return pickPart(result.parts)?.text || '';
+                        if (result.kind === 'task') {
+                            const artifact = Array.isArray(result.artifacts) ? result.artifacts.find(a => pickPart(a?.parts)) : null;
+                            if (artifact) return pickPart(artifact.parts)?.text || '';
+                            return pickPart(result?.status?.message?.parts)?.text || '';
+                        }
+                        return '';
+                    };
+
+                    const text = extractText(rpc);
+                    if (!text) throw new Error('BuyerAgent returned empty response');
+                    try {
+                        return JSON.parse(text);
+                    } catch (_) {
+                        throw new Error(`BuyerAgent returned non-JSON response: ${text}`);
+                    }
+                };
+
 
 
 
@@ -2000,8 +2038,8 @@
                     const query = procurementPrompt.value || '500 temperature sensors, budget €2000, deliver to Munich in 10 days';
 
                     try {
-                        addLog('BuyerAgent', 'BACKEND', 'POST /procure');
-                        const result = await postJson('/procure', { request: query });
+                        addLog('BuyerAgent', 'BACKEND', 'POST /buyer/a2a/BuyerAgent');
+                        const result = await callBuyerAgentProcure(query);
                         addLog('BuyerAgent', 'BACKEND', JSON.stringify(result, null, 2));
 
                         if (result?.negotiation_id) {

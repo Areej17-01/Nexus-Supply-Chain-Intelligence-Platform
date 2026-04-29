@@ -8,7 +8,7 @@ from nexus.buyer.negotiation import run_procurement_tool
 if not os.environ.get("OPENROUTER_API_KEY") and os.environ.get("OPENROUTER_KEY"):
     os.environ["OPENROUTER_API_KEY"] = os.environ["OPENROUTER_KEY"]
 
-_raw_model = os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3-super-120b-a12b:free")
+_raw_model = os.getenv("OPENROUTER_MODEL", "openai/gpt-oss-120b:free")
 MODEL = _raw_model if _raw_model.startswith("openrouter/") else f"openrouter/{_raw_model}"
 
 model = LiteLlm(model=MODEL, api_key=os.environ.get("OPENROUTER_API_KEY", ""))

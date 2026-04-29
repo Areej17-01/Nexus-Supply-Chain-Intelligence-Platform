@@ -1,10 +1,12 @@
 import asyncio
 import json
 import logging
+import uuid
 import warnings
 warnings.filterwarnings("ignore")
 from pathlib import Path
 
+import httpx
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from google.adk.cli.fast_api import get_fast_api_app
 
 from nexus.buyer.negotiation import run_procurement, retry_procurement
-from nexus.config import ADK_DATABASE_URL, DEBUG, HOST, PLATFORM_NAME, PORT, VERSION
+from nexus.config import A2A_BUYER_URL, ADK_DATABASE_URL, DEBUG, HOST, PLATFORM_NAME, PORT, VERSION
 from nexus.database import Contract, Message, Negotiation, Supplier, cleanup_expired_negotiations, get_db_session, init_db
 from nexus.protocols.schemas import ProcurementRequest, ProcurementResult, RetryRequest, SupplierUpsert
 from nexus.scripts.seed_suppliers import seed_suppliers
@@ -50,9 +52,77 @@ def setup_logging() -> None:
 
 setup_logging()
 
+
+def _extract_a2a_text(payload: dict) -> str:
+    result = payload.get("result") if isinstance(payload, dict) else None
+    if not isinstance(result, dict):
+        return ""
+
+    def _pick_text(parts):
+        if not isinstance(parts, list):
+            return ""
+        for p in parts:
+            if isinstance(p, dict) and p.get("text"):
+                return str(p.get("text"))
+        return ""
+
+    if result.get("kind") == "message":
+        return _pick_text(result.get("parts"))
+
+    if result.get("kind") == "task":
+        for artifact in result.get("artifacts") or []:
+            text = _pick_text((artifact or {}).get("parts"))
+            if text:
+                return text
+        return _pick_text(((result.get("status") or {}).get("message") or {}).get("parts"))
+
+    return ""
+
+
+async def _procure_via_buyer_agent(req: ProcurementRequest) -> dict:
+    request_text = req.request
+    constraints = []
+    if req.destination_region:
+        constraints.append(f"destination region: {req.destination_region}")
+    if req.budget is not None:
+        constraints.append(f"total budget: {req.budget}")
+    if req.deadline_days is not None:
+        constraints.append(f"deadline days: {req.deadline_days}")
+    if constraints:
+        request_text = f"{request_text}\n\nConstraints: " + "; ".join(constraints)
+
+    payload = {
+        "jsonrpc": "2.0",
+        "id": f"rpc-{uuid.uuid4().hex}",
+        "method": "message/send",
+        "params": {
+            "message": {
+                "role": "user",
+                "messageId": f"msg-{uuid.uuid4().hex}",
+                "contextId": f"ctx-{uuid.uuid4().hex}",
+                "parts": [{"kind": "text", "text": request_text}],
+            }
+        },
+    }
+    async with httpx.AsyncClient(timeout=90.0) as client:
+        resp = await client.post(A2A_BUYER_URL, json=payload)
+        resp.raise_for_status()
+        rpc = resp.json()
+
+    text = _extract_a2a_text(rpc)
+    if not text:
+        raise RuntimeError("BuyerAgent returned empty response")
+
+    data = json.loads(text)
+    if not isinstance(data, dict):
+        raise RuntimeError("BuyerAgent returned non-object JSON")
+    return data
+
+
 import litellm  # noqa: E402
 litellm.suppress_debug_info = True
 logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+
 
 app = FastAPI(title=PLATFORM_NAME, version=VERSION)
 
@@ -97,7 +167,13 @@ def read_index():
 
 @app.post("/procure", response_model=ProcurementResult)
 async def procure(req: ProcurementRequest):
-    return await run_procurement(req)
+    try:
+        data = await _procure_via_buyer_agent(req)
+        return ProcurementResult(**data)
+    except Exception as exc:
+        logging.getLogger("nexus.main").warning("BuyerAgent unavailable, falling back to direct procurement: %s", exc)
+        return await run_procurement(req)
+
 
 
 @app.post("/procure/retry", response_model=ProcurementResult)

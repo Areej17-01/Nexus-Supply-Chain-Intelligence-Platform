@@ -51,6 +51,16 @@ class Supplier(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class SupplierRLStats(Base):
+    __tablename__ = "supplier_rl_stats"
+
+    supplier_id = Column(String, primary_key=True)
+    negotiations = Column(Integer, default=0)
+    total_discount_achieved = Column(Float, default=0.0)
+    max_discount_seen = Column(Float, default=0.0)
+    best_opening_ask = Column(Float, default=0.15)
+
+
 class Negotiation(Base):
     __tablename__ = "negotiations"
 
