@@ -1,0 +1,25 @@
+{
+  "capabilities": {},
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["application/json"],
+  "description": "Handles RFQ and negotiation messages for supplier quotes.",
+  "name": "QuoteAgent",
+  "preferredTransport": "JSONRPC",
+  "protocolVersion": "0.3.0",
+  "skills": [
+    {
+      "description": "Handles RFQ messages and returns a supplier quote",
+      "id": "rfq",
+      "name": "Request For Quote",
+      "tags": []
+    },
+    {
+      "description": "Handles counter offer messages and returns negotiation responses",
+      "id": "counter_offer",
+      "name": "Counter Offer",
+      "tags": []
+    }
+  ],
+  "url": "http://127.0.0.1:8010/supplier/a2a/QuoteAgent",
+  "version": "1.0.0"
+}

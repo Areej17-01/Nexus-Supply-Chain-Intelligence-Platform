@@ -1,0 +1,2131 @@
+ a<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | Supply Chain Intelligence Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fff9f5;
+            --text-primary: #2d2a4a;
+            --accent-pink: #ff7eb3;
+            --accent-blue: #b8f0ff;
+            --accent-lime: #c8ff00;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-quicksand { font-family: 'Quicksand', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        .nexus-gradient-text {
+            background: linear-gradient(to right, var(--accent-pink), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nexus-gradient-bg {
+            background: linear-gradient(to bottom right, var(--accent-pink), var(--accent-blue));
+        }
+
+        .nexus-border {
+            border: 2px solid rgba(45, 42, 74, 0.1);
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-pink);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: multiply;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        .custom-cursor-ring {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1.5px solid var(--accent-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hovered .custom-cursor { width: 24px; height: 24px; }
+        .hovered .custom-cursor-ring { width: 60px; height: 60px; }
+
+        [v-cloak] { display: none; }
+
+        .terminal-bg {
+            background: linear-gradient(to bottom, #2d2a4a, #1a1a2e);
+        }
+
+        .glass-nav {
+            background: rgba(255, 249, 245, 0.9);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.2s, transform 0.2s; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(10px); }
+    </style>
+</head>
+<body :class="{ 'cursor-none': true, 'hovered': isHovered }" @mousemove="moveCursor">
+    <div id="app" v-cloak>
+        <!-- Custom Cursor -->
+        <div class="custom-cursor" :style="{ left: cursorX + 'px', top: cursorY + 'px' }"></div>
+        <div class="custom-cursor-ring" :style="{ left: ringX + 'px', top: ringY + 'px' }"></div>
+
+        <!-- Landing / Sign In -->
+        <div v-if="!user" class="min-h-screen flex flex-col">
+            <!-- Nav -->
+            <nav class="flex items-stretch border-b-2 border-[#2d2a4a]/20 sticky top-0 z-50 glass-nav">
+                <div class="px-6 py-4 border-r-2 border-[#2d2a4a]/20 flex items-center" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                    <div class="w-10 h-10 nexus-gradient-bg rounded-2xl flex items-center justify-center shadow-lg shadow-[#ff7eb3]/20">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="ml-3 text-xl font-black tracking-tight nexus-gradient-text font-quicksand">NEXUS</span>
+                </div>
+                <div class="flex-1 flex overflow-x-auto">
+                    <a v-for="item in ['Home', 'Suppliers', 'Docs']" :key="item" href="#" 
+                       class="px-5 py-4 border-r-2 border-[#2d2a4a]/20 text-xs font-semibold uppercase tracking-wider text-[#2d2a4a]/60 hover:text-[#ff7eb3] hover:bg-[#ff7eb3]/5 transition-all font-quicksand"
+                       @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                        {{ item }}
+                    </a>
+                </div>
+                <div class="px-5 flex items-center border-l-2 border-[#2d2a4a]/20">
+                    <span class="bg-gradient-to-r from-[#c8ff00] to-[#7dd3fc] text-[#2d2a4a] text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full font-mono">
+                        ● LIVE
+                    </span>
+                </div>
+            </nav>
+
+            <!-- Hero + Auth -->
+            <section class="flex-1 flex flex-col lg:flex-row border-b-2 border-[#2d2a4a]/20">
+                <!-- Left: Hero -->
+                <div class="flex-1 flex flex-col justify-between p-8 lg:p-12 border-r-2 border-[#2d2a4a]/20 relative overflow-hidden">
+                    <div class="absolute bottom-[-4rem] left-[-1rem] text-[18vw] font-black leading-none opacity-[0.03] select-none pointer-events-none font-quicksand">
+                        NX
+                    </div>
+                    
+                    <div class="absolute bottom-4 right-10 lg:right-32 pointer-events-none opacity-50 lg:opacity-100">
+                        <img src="/static/output-onlinegiftools.gif" alt="NEXUS Mascot" class="w-64 lg:w-[350px] animate-float" />
+                    </div>
+                    
+                    <div>
+                        <div class="inline-block px-4 py-2 bg-gradient-to-r from-[#c8ff00] to-[#b8f0ff] text-[#2d2a4a] text-[10px] font-bold uppercase tracking-widest mb-6 rounded-full font-mono">
+                            ✨ Supply Chain Intelligence v2.4
+                        </div>
+                        <h1 class="text-4xl lg:text-6xl font-black leading-[0.9] tracking-tight font-quicksand">
+                            <div>FROM INTENT</div>
+                            <div>TO CONTRACT,</div>
+                            <div class="nexus-gradient-text">AUTOMATICALLY.</div>
+                        </h1>
+                    </div>
+                    
+                    <div class="mt-8 lg:mt-0">
+                        <p class="text-base text-[#2d2a4a]/60 max-w-md leading-relaxed font-medium mb-8">
+                            Type what you need. NEXUS finds suppliers, negotiates prices, checks compliance, 
+                            writes contracts, and tracks orders—all automatically.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <button @click="signIn('Buyer')" class="nexus-gradient-bg text-white px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-[#ff7eb3]/30 hover:scale-105 transition-all font-quicksand"
+                                    @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                                Enter as Buyer →
+                            </button>
+                            <button type="button" @click="signIn('Supplier')" class="nexus-gradient-bg text-white px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-[#ff7eb3]/30 hover:scale-105 transition-all font-quicksand"
+                                    @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                                Enter as Supplier →
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Auth Form -->
+                <div class="w-full lg:w-[450px] flex flex-col terminal-bg relative">
+                    <div class="flex items-center justify-between px-5 py-3 border-b border-white/10">
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-[#ff7eb3]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#c8ff00]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#b8f0ff]"></div>
+                        </div>
+                        <span class="text-[10px] text-white/30 tracking-widest uppercase font-mono">nexus://auth</span>
+                    </div>
+                    
+                    <div class="flex-1 flex items-center justify-center p-8 lg:p-12">
+                        <div class="w-full">
+                            <div class="text-center mb-8">
+                                <div class="w-16 h-16 mx-auto mb-4 nexus-gradient-bg rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="zap" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <h2 class="text-2xl font-black text-white mb-2 font-quicksand">Welcome Back</h2>
+                                <p class="text-white/50 text-sm">Sign in to access your dashboard</p>
+                            </div>
+                            
+                            <form @submit.prevent="handleSignIn" class="space-y-5">
+                                <div>
+                                    <label class="block text-[10px] text-white/50 uppercase tracking-wider mb-2 font-mono">Email Address</label>
+                                    <input type="email" v-model="loginEmail" class="w-full bg-white/5 border-2 border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#ff7eb3] transition-colors" placeholder="you@company.com" required @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-white/50 uppercase tracking-wider mb-2 font-mono">Password</label>
+                                    <input type="password" v-model="loginPass" class="w-full bg-white/5 border-2 border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#ff7eb3] transition-colors" placeholder="••••••••" required @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                                </div>
+                                <button type="submit" :disabled="loading" class="w-full nexus-gradient-bg text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-[#ff7eb3]/30 disabled:opacity-70 font-quicksand hover:scale-105 transition-all" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                                    <span v-if="loading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                    <span v-else>Sign In <i data-lucide="arrow-right" class="w-4 h-4 inline ml-1"></i></span>
+                                </button>
+                            </form>
+                            <p class="mt-6 text-center text-white/40 text-sm">Don't have an account? <a href="#" class="text-[#b8f0ff] hover:underline font-medium">Request access</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="px-5 py-3 border-t border-white/10 flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c8ff00] opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#c8ff00]"></span>
+                            </span>
+                            <span class="text-[10px] text-white/40 font-mono">{{ activeAgentsCount }} agents active</span>
+                        </div>
+                        <span class="text-[10px] text-white/20 font-mono">v2.4.1</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Main Application Dashboard -->
+        <div v-else class="min-h-screen flex">
+            <!-- Sidebar -->
+            <div class="w-[64px] bg-white border-r-2 border-[#2d2a4a]/10 flex flex-col items-center py-6 gap-2 shadow-sm z-50">
+                <div class="w-10 h-10 nexus-gradient-bg rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-[#ff7eb3]/20 cursor-pointer hover:rotate-12 transition-all" @click="activeTab = 'home'" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                    <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                </div>
+                
+                <button v-for="tab in availableTabs" :key="tab.id" 
+                        @click="activeTab = tab.id"
+                        class="w-10 h-10 rounded-xl flex items-center justify-center transition-all group"
+                        :class="activeTab === tab.id ? 'nexus-gradient-bg text-white shadow-lg shadow-[#ff7eb3]/30' : 'hover:bg-[#ff7eb3]/10 text-[#2d2a4a]/50'"
+                        @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                    <i :data-lucide="tab.icon" class="w-5 h-5"></i>
+                    <div class="absolute left-16 bg-[#2d2a4a] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-[100] font-mono">
+                        {{ tab.label }}
+                    </div>
+                </button>
+
+                <div class="mt-auto">
+                    <button @click="user = null" class="w-10 h-10 rounded-xl flex items-center justify-center text-[#2d2a4a]/30 hover:text-red-500 hover:bg-red-50 transition-all" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Top Bar -->
+                <header class="flex items-center justify-between px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-white/80 backdrop-blur-sm z-40">
+                    <div class="flex items-center gap-4">
+                        <h2 class="text-sm font-black nexus-gradient-text uppercase tracking-widest font-quicksand">{{ currentTabLabel }}</h2>
+                        <span v-if="user.role === 'Supplier'" class="text-[10px] bg-teal-100 text-teal-700 px-2 py-0.5 rounded font-bold font-mono">SUPPLIER MODE</span>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="hidden sm:flex items-center gap-2 text-[10px] text-[#2d2a4a]/40 font-mono uppercase tracking-wider">
+                            <span class="w-2 h-2 rounded-full bg-[#c8ff00]"></span> {{ activeAgentsCount }} agents active
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="text-right hidden xs:block">
+                                <div class="text-xs font-bold text-[#2d2a4a]">{{ user.name }}</div>
+                                <div class="text-[10px] text-[#2d2a4a]/40 font-mono">{{ user.role }} Agent</div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full nexus-gradient-bg flex items-center justify-center text-[10px] font-bold text-white shadow-md">
+                                {{ user.name.split(' ').map(n => n[0]).join('') }}
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Main Scrollable Content -->
+                <main class="flex-1 overflow-y-auto p-6 lg:p-8">
+                    <transition name="fade" mode="wait">
+                        <div :key="activeTab" class="max-w-6xl mx-auto">
+                            <!-- HOME TAB (Overview) -->
+                            <div v-if="activeTab === 'home'" class="space-y-8">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <div v-for="stat in stats" :key="stat.label" class="bg-white p-6 rounded-2xl nexus-border hover:shadow-xl hover:shadow-[#ff7eb3]/10 transition-all">
+                                        <div class="text-2xl font-black nexus-gradient-text font-quicksand">{{ stat.value }}</div>
+                                        <div class="text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mt-1">{{ stat.label }}</div>
+                                        <div class="text-[10px] mt-2 flex items-center gap-1" :class="stat.trend === 'up' ? 'text-[#3B6D11]' : 'text-red-500'">
+                                            <i v-if="stat.trend === 'up'" data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                                            <i v-else data-lucide="arrow-down-right" class="w-3 h-3"></i>
+                                            {{ stat.change }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid lg:grid-cols-2 gap-6">
+                                    <!-- Recent Activity -->
+                                    <div class="bg-white rounded-2xl nexus-border overflow-hidden">
+                                        <div class="px-5 py-3 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#ff7eb3]/10 to-[#b8f0ff]/10">
+                                            <span class="text-[10px] font-bold text-[#ff7eb3] uppercase tracking-widest font-mono">Recent Transactions</span>
+                                        </div>
+                                        <div class="divide-y divide-[#2d2a4a]/5">
+                                            <div v-if="!recentOrders.length" class="px-5 py-4 text-xs text-[#2d2a4a]/50">No transactions yet.</div>
+                                            <div v-else v-for="order in recentOrders" :key="order.id" class="flex items-center gap-4 px-5 py-4 hover:bg-[#ff7eb3]/5 transition-colors">
+                                                <div class="w-8 h-8 rounded-lg bg-[#2d2a4a]/5 flex items-center justify-center text-[#2d2a4a]/40">
+                                                    <i :data-lucide="order.role === 'Buyer' ? 'shopping-bag' : 'factory'" class="w-4 h-4"></i>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="text-sm font-bold">{{ order.item }}</div>
+                                                    <div class="text-[10px] text-[#2d2a4a]/40 font-mono">{{ order.date }} • {{ order.partner }}</div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-sm font-black">{{ order.amount }}</div>
+                                                    <span class="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider" 
+                                                          :class="statusClass(order.status)">{{ order.status }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Supplier Map / Network -->
+                                    <div class="bg-white rounded-2xl nexus-border overflow-hidden">
+                                        <div class="px-5 py-3 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#b8f0ff]/10 to-[#c8ff00]/10">
+                                            <span class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Marketplace Health</span>
+                                        </div>
+                                        <div class="p-6">
+                                            <div class="terminal-bg rounded-xl aspect-video flex items-center justify-center relative overflow-hidden group">
+                                                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size: 20px 20px;"></div>
+                                                <div class="relative z-10 text-center">
+                                                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">🌍</div>
+                                                    <div class="text-white/40 text-[10px] font-mono tracking-widest uppercase">Visualization Active</div>
+                                                    <div class="mt-4 flex gap-2 justify-center">
+                                                        <span class="w-2 h-2 rounded-full bg-[#c8ff00] animate-ping"></span>
+                                                        <span class="w-2 h-2 rounded-full bg-[#ff7eb3] animate-pulse"></span>
+                                                        <span class="w-2 h-2 rounded-full bg-[#b8f0ff] animate-bounce"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-6 space-y-3">
+                                                <div v-for="n in 3" :key="n" class="flex items-center gap-3">
+                                                    <div class="w-1 h-1 rounded-full bg-[#c8ff00]"></div>
+                                                    <div class="flex-1 text-[10px] font-mono text-[#2d2a4a]/50">LATENCY_PROBE_0{{n}}: 142ms ... OK</div>
+                                                    <div class="text-[10px] font-bold text-[#c8ff00]">ACTIVE</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- NEW PROCUREMENT TAB (Buyer) -->
+                            <div v-if="activeTab === 'new' && user.role === 'Buyer'" class="max-w-2xl mx-auto space-y-6">
+                                <div class="bg-white rounded-2xl nexus-border p-8 hover:shadow-2xl hover:shadow-[#ff7eb3]/10 transition-all">
+                                    <h3 class="text-xl font-black mb-6 font-quicksand">What are we sourcing today?</h3>
+                                    
+                                    <div class="space-y-4">
+                                        <div class="relative group">
+                                            <textarea v-model="procurementPrompt" 
+                                                      class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/5 rounded-2xl p-6 text-lg font-medium focus:outline-none focus:border-[#ff7eb3]/30 transition-all min-h-[150px] resize-none"
+                                                      placeholder="e.g. 500 temperature sensors, target price $2.50, deliver to Berlin by next Friday..."></textarea>
+                                            <div class="absolute bottom-4 right-4 opacity-0 group-focus-within:opacity-100 transition-opacity">
+                                                <span class="text-[10px] font-mono text-[#2d2a4a]/30 uppercase">Natural Language Engine Active</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-[10px] text-[#2d2a4a]/40 font-mono">Available items: sensors, motors, cables, connectors, displays, batteries, other</div>
+
+                                        <div class="flex flex-wrap gap-2">
+
+                                            <button v-for="chip in chips" :key="chip" 
+                                                    @click="procurementPrompt = chip"
+                                                    class="text-[10px] px-4 py-2 rounded-full font-bold uppercase tracking-wider transition-all"
+                                                    :class="procurementPrompt === chip ? 'nexus-gradient-bg text-white shadow-md' : 'bg-white text-[#2d2a4a]/50 nexus-border hover:border-[#ff7eb3]'">
+                                                {{ chip }}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-3 gap-3 mt-8">
+                                        <div v-for="opt in procurementOptions" :key="opt.title" 
+                                             class="p-4 rounded-xl nexus-border hover:border-[#ff7eb3]/50 cursor-pointer transition-all"
+                                             :class="{ 'bg-[#ff7eb3]/5 border-[#ff7eb3]/30': opt.active }"
+                                             @click="opt.active = !opt.active">
+                                            <div class="text-sm font-bold font-quicksand">{{ opt.title }}</div>
+                                            <div class="text-[10px] text-[#2d2a4a]/40 font-mono mt-1">{{ opt.sub }}</div>
+                                        </div>
+                                    </div>
+
+                                    <button @click="startProcurement" 
+                                            class="w-full mt-8 py-5 nexus-gradient-bg text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-[#ff7eb3]/30 hover:scale-[1.02] active:scale-[0.98] transition-all font-quicksand">
+                                        Launch Autonomous Run <i data-lucide="play" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- LIVE RUN TAB -->
+                            <div v-if="activeTab === 'live'" class="space-y-6">
+                                <div class="bg-[#ff7eb3]/5 border-2 border-[#ff7eb3]/20 text-[#ff7eb3] text-xs px-6 py-3 rounded-2xl inline-flex items-center gap-3 font-mono">
+                                    <span class="flex h-2 w-2 relative">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff7eb3] opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-[#ff7eb3]"></span>
+                                    </span>
+                                    "{{ procurementPrompt || 'Active Procurement Session' }}"
+                                </div>
+                                <div v-if="procurementNotice" class="bg-red-50 border-2 border-red-200 text-red-600 text-xs px-6 py-3 rounded-2xl font-mono">
+                                    {{ procurementNotice }}
+                                </div>
+
+                                <div class="grid lg:grid-cols-[1fr_1.5fr] gap-6">
+
+                                    <!-- Pipeline Steps -->
+                                    <div class="space-y-2">
+                                        <div v-for="(step, i) in workflowSteps" :key="i" class="flex gap-4 group">
+                                            <div class="flex flex-col items-center">
+                                                <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all"
+                                                     :class="workflowStatusClass(step.status)">
+                                                    <i v-if="step.status === 'done'" data-lucide="check" class="w-4 h-4"></i>
+                                                    <i v-else-if="step.status === 'active'" data-lucide="loader" class="w-4 h-4 animate-spin"></i>
+                                                    <span v-else>{{ i + 1 }}</span>
+                                                </div>
+                                                <div v-if="i < workflowSteps.length - 1" class="w-0.5 flex-1 min-h-[30px] bg-[#2d2a4a]/5 my-1 group-hover:bg-[#ff7eb3]/20 transition-colors"></div>
+                                            </div>
+                                            <div class="pb-6">
+                                                <h4 class="text-sm font-bold font-quicksand" :class="step.status === 'pending' ? 'text-[#2d2a4a]/30' : 'text-[#2d2a4a]'">{{ step.title }}</h4>
+                                                <p class="text-[11px] text-[#2d2a4a]/50 mt-1 leading-relaxed">{{ step.desc }}</p>
+
+                                                <div v-if="step.phase === 'negotiation' && selectedSuppliers.length" class="mt-4 space-y-2">
+                                                    <div class="text-[10px] font-bold text-[#2d2a4a]/40 uppercase tracking-widest font-mono">Selected Suppliers</div>
+                                                    <div v-for="s in selectedSuppliers" :key="s.supplier_id || s.supplierId || s.id" class="bg-white nexus-border rounded-xl p-3 flex items-center justify-between text-xs transition-all"
+                                                         :class="(selectedSupplierId && (s.supplier_id === selectedSupplierId || s.supplierId === selectedSupplierId || s.id === selectedSupplierId)) ? 'border-[#c8ff00]/60 bg-[#c8ff00]/10 shadow-md' : 'hover:shadow-md'">
+                                                        <div class="flex items-center gap-3">
+                                                            <div class="w-2 h-2 rounded-full" :class="(selectedSupplierId && (s.supplier_id === selectedSupplierId || s.supplierId === selectedSupplierId || s.id === selectedSupplierId)) ? 'bg-[#c8ff00]' : 'bg-[#b8f0ff]' "></div>
+                                                            <span class="font-bold">{{ s.supplier_name || s.supplier_id || s.id || 'Supplier' }}</span>
+                                                        </div>
+                                                        <div class="flex items-center gap-3">
+                                                            <span v-if="s.unit_price !== null && s.unit_price !== undefined" class="font-black nexus-gradient-text">{{ formatMoney(s.unit_price, 'EUR') }}</span>
+                                                            <span v-if="selectedSupplierId && (s.supplier_id === selectedSupplierId || s.supplierId === selectedSupplierId || s.id === selectedSupplierId)" class="text-[8px] bg-[#c8ff00] text-[#2d2a4a] px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">TAKING THIS FOR NEGOTIATION</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Dynamic Content for RFQ Step -->
+
+                                                <div v-if="step.quotes && step.status !== 'pending'" class="mt-4 space-y-2">
+                                                    <div v-for="q in step.quotes" :key="q.name" class="bg-white nexus-border rounded-xl p-3 flex items-center justify-between text-xs hover:shadow-md transition-all">
+                                                        <div class="flex items-center gap-3">
+                                                            <div class="w-2 h-2 rounded-full" :class="q.price < 3000 ? 'bg-[#c8ff00]' : 'bg-[#b8f0ff]'"></div>
+                                                            <span class="font-bold">{{ q.name }}</span>
+                                                        </div>
+                                                        <div class="flex items-center gap-4">
+                                                            <span class="text-[#2d2a4a]/40 font-mono">{{ q.time }}</span>
+                                                            <span class="font-black nexus-gradient-text">{{ q.price }}</span>
+                                                            <span v-if="q.best" class="text-[8px] bg-[#c8ff00] text-[#2d2a4a] px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">BEST DEAL</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Terminal Logs -->
+                                    <div class="flex flex-col">
+                                        <div class="flex items-center justify-between mb-3 px-1">
+                                            <span class="text-[10px] font-bold text-[#2d2a4a]/30 uppercase tracking-widest font-mono">Live Agent Message Stream</span>
+                                            <span class="text-[9px] bg-[#2d2a4a] text-white px-2 py-0.5 rounded font-mono uppercase">nexus://session</span>
+                                        </div>
+                                        <div class="flex-1 terminal-bg rounded-2xl p-6 font-mono text-[11px] leading-relaxed shadow-2xl overflow-y-auto max-h-[500px]" ref="logContainer">
+                                            <div v-for="(log, i) in logs" :key="i" class="mb-2">
+                                                <span class="text-[#b8f0ff]">[{{ log.time }}]</span>
+                                                <span class="text-[#ff7eb3] ml-2">{{ log.agent }}</span>
+                                                <span class="text-white/30 mx-1">→</span>
+                                                <span class="text-[#c8ff00]">{{ log.to }}</span>
+                                                <span class="text-white/70 ml-2">: {{ log.msg }}</span>
+                                            </div>
+                                            <div v-if="workflowActive" class="flex items-center gap-2 mt-2">
+                                                <span class="w-2 h-2 bg-[#ff7eb3] rounded-full animate-pulse"></span>
+                                                <span class="text-white/20 italic">Listening for partner response...</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-4 bg-white nexus-border rounded-2xl p-4 flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-10 h-10 rounded-full bg-[#c8ff00]/10 flex items-center justify-center text-[#c8ff00]">
+                                                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-xs font-bold font-quicksand">Trust Verified</div>
+                                                    <div class="text-[10px] text-[#2d2a4a]/40 font-mono">Blockchain Integrity Check Pass</div>
+                                                </div>
+                                            </div>
+                                            <button @click="activeTab = 'negotiate'" class="px-5 py-2 nexus-border rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-[#ff7eb3] transition-all">
+                                                Go to Negotiation
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- NEGOTIATE TAB -->
+                            <div v-if="activeTab === 'negotiate'" class="grid lg:grid-cols-[1.5fr_1fr] gap-8">
+                                <div class="space-y-6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-[10px] font-bold text-[#ff7eb3] uppercase tracking-widest font-mono">Negotiation Transcript — {{ buyerDisplayName }} vs {{ supplierDisplayName }} • {{ selectedNegotiation ? selectedNegotiation.session_id : 'NO_SESSION' }}</div>
+
+
+                                        <div class="flex gap-2">
+                                            <span class="w-2 h-2 rounded-full" :class="winnerDeal ? 'bg-[#c8ff00]' : 'bg-[#2d2a4a]/20'"></span>
+                                            <span class="w-2 h-2 rounded-full" :class="workflowActive ? 'bg-[#ff7eb3] animate-pulse' : 'bg-[#2d2a4a]/20'"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border p-6">
+                                        <div class="text-[10px] font-bold text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-4">Negotiation Context</div>
+                                        <div class="grid grid-cols-2 gap-3 text-[11px]">
+                                            <div class="text-[#2d2a4a]/50 font-mono">Buyer</div>
+                                            <div class="font-bold">{{ buyerDisplayName }}</div>
+                                            <div class="text-[#2d2a4a]/50 font-mono">Supplier</div>
+                                            <div class="font-bold">{{ supplierDisplayName }}</div>
+
+                                            <div class="text-[#2d2a4a]/50 font-mono">Negotiation ID</div>
+                                            <div class="font-mono">{{ negotiationMeta && negotiationMeta.id ? negotiationMeta.id : (selectedNegotiation ? selectedNegotiation.session_id : '—') }}</div>
+                                            <div class="text-[#2d2a4a]/50 font-mono">Product</div>
+                                            <div>{{ negotiationMeta && negotiationMeta.product ? negotiationMeta.product : '—' }}<span v-if="negotiationMeta && negotiationMeta.quantity"> × {{ negotiationMeta.quantity }}</span></div>
+                                            <div class="text-[#2d2a4a]/50 font-mono">Status</div>
+                                            <div class="font-bold" :class="(negotiationMeta && negotiationMeta.status === 'accepted') ? 'text-[#3B6D11]' : 'text-[#633806]'">{{ negotiationMeta && negotiationMeta.status ? negotiationMeta.status : '—' }}</div>
+                                            <div class="text-[#2d2a4a]/50 font-mono">Open Offer</div>
+                                            <div>{{ formatMoney(negotiationMeta ? negotiationMeta.open_offer : null, 'EUR') }}</div>
+                                            <div class="text-[#2d2a4a]/50 font-mono">Counter Offer</div>
+                                            <div>{{ formatMoney(negotiationMeta ? negotiationMeta.counter_offer : null, 'EUR') }}</div>
+                                            <div class="text-[#2d2a4a]/50 font-mono">Walkaway</div>
+                                            <div>{{ formatMoney(negotiationMeta ? negotiationMeta.walkaway_price : null, 'EUR') }}</div>
+                                            <div class="text-[#2d2a4a]/50 font-mono">Final Price</div>
+                                            <div class="font-bold">{{ formatMoney(negotiationMeta ? negotiationMeta.final_price : null, 'EUR') }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div v-if="!negotiationMessages.length" class="bg-white nexus-border rounded-3xl p-6 text-sm text-[#2d2a4a]/60">
+
+                                        No negotiation transcript yet. Start a procurement run to see buyer ↔ supplier counter-offers here.
+                                    </div>
+
+                                    <div v-else class="space-y-4">
+                                        <div v-for="(msg, i) in negotiationMessages" :key="i" 
+                                             class="flex flex-col" :class="msg.role === 'seller' ? 'items-end' : 'items-start'">
+                                            <div class="text-[9px] font-bold text-[#2d2a4a]/30 uppercase tracking-tighter mb-1 font-mono px-2">{{ msg.label }}</div>
+                                            <div class="max-w-[85%] px-5 py-4 rounded-3xl text-sm leading-relaxed transition-all shadow-sm"
+                                                 :class="msg.role === 'buyer' ? 'bg-[#b8f0ff]/20 text-[#2d2a4a] border-2 border-[#b8f0ff]/40 rounded-bl-sm' : 'bg-white nexus-border rounded-br-sm'">
+                                                <div>{{ msg.text }}</div>
+                                                <div v-if="msg.offer !== null && msg.offer !== undefined" class="mt-2 text-[10px] font-mono text-[#2d2a4a]/50">
+                                                    Offer: {{ formatMoney(msg.offer, (selectedNegotiation && selectedNegotiation.currency) ? selectedNegotiation.currency : 'EUR') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div v-if="winnerDeal" class="bg-gradient-to-r from-[#c8ff00] to-[#7dd3fc] rounded-3xl p-6 text-center shadow-xl shadow-[#c8ff00]/20 mt-8 group hover:scale-[1.01] transition-all">
+                                        <div class="text-[10px] font-black text-[#2d2a4a]/40 uppercase tracking-[0.2em] mb-1 font-mono">Autonomous Agreement Secured</div>
+                                        <div class="text-lg font-black text-[#2d2a4a] font-quicksand">✓ Deal Closed: {{ formatMoney(winnerDeal.final_price, winnerDeal.currency) }} • {{ winnerDeal.payment_terms }} • Savings {{ winnerDeal.savings_pct }}%</div>
+                                    </div>
+                                    <div v-else class="bg-white nexus-border rounded-3xl p-6 text-center text-sm text-[#2d2a4a]/50">
+                                        Negotiation not completed yet.
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#b8f0ff]/10 to-[#ff7eb3]/10">
+                                            <span class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Contract Draft</span>
+                                        </div>
+                                        <div class="p-6">
+                                            <div v-if="!selectedOrderContractText" class="text-xs text-[#2d2a4a]/50">
+                                                Select an order to view its purchase order text.
+                                            </div>
+                                            <pre v-else class="whitespace-pre-wrap text-[11px] leading-relaxed font-mono text-[#2d2a4a]/80">{{ selectedOrderContractText }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-6">
+
+                                    <div v-if="user && user.role === 'Supplier'" class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#b8f0ff]/10 to-[#c8ff00]/10">
+                                            <span class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Supplier Contracts</span>
+                                        </div>
+                                        <div class="p-6 space-y-3">
+                                            <div v-if="!supplierOrders.length" class="text-xs text-[#2d2a4a]/50">No contracts yet for this supplier.</div>
+                                            <button v-for="o in supplierOrders" :key="o.po_id" @click="selectOrder(o.po_id)" class="w-full text-left p-4 rounded-2xl border-2 transition-all"
+                                                    :class="(selectedOrder && selectedOrder.po_id === o.po_id) ? 'border-[#c8ff00]/60 bg-[#c8ff00]/5' : 'border-[#2d2a4a]/10 hover:border-[#2d2a4a]/20'">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="text-xs font-black font-quicksand">{{ o.item_summary || o.po_id }}</div>
+                                                    <div class="text-[10px] font-mono uppercase" :class="o.status === 'Delivered' || o.status === 'Completed' ? 'text-[#3B6D11]' : 'text-[#633806]'">{{ o.status }}</div>
+                                                </div>
+                                                <div class="mt-2 grid grid-cols-3 gap-2 text-[10px] font-mono text-[#2d2a4a]/50">
+                                                    <div>PO: {{ o.po_id }}</div>
+                                                    <div>ETA: {{ o.delivery_by }}</div>
+                                                    <div>Value: {{ o.total_amount !== null ? formatMoney(o.total_amount, o.currency) : '—' }}</div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#ff7eb3]/10 to-[#b8f0ff]/10">
+                                            <span class="text-[10px] font-bold text-[#ff7eb3] uppercase tracking-widest font-mono">{{ user && user.role === 'Supplier' ? 'Supplier Negotiations' : 'Negotiation Results' }}</span>
+                                        </div>
+                                        <div class="p-6 space-y-3">
+                                            <div v-if="!visibleNegotiations.length" class="text-xs text-[#2d2a4a]/50">{{ user && user.role === 'Supplier' ? 'No negotiations yet for this supplier.' : 'No negotiation results yet.' }}</div>
+                                            <button v-for="n in visibleNegotiations" :key="n.session_id" @click="selectNegotiation(n)" class="w-full text-left p-4 rounded-2xl border-2 transition-all"
+                                                    :class="(selectedNegotiation && selectedNegotiation.session_id === n.session_id) ? 'border-[#ff7eb3]/60 bg-[#ff7eb3]/5' : 'border-[#2d2a4a]/10 hover:border-[#2d2a4a]/20'">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="text-xs font-black font-quicksand">{{ n.supplier_name }}</div>
+                                                    <div class="text-[10px] font-mono uppercase" :class="n.status === 'accepted' ? 'text-[#3B6D11]' : 'text-[#633806]'">{{ n.status }}</div>
+                                                </div>
+                                                <div class="mt-2 grid grid-cols-3 gap-2 text-[10px] font-mono text-[#2d2a4a]/50">
+                                                    <div>Init: {{ formatMoney(n.initial_price, n.currency) }}</div>
+                                                    <div>Final: {{ formatMoney(n.final_price, n.currency) }}</div>
+                                                    <div>Save: {{ n.savings_pct }}%</div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#b8f0ff]/10 to-[#ff7eb3]/10">
+                                            <span class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Negotiation Timeline</span>
+                                        </div>
+                                        <div class="p-6 space-y-3">
+                                            <div v-if="!negotiationTimeline.length" class="text-xs text-[#2d2a4a]/50">No timeline available yet.</div>
+                                            <div v-for="(item, idx) in negotiationTimeline" :key="idx" class="flex gap-3">
+                                                <div class="w-2 h-2 mt-1.5 rounded-full" :class="item.role === 'seller' ? 'bg-[#ff7eb3]' : item.role === 'buyer' ? 'bg-[#b8f0ff]' : 'bg-[#2d2a4a]/30'"></div>
+                                                <div class="flex-1">
+                                                    <div class="text-[10px] font-bold uppercase tracking-widest text-[#2d2a4a]/40 font-mono">{{ item.label }}</div>
+                                                    <div class="text-xs text-[#2d2a4a]/70">{{ item.text }}</div>
+                                                    <div v-if="item.offer !== null && item.offer !== undefined" class="text-[10px] font-mono text-[#2d2a4a]/40 mt-1">Offer: {{ formatMoney(item.offer, 'EUR') }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#ff7eb3]/10 to-[#b8f0ff]/10">
+                                            <span class="text-[10px] font-bold text-[#ff7eb3] uppercase tracking-widest font-mono">Selection Rationale</span>
+                                        </div>
+                                        <div class="p-6 space-y-2">
+                                            <div v-if="!selectionRationale.length" class="text-xs text-[#2d2a4a]/50">No selection rationale available yet.</div>
+                                            <ul v-else class="space-y-2 text-xs text-[#2d2a4a]/70 list-disc pl-4">
+                                                <li v-for="(reason, idx) in selectionRationale" :key="idx">{{ reason }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#ff7eb3]/10 to-[#b8f0ff]/10">
+                                            <span class="text-[10px] font-bold text-[#ff7eb3] uppercase tracking-widest font-mono">Savings Intelligence</span>
+                                        </div>
+                                        <div class="p-6 space-y-4">
+
+                                            <div v-for="item in savingsData" :key="item.label" class="flex justify-between items-center py-2 border-b border-[#2d2a4a]/5 last:border-0">
+                                                <span class="text-xs text-[#2d2a4a]/50 font-medium">{{ item.label }}</span>
+                                                <span class="text-sm font-black" :class="item.highlight ? 'text-[#3B6D11]' : ''">{{ item.value }}</span>
+                                            </div>
+                                            <div class="pt-4">
+                                                <div class="w-full bg-[#2d2a4a]/5 h-2 rounded-full overflow-hidden">
+                                                    <div class="nexus-gradient-bg h-full" style="width: 82%"></div>
+                                                </div>
+                                                <div class="text-[9px] text-[#2d2a4a]/30 font-mono mt-2 uppercase text-center">Negotiation efficiency: 82% vs market avg</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border p-6 relative overflow-hidden group">
+                                        <div class="absolute top-[-20px] right-[-20px] text-6xl opacity-[0.03] rotate-12 group-hover:rotate-45 transition-transform">📄</div>
+                                        <div class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono mb-4">Contract Artifacts</div>
+                                        <div class="space-y-3">
+                                            <div class="flex items-center gap-3 p-3 rounded-xl bg-[#b8f0ff]/5 border border-[#b8f0ff]/20 hover:bg-[#b8f0ff]/10 cursor-pointer transition-all">
+                                                <i data-lucide="file-text" class="w-5 h-5 text-[#b8f0ff]"></i>
+                                                <div class="flex-1">
+                                                    <div class="text-[10px] font-bold">PurchaseOrder_NX471.pdf</div>
+                                                    <div class="text-[8px] text-[#2d2a4a]/40 font-mono">124 KB • Signed via NEXUS-ID</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-[#2d2a4a]/5 cursor-pointer transition-all">
+                                                <i data-lucide="shield" class="w-5 h-5 text-[#2d2a4a]/20"></i>
+                                                <div class="flex-1 text-[10px] font-bold text-[#2d2a4a]/40">ComplianceReport_NX471.pdf</div>
+                                            </div>
+                                        </div>
+                                        <button class="w-full mt-6 py-3 bg-[#2d2a4a] text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#1a1a2e] transition-all">
+                                            Export All Documents
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SUPPLIERS TAB (Buyer + Supplier) -->
+                            <div v-if="activeTab === 'suppliers'" class="space-y-8">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#ff7eb3]/10 to-[#b8f0ff]/10 flex items-center justify-between">
+                                            <span class="text-[10px] font-bold text-[#ff7eb3] uppercase tracking-widest font-mono">Suppliers</span>
+                                            <span class="text-[10px] text-[#2d2a4a]/40 font-mono">{{ suppliers.length }} listed</span>
+                                        </div>
+                                        <div class="p-6 space-y-3">
+                                            <div v-if="!suppliers.length" class="text-xs text-[#2d2a4a]/50">No suppliers found.</div>
+                                            <div v-for="s in suppliers" :key="s.supplier_id" class="p-4 rounded-2xl border-2 border-[#2d2a4a]/10 hover:border-[#ff7eb3]/40 hover:bg-[#ff7eb3]/5 transition-all">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div>
+                                                        <div class="flex items-center gap-2">
+                                                            <div class="text-sm font-black font-quicksand">{{ s.company_name || s.supplier_id }}</div>
+                                                            <span v-if="s.is_new" class="text-[8px] px-2 py-0.5 rounded-full bg-[#c8ff00]/20 text-[#3B6D11] font-mono uppercase">New</span>
+                                                        </div>
+
+                                                        <div class="text-[10px] text-[#2d2a4a]/40 font-mono">{{ (s.region || '—') }} • {{ (s.country || '—') }}</div>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="text-[9px] text-[#2d2a4a]/30 uppercase font-mono">Trust</div>
+                                                        <div class="text-sm font-black nexus-gradient-text">{{ Number(s.trust_score || 0).toFixed(2) }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 flex flex-wrap gap-2">
+                                                    <span v-for="c in (s.certifications || [])" :key="c" class="text-[9px] px-2 py-1 rounded-full bg-[#b8f0ff]/20 text-[#0C447C] font-mono uppercase">{{ c }}</span>
+                                                    <span v-if="!(s.certifications || []).length" class="text-[9px] px-2 py-1 rounded-full bg-[#2d2a4a]/5 text-[#2d2a4a]/40 font-mono uppercase">No certs listed</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#b8f0ff]/10 to-[#c8ff00]/10 flex items-center justify-between">
+                                            <span class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Active Agents</span>
+                                            <span class="text-[10px] text-[#2d2a4a]/40 font-mono">{{ activeAgentsCount }} active</span>
+                                        </div>
+                                        <div class="p-6 space-y-3">
+                                            <div v-if="!activeAgents.length" class="text-xs text-[#2d2a4a]/50">No active agents yet.</div>
+                                            <div v-for="a in activeAgents" :key="a.id" class="p-4 rounded-2xl border-2 border-[#2d2a4a]/10 hover:border-[#b8f0ff]/60 hover:bg-[#b8f0ff]/5 transition-all">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div>
+                                                        <div class="text-sm font-black font-quicksand">{{ a.name || a.id }}</div>
+                                                        <div class="text-[10px] text-[#2d2a4a]/40 font-mono">{{ (a.region || '—') }} • {{ (a.country || '—') }}</div>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="text-[9px] text-[#2d2a4a]/30 uppercase font-mono">Trust</div>
+                                                        <div class="text-sm font-black">{{ Number(a.trust_score || 0).toFixed(2) }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 flex flex-wrap gap-2">
+                                                    <span v-for="cap in (a.capabilities || [])" :key="cap" class="text-[9px] px-2 py-1 rounded-full bg-[#c8ff00]/20 text-[#3B6D11] font-mono uppercase">{{ cap }}</span>
+                                                    <span v-if="!(a.capabilities || []).length" class="text-[9px] px-2 py-1 rounded-full bg-[#2d2a4a]/5 text-[#2d2a4a]/40 font-mono uppercase">No capabilities listed</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CATALOG TAB (Supplier) -->
+                            <div v-if="activeTab === 'catalog'" class="space-y-8">
+
+                                <div class="bg-white rounded-3xl nexus-border p-6">
+                                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                                        <div>
+                                            <div class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Supplier Registration</div>
+                                            <div class="text-sm font-black font-quicksand mt-1">Create / update your supplier profile (demo)</div>
+                                        </div>
+                                        <button @click="registerSupplier" class="px-5 py-2.5 nexus-gradient-bg text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-[#ff7eb3]/20 hover:scale-105 transition-all">
+                                            Save Supplier
+                                        </button>
+                                    </div>
+
+                                    <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Supplier</label>
+                                            <select v-model="supplierAccessId" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30">
+                                                <option value="">Select supplier</option>
+                                                <option v-for="s in suppliers" :key="s.supplier_id || s.id" :value="s.supplier_id || s.id">{{ s.company_name || s.supplier_id || s.id }}</option>
+                                                <option value="__new__">+ New Supplier</option>
+                                            </select>
+                                            <div class="text-[9px] text-[#2d2a4a]/40 font-mono mt-1">Pick your profile or register a new supplier.</div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Supplier ID</label>
+                                            <input v-if="isNewSupplier || !supplierAccessId" v-model="supplierProfile.supplier_id" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="e.g. sup-999" />
+                                            <input v-else v-model="supplierProfile.supplier_id" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm text-[#2d2a4a]/50" disabled />
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Company Name</label>
+                                            <input v-model="supplierProfile.company_name" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="e.g. Acme Electronics" />
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Contact Email</label>
+                                            <input v-model="supplierProfile.contact_email" type="email" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="sales@company.com" />
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Region</label>
+                                            <select v-model="supplierProfile.region" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30">
+                                                <option value="">Select region</option>
+                                                <option v-for="region in regionOptions" :key="region" :value="region">{{ region }}</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Country</label>
+                                            <input v-model="supplierProfile.country" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="Germany" />
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Negotiation Style</label>
+                                            <select v-model="supplierProfile.negotiation_style" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30">
+                                                <option value="balanced">balanced</option>
+                                                <option value="aggressive">aggressive</option>
+                                                <option value="quality_first">quality_first</option>
+                                            </select>
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Capabilities (comma-separated)</label>
+                                            <input v-model="supplierProfile.capabilitiesText" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="sensors, motors, cables" />
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Certifications (comma-separated)</label>
+                                            <input v-model="supplierProfile.certificationsText" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="CE, ISO9001, ITAR" />
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Trust Score (0-1)</label>
+                                            <input v-model.number="supplierProfile.trust_score" type="number" min="0" max="1" step="0.01" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" />
+                                        </div>
+                                        <div class="flex items-end">
+                                            <div class="text-[10px] text-[#2d2a4a]/40 font-mono">This updates what buyers see in `Suppliers`.</div>
+                                        </div>
+                                    </div>
+
+                                    <div v-if="supplierProfileStatus" class="mt-4 text-xs rounded-2xl px-4 py-3 border-2" :class="supplierProfileStatus.ok ? 'bg-[#c8ff00]/10 border-[#c8ff00]/30 text-[#3B6D11]' : 'bg-red-50 border-red-200 text-red-600'">
+                                        {{ supplierProfileStatus.msg }}
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-2xl font-black font-quicksand">Catalog</h3>
+                                    <button class="px-6 py-3 nexus-gradient-bg text-white rounded-xl font-bold text-sm uppercase tracking-widest shadow-lg shadow-[#ff7eb3]/20 hover:scale-105 transition-all font-quicksand"
+                                            @click="openAddProduct">
+                                        Add New Product +
+                                    </button>
+                                </div>
+
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div v-for="product in supplierCatalog" :key="product.id" 
+                                         class="bg-white rounded-3xl nexus-border p-6 hover:shadow-2xl hover:shadow-[#b8f0ff]/10 transition-all group relative overflow-hidden">
+                                        <div class="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button class="text-[#2d2a4a]/20 hover:text-[#ff7eb3]"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                                        </div>
+                                        
+                                        <div class="w-12 h-12 rounded-2xl bg-[#b8f0ff]/20 flex items-center justify-center text-[#b8f0ff] mb-6">
+                                            <i data-lucide="package" class="w-6 h-6"></i>
+                                        </div>
+                                        
+                                        <h4 class="text-lg font-black font-quicksand mb-2">{{ product.name }}</h4>
+                                        <div class="text-[10px] text-[#2d2a4a]/40 font-mono uppercase tracking-widest mb-6">{{ product.category }}</div>
+                                        
+                                        <div class="flex justify-between items-end">
+                                            <div>
+                                                <div class="text-[9px] text-[#2d2a4a]/30 uppercase font-mono mb-1">Base Price</div>
+                                                <div class="text-xl font-black nexus-gradient-text">€{{ product.price }}</div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-[9px] text-[#2d2a4a]/30 uppercase font-mono mb-1">Stock</div>
+                                                <div class="text-sm font-bold" :class="product.stock < 100 ? 'text-red-500' : 'text-[#3B6D11]'">{{ product.stock }} units</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-6 pt-6 border-t border-[#2d2a4a]/5 flex justify-between items-center text-[9px] font-mono uppercase text-[#2d2a4a]/40 tracking-wider">
+                                            <span>Lead: {{ product.leadTime }} days</span>
+                                            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#c8ff00]"></span> Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <transition name="fade">
+                                    <div v-if="showAddProduct" class="fixed inset-0 z-[200] flex items-center justify-center p-6">
+                                        <div class="absolute inset-0 bg-[#2d2a4a]/60" @click="showAddProduct = false"></div>
+                                        <div class="relative bg-white rounded-3xl nexus-border w-full max-w-xl p-6 shadow-2xl">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <div class="text-[10px] font-bold text-[#ff7eb3] uppercase tracking-widest font-mono">Add Product</div>
+                                                    <div class="text-sm font-black font-quicksand mt-1">Register a product in your catalog</div>
+                                                </div>
+                                                <button class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[#2d2a4a]/5" @click="showAddProduct = false">
+                                                    <i data-lucide="x" class="w-5 h-5 text-[#2d2a4a]/40"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="mt-5 grid grid-cols-1 gap-4">
+                                                <div>
+                                                    <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Product Name</label>
+                                                    <input v-model="addProductForm.product_name" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="Industrial Thermistor" />
+                                                </div>
+                                                <div>
+                                                    <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Category</label>
+                                                    <input v-model="addProductForm.product_category" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" placeholder="temperature_sensors" />
+                                                </div>
+                                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                                    <div>
+                                                        <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Unit Price</label>
+                                                        <input v-model.number="addProductForm.base_unit_price" type="number" step="0.01" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" />
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Stock</label>
+                                                        <input v-model.number="addProductForm.stock_available" type="number" step="1" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" />
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Lead Days</label>
+                                                        <input v-model.number="addProductForm.lead_time_days" type="number" step="1" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" />
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="addProductStatus" class="text-xs rounded-2xl px-4 py-3 border-2" :class="addProductStatus.ok ? 'bg-[#c8ff00]/10 border-[#c8ff00]/30 text-[#3B6D11]' : 'bg-red-50 border-red-200 text-red-600'">
+                                                    {{ addProductStatus.msg }}
+                                                </div>
+
+                                                <div class="flex justify-end gap-3 pt-2">
+                                                    <button class="px-5 py-2 nexus-border rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-[#2d2a4a]/30" @click="showAddProduct = false">Cancel</button>
+                                                    <button class="px-5 py-2 nexus-gradient-bg text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-[#ff7eb3]/20 hover:scale-105 transition-all" @click="submitAddProduct">Save Product</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </transition>
+                            </div>
+                            
+                            <!-- TRACK TAB (Buyer) -->
+
+                             <div v-if="activeTab === 'track'" class="grid lg:grid-cols-[1.5fr_1fr] gap-8">
+                                <div class="space-y-6">
+                                    <div class="bg-white rounded-3xl nexus-border p-6 shadow-sm overflow-hidden relative">
+                                        <div class="absolute inset-0 opacity-[0.05]" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+                                        
+                                        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                            <div>
+                                                <div class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono mb-2">Order Tracking ID: {{ selectedOrder ? selectedOrder.po_id : '—' }}</div>
+                                                <h3 class="text-2xl font-black font-quicksand">{{ selectedOrder ? (selectedOrder.item_summary || ('Purchase Order ' + selectedOrder.po_id)) : 'No orders yet' }}</h3>
+                                                <div class="mt-2 flex items-center gap-4 text-xs font-medium text-[#2d2a4a]/60">
+                                                    <span>Origin: {{ selectedOrder ? (selectedOrder.supplier_name || selectedOrder.supplier_id) : '—' }}</span>
+                                                    <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                                                    <span>Destination: {{ user ? user.name : '—' }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col items-end">
+                                                <div class="text-[10px] font-bold text-[#c8ff00] uppercase tracking-widest font-mono mb-1">Status: {{ selectedOrder ? (selectedOrder.status || '—') : '—' }}</div>
+                                                <div class="text-3xl font-black nexus-gradient-text font-quicksand">{{ selectedOrder ? (selectedOrder.delivery_by || '—') : '—' }}</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Visual Map -->
+                                        <div class="mt-8 terminal-bg rounded-2xl h-[240px] relative overflow-hidden">
+                                            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0); background-size: 30px 30px;"></div>
+                                            
+                                            <!-- Path line -->
+                                            <svg class="absolute inset-0 w-full h-full">
+                                                <path d="M 150 120 Q 300 80 450 120" stroke="var(--accent-blue)" stroke-width="2" stroke-dasharray="5,5" fill="transparent" class="opacity-30" />
+                                                <circle cx="150" cy="120" r="4" fill="var(--accent-blue)" class="animate-pulse" />
+                                                <circle cx="450" cy="120" r="4" fill="var(--accent-lime)" />
+                                            </svg>
+                                            
+                                            <!-- Plane -->
+                                            <div class="absolute top-[85px] left-[280px] text-2xl rotate-[15deg] animate-float">✈</div>
+                                            
+                                            <div class="absolute bottom-6 left-6 flex flex-col gap-1">
+                                                <div class="text-[9px] text-white/30 uppercase font-mono">Current Location</div>
+                                                <div class="text-xs text-white font-bold">{{ selectedOrder ? (selectedOrder.current_location || 'In Transit') : 'In Transit' }} • {{ selectedOrder ? (selectedOrder.altitude_ft || '34,000') : '34,000' }} ft</div>
+                                            </div>
+                                            <div class="absolute bottom-6 right-6 text-right">
+                                                <div class="text-[9px] text-white/30 uppercase font-mono">Carrier</div>
+                                                <div class="text-xs text-white font-bold">{{ selectedOrder ? (selectedOrder.carrier || 'DHL Express • NX772') : 'DHL Express • NX772' }}</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <div v-for="(milestone, i) in trackingMilestones" :key="i" class="flex gap-4 group">
+                                            <div class="flex flex-col items-center">
+                                                <div class="w-3 h-3 rounded-full transition-all"
+                                                     :class="milestone.done ? 'bg-[#c8ff00]' : milestone.active ? 'bg-[#ff7eb3] animate-pulse shadow-[0_0_10px_var(--accent-pink)]' : 'nexus-border bg-white'"></div>
+                                                <div v-if="i < trackingMilestones.length - 1" class="w-0.5 flex-1 min-h-[30px] bg-[#2d2a4a]/5 my-1"></div>
+                                            </div>
+                                            <div class="pb-6">
+                                                <h4 class="text-xs font-bold font-quicksand" :class="milestone.done || milestone.active ? 'text-[#2d2a4a]' : 'text-[#2d2a4a]/30'">{{ milestone.title }}</h4>
+                                                <div class="text-[9px] text-[#2d2a4a]/40 font-mono uppercase mt-1">{{ milestone.time }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#b8f0ff]/10 to-[#ff7eb3]/10">
+                                            <span class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Contract Draft</span>
+                                        </div>
+                                        <div class="p-6">
+                                            <div v-if="!selectedOrderContractText" class="text-xs text-[#2d2a4a]/50">
+                                                Select an order to view its purchase order text.
+                                            </div>
+                                            <pre v-else class="whitespace-pre-wrap text-[11px] leading-relaxed font-mono text-[#2d2a4a]/80">{{ selectedOrderContractText }}</pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-6">
+
+                                    <div class="bg-white rounded-3xl nexus-border overflow-hidden">
+                                        <div class="px-6 py-4 border-b-2 border-[#2d2a4a]/10 bg-gradient-to-r from-[#b8f0ff]/10 to-[#c8ff00]/10 flex items-center justify-between">
+                                            <span class="text-[10px] font-bold text-[#b8f0ff] uppercase tracking-widest font-mono">Orders</span>
+                                            <span class="text-[10px] text-[#2d2a4a]/40 font-mono">{{ buyerOrders.length }} total</span>
+                                        </div>
+
+                                        <div class="p-4 space-y-2">
+                                            <div v-if="!buyerOrders.length" class="text-xs text-[#2d2a4a]/50">No orders yet.</div>
+                                            <button v-for="o in buyerOrders" :key="o.po_id" @click="selectOrder(o.po_id)" class="w-full text-left p-3 rounded-2xl border-2 transition-all"
+                                                    :class="(selectedOrder && selectedOrder.po_id === o.po_id) ? 'border-[#c8ff00]/60 bg-[#c8ff00]/5' : 'border-[#2d2a4a]/10 hover:border-[#2d2a4a]/20'">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="text-xs font-black font-quicksand">{{ o.item_summary || ('PO ' + o.po_id) }}</div>
+                                                    <div class="text-[10px] font-mono text-[#2d2a4a]/40">{{ o.status || '—' }}</div>
+                                                </div>
+                                                <div class="mt-1 text-[10px] font-mono text-[#2d2a4a]/40">{{ o.supplier_name || o.supplier_id }} • {{ formatMoney(o.total_amount, o.currency || 'EUR') }}</div>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-3xl nexus-border p-6 shadow-sm">
+                                        <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-4 font-mono">Real-time Risk Scan</h4>
+                                        <div class="space-y-4">
+                                            <div v-for="risk in risks" :key="risk.label" class="flex items-center gap-4">
+                                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
+                                                     :class="risk.status === 'ok' ? 'bg-[#c8ff00]/10 text-[#c8ff00]' : 'bg-red-50 text-red-500'">
+                                                    <i :data-lucide="risk.status === 'ok' ? 'check' : 'alert-triangle'" class="w-4 h-4"></i>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="text-[10px] font-bold">{{ risk.label }}</div>
+                                                    <div class="text-[9px] text-[#2d2a4a]/40 font-mono uppercase">{{ risk.status === 'ok' ? 'Clear' : 'Warning' }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-gradient-to-br from-[#2d2a4a] to-[#1a1a2e] rounded-3xl p-6 text-white relative overflow-hidden">
+                                        <div class="absolute top-0 right-0 p-4 opacity-10 text-4xl rotate-12">🛡️</div>
+                                        <h4 class="text-xs font-bold text-[#b8f0ff] uppercase tracking-widest font-mono mb-4">Trust Analytics</h4>
+                                        <div class="space-y-1">
+                                            <div class="text-xs text-white/50">Projected Trust Gain</div>
+                                            <div class="text-2xl font-black font-quicksand text-[#c8ff00]">{{ trustAnalytics.projectedGain }}</div>
+                                        </div>
+                                        <div class="mt-4 pt-4 border-t border-white/10">
+                                            <div class="text-[9px] text-white/30 uppercase font-mono mb-2">Partner Score</div>
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm font-bold">{{ trustAnalytics.partnerName }}</span>
+                                                <span class="text-sm font-black text-[#b8f0ff]">{{ trustAnalytics.scoreLine }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                             </div>
+                        </div>
+                    </transition>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, computed, onMounted, nextTick, watch } = Vue;
+
+
+        createApp({
+            setup() {
+                // UI State
+                const user = ref(null);
+                const activeTab = ref('home');
+                const isHovered = ref(false);
+                const loading = ref(false);
+                const loginEmail = ref('');
+                const loginPass = ref('');
+                const cursorX = ref(-100);
+                const cursorY = ref(-100);
+                const ringX = ref(-100);
+                const ringY = ref(-100);
+
+                // App State
+                const procurementPrompt = ref('');
+                const procurementNotice = ref(null);
+                const workflowActive = ref(false);
+                const logs = ref([]);
+
+                const workflowSteps = ref([
+                    { phase: 'parsing', title: 'Intent Parsing', desc: 'Analyzing natural language requirements into structured BOM.', status: 'pending' },
+                    { phase: 'discovery', title: 'Supplier Discovery', desc: 'Querying global registry for qualified partners with trust >= 0.7.', status: 'pending' },
+                    { phase: 'compliance', title: 'Risk & Compliance', desc: 'Verifying CE, ITAR, FDA, and supplier trust signals.', status: 'pending' },
+                    { phase: 'rfq', title: 'Request for Quote', desc: 'Sending RFQs to top matching suppliers.', status: 'pending', quotes: [] },
+                    { phase: 'logistics', title: 'Logistics Planning', desc: 'Estimating route, freight cost, and delivery feasibility.', status: 'pending' },
+                    { phase: 'negotiation', title: 'Negotiation Engine', desc: 'Running buyer-agent ↔ supplier-agent counter-offer loop.', status: 'pending' },
+                    { phase: 'contract', title: 'Contract Generation', desc: 'Generating PO from agreed terms and supplier confirmation.', status: 'pending' }
+                ]);
+
+                const chips = ['500 temperature sensors • Berlin', '100 LiDAR units • San Francisco', '200 brushless motors • Austin', '1000 PCB boards • Chicago'];
+                const procurementOptions = ref([
+                    { title: '🌍 Global Search', sub: 'USA + EU + APAC', active: true },
+                    { title: '🛡️ Min Trust 0.8', sub: 'Verified Only', active: true },
+                    { title: '📝 Auto-PO', sub: 'Instant Contract', active: false }
+                ]);
+
+                // Data (loaded from backend)
+                const stats = ref([
+                    { label: 'Active Agents', value: '0', change: '—', trend: 'up' },
+                    { label: 'Deals Closed', value: '0', change: '—', trend: 'up' },
+                    { label: 'Avg Savings', value: '—', change: '—', trend: 'up' },
+                    { label: 'Pipeline Value', value: '—', change: '—', trend: 'up' }
+                ]);
+
+
+                const buyerOrders = ref([]);
+                const selectedOrderId = ref(null);
+                const selectedOrderDetail = ref(null);
+
+                const recentOrders = ref([]);
+
+
+                const supplierCatalog = ref([]);
+
+                const suppliers = ref([]);
+                const supplierAccessId = ref('');
+                const regionOptions = ['EMEA', 'North America', 'APAC', 'LATAM', 'MENA', 'Africa'];
+                const activeAgents = computed(() => suppliers.value.map((s) => ({
+                    id: s.supplier_id || s.id,
+                    name: s.company_name || s.name || s.supplier_id || s.id,
+                    region: s.region,
+                    country: s.country,
+                    trust_score: s.trust_score,
+                    capabilities: s.capabilities
+                })));
+                const activeAgentsCount = computed(() => suppliers.value.length);
+
+
+                const showAddProduct = ref(false);
+                const supplierProfile = ref({
+                    supplier_id: '',
+                    company_name: '',
+                    country: '',
+                    region: '',
+                    certificationsText: '',
+                    capabilitiesText: '',
+                    contact_email: '',
+                    trust_score: 0.5,
+                    negotiation_style: 'balanced'
+                });
+
+                const supplierProfileStatus = ref(null);
+                const isNewSupplier = computed(() => supplierAccessId.value === '__new__');
+
+                const addProductForm = ref({
+                    product_name: '',
+                    product_category: '',
+                    base_unit_price: 0,
+                    stock_available: 0,
+                    lead_time_days: 14
+                });
+                const addProductStatus = ref(null);
+
+                const negotiations = ref([]);
+                const selectedSuppliers = ref([]);
+                const negotiationMeta = ref(null);
+                const contractDraftText = ref('');
+
+                const winnerDeal = ref(null);
+                const selectedSupplierId = ref(null);
+                const selectedNegotiationId = ref(null);
+
+                const negotiationMessages = ref([]);
+                const negotiationTimeline = ref([]);
+                const selectionRationale = ref([]);
+
+
+                const savingsData = ref([
+
+                    { label: 'Initial Quote', value: '—' },
+                    { label: 'Final Agreement', value: '—', highlight: true },
+                    { label: 'Direct Savings', value: '—', highlight: true },
+                    { label: 'Rounds Negotiated', value: '0' },
+                    { label: 'RL-Inspired Reward', value: '0', highlight: true }
+                ]);
+
+
+                const trackingMilestones = computed(() => {
+                    if (selectedOrder.value && Array.isArray(selectedOrder.value.timeline)) {
+                        return selectedOrder.value.timeline;
+                    }
+                    return [
+                        { title: 'PO Signed • Order Confirmed', time: 'Apr 24, 10:14 AM', done: true },
+                        { title: 'Packed at Berlin Warehouse', time: 'Apr 25, 02:30 PM', done: true },
+                        { title: 'Departed FRA • DHL Express', time: 'Apr 26, 09:00 AM', active: true },
+                        { title: 'US Customs Clearance', time: 'Est. Apr 28', done: false },
+                        { title: 'Delivered • Austin, TX', time: 'Est. May 02', done: false }
+                    ];
+                });
+
+
+                const risks = ref([
+                    { label: 'Weather Impact', status: 'ok' },
+                    { label: 'Port Congestion', status: 'ok' },
+                    { label: 'Carrier Delay', status: 'ok' },
+                    { label: 'Customs Risk', status: 'warning' }
+                ]);
+
+                // Computed
+                const currentTabLabel = computed(() => {
+                    const tabs = { home: 'Overview', suppliers: 'Suppliers', new: 'Launch Procurement', live: 'Agent Workflow', negotiate: 'Negotiation', catalog: 'Catalog', track: 'Logistics' };
+                    return tabs[activeTab.value] || 'Nexus Control';
+                });
+
+                const availableTabs = computed(() => {
+                    const common = [
+                        { id: 'home', icon: 'home', label: 'Home' },
+                        { id: 'suppliers', icon: 'building-2', label: 'Suppliers' }
+                    ];
+                    const buyer = [
+                        { id: 'new', icon: 'plus', label: 'New Run' },
+                        { id: 'live', icon: 'play', label: 'Workflow' },
+                        { id: 'negotiate', icon: 'message-square', label: 'Negotiate' },
+                        { id: 'track', icon: 'map-pin', label: 'Track' }
+                    ];
+                    const supplier = [
+                        { id: 'catalog', icon: 'package', label: 'Catalog' },
+                        { id: 'negotiate', icon: 'message-square', label: 'Sales' },
+                    ];
+                    return [...common, ...(user.value?.role === 'Buyer' ? buyer : supplier)];
+                });
+
+                const formatMoney = (amount, currency = 'EUR') => {
+                    if (amount === null || amount === undefined || Number.isNaN(Number(amount))) return '—';
+                    const n = Number(amount);
+                    const symbol = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : `${currency} `;
+                    return `${symbol}${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                };
+
+                const parseList = (val) => {
+                    if (Array.isArray(val)) return val.filter(Boolean);
+                    if (!val) return [];
+                    if (typeof val === 'string') {
+                        const trimmed = val.trim();
+                        if (!trimmed) return [];
+                        try {
+                            const parsed = JSON.parse(trimmed);
+                            if (Array.isArray(parsed)) return parsed.filter(Boolean);
+                        } catch (_) {
+                            // fallthrough
+                        }
+                        return trimmed.split(',').map(v => v.trim()).filter(Boolean);
+                    }
+                    return [];
+                };
+
+                const normalizeSupplier = (s) => {
+                    const certifications = parseList(s.certifications || s.certs || s.certification_list);
+                    const capabilities = parseList(s.capabilities || s.categories);
+                    return {
+                        supplier_id: s.supplier_id || s.supplierId || s.id || s.supplier || s.code,
+                        company_name: s.company_name || s.name || s.supplier_name || s.supplierName || s.id,
+                        country: s.country || s.country_code || s.location || '—',
+                        region: s.region || s.region_code || '—',
+                        trust_score: Number(s.trust_score ?? s.trustScore ?? s.score ?? 0),
+                        certifications,
+                        capabilities
+                    };
+                };
+
+                const normalizeQuote = (q) => {
+                    const certifications = parseList(q.certifications);
+                    return {
+                        supplier_id: q.supplier_id || q.supplierId || q.id,
+                        supplier_name: q.supplier_name || q.supplierName || q.name || q.supplier_id || q.id,
+                        unit_price: q.unit_price ?? q.unitPrice ?? q.price ?? null,
+                        total_price: q.total_price ?? q.totalPrice ?? null,
+                        lead_time_days: q.lead_time_days ?? q.leadTimeDays ?? q.lead_time ?? null,
+                        certifications,
+                        rationale: q.rationale || '',
+                        currency: q.currency || 'EUR'
+                    };
+                };
+
+                const getSupplierById = (supplierId) => {
+                    if (!supplierId) return null;
+                    return suppliers.value.find(s => (s.supplier_id || s.id) === supplierId) || null;
+                };
+
+                const matchesSupplier = (record, supplierId, supplierName) => {
+                    const id = supplierId ? String(supplierId).toLowerCase() : '';
+                    const name = supplierName ? String(supplierName).toLowerCase() : '';
+                    const recordId = String(record?.supplier_id || record?.supplierId || record?.id || '').toLowerCase();
+                    const recordName = String(record?.supplier_name || record?.supplierName || record?.company_name || '').toLowerCase();
+                    return (id && recordId === id) || (name && recordName === name);
+                };
+
+                const activeSupplierId = computed(() => {
+                    if (user.value?.role !== 'Supplier') return null;
+                    if (supplierAccessId.value && supplierAccessId.value !== '__new__') return supplierAccessId.value;
+                    return supplierProfile.value.supplier_id || user.value?.id || null;
+                });
+
+                const activeSupplierName = computed(() => {
+                    if (user.value?.role !== 'Supplier') return null;
+                    if (supplierProfile.value.company_name) return supplierProfile.value.company_name;
+                    return user.value?.name || null;
+                });
+
+                const supplierOrders = computed(() => {
+                    const supplierId = activeSupplierId.value;
+                    const supplierName = activeSupplierName.value;
+                    if (!supplierId && !supplierName) return [];
+                    return buyerOrders.value.filter(o => matchesSupplier(o, supplierId, supplierName));
+                });
+
+                const supplierNegotiations = computed(() => {
+                    const supplierId = activeSupplierId.value;
+                    const supplierName = activeSupplierName.value;
+                    if (!supplierId && !supplierName) return [];
+                    return negotiations.value.filter(n => matchesSupplier(n, supplierId, supplierName));
+                });
+
+                const visibleNegotiations = computed(() => (user.value?.role === 'Supplier' ? supplierNegotiations.value : negotiations.value));
+
+                const applySupplierSelection = (supplierId) => {
+                    if (!user.value || user.value.role !== 'Supplier') return;
+                    if (!supplierId) return;
+                    if (supplierId === '__new__') {
+                        supplierProfile.value = {
+                            ...supplierProfile.value,
+                            supplier_id: '',
+                            company_name: '',
+                            country: '',
+                            region: '',
+                            certificationsText: '',
+                            capabilitiesText: '',
+                            trust_score: 0.5,
+                            contact_email: loginEmail.value || supplierProfile.value.contact_email || '',
+                            negotiation_style: supplierProfile.value.negotiation_style || 'balanced'
+                        };
+
+                        user.value = { ...user.value, id: 'sup-new', name: 'New Supplier' };
+                        supplierProfileStatus.value = null;
+                        return;
+                    }
+                    const supplier = getSupplierById(supplierId);
+                    if (!supplier) return;
+                    supplierProfile.value = {
+                        ...supplierProfile.value,
+                        supplier_id: supplier.supplier_id,
+                        company_name: supplier.company_name || supplier.supplier_id,
+                        country: supplier.country || '',
+                        region: supplier.region || '',
+                        certificationsText: (supplier.certifications || []).join(', '),
+                        capabilitiesText: (supplier.capabilities || []).join(', '),
+                        trust_score: Number(supplier.trust_score ?? 0.5),
+                        contact_email: supplierProfile.value.contact_email || loginEmail.value || ''
+                    };
+
+                    user.value = { ...user.value, id: supplier.supplier_id, name: supplier.company_name || supplier.supplier_id };
+                };
+
+                const ensureSupplierSelection = () => {
+                    if (user.value?.role !== 'Supplier') return;
+                    if (!supplierAccessId.value) {
+                        supplierAccessId.value = suppliers.value.length ? (suppliers.value[0].supplier_id || suppliers.value[0].id) : '__new__';
+                    }
+                    applySupplierSelection(supplierAccessId.value);
+                };
+
+                const buildNegotiationTimeline = (transcript, meta, selected) => {
+                    const timeline = [];
+                    const supplierId = meta?.supplier_id || selected?.supplier_id;
+                    const supplierName = meta?.supplier_name || selected?.supplier_name || supplierId || 'Supplier';
+                    const buyerName = user.value?.role === 'Supplier'
+                        ? 'Buyer Agent'
+                        : (user.value?.name ? `${user.value.name} Buyer Agent` : 'Buyer Agent');
+
+
+                    const shortlist = Array.isArray(meta?.shortlist) ? meta.shortlist.map(normalizeQuote) : [];
+                    const chosenQuote = shortlist.find(q => q.supplier_id === supplierId) || null;
+                    if (chosenQuote?.unit_price !== null && chosenQuote?.unit_price !== undefined) {
+                        timeline.push({
+                            type: 'initial_quote',
+                            label: supplierName,
+                            role: 'seller',
+                            text: `Initial quote received: ${formatMoney(chosenQuote.unit_price, chosenQuote.currency)} per unit.`,
+                            offer: chosenQuote.unit_price
+                        });
+                    }
+
+                    if (meta?.open_offer !== undefined && meta?.open_offer !== null) {
+                        timeline.push({
+                            type: 'open_offer',
+                            label: buyerName,
+                            role: 'buyer',
+                            text: `Buyer open offer issued: ${formatMoney(meta.open_offer, 'EUR')} per unit.`,
+                            offer: meta.open_offer
+                        });
+                    }
+
+                    (transcript || []).forEach((m) => {
+                        const role = String(m.sender || '').toLowerCase() === 'supplier' ? 'seller'
+                            : String(m.sender || '').toLowerCase() === 'buyer' ? 'buyer' : 'system';
+                        const label = role === 'seller' ? supplierName : role === 'buyer' ? buyerName : 'System';
+                        timeline.push({
+                            type: m.type || 'message',
+                            label,
+                            role,
+                            text: m.text || m.message || '',
+                            offer: (m.offer === undefined ? m.price : m.offer),
+                            round: m.round,
+                            timestamp: m.timestamp
+                        });
+                    });
+
+                    if (meta?.status === 'accepted' && meta?.final_price !== undefined && meta?.final_price !== null) {
+                        timeline.push({
+                            type: 'final_agreement',
+                            label: 'System',
+                            role: 'system',
+                            text: `Final agreement accepted at ${formatMoney(meta.final_price, 'EUR')} per unit.`,
+                            offer: meta.final_price
+                        });
+                    }
+                    return timeline;
+                };
+
+                const computeSavingsData = ({ meta, selected, transcript }) => {
+                    const supplierId = meta?.supplier_id || selected?.supplier_id;
+                    const shortlist = Array.isArray(meta?.shortlist) ? meta.shortlist.map(normalizeQuote) : [];
+                    const chosenQuote = shortlist.find(q => q.supplier_id === supplierId) || null;
+
+                    const summary = selected?.summary || {};
+                    const initialQuote = summary.supplier_initial_ask ?? chosenQuote?.unit_price ?? meta?.open_offer ?? null;
+                    const finalPrice = meta?.final_price ?? selected?.final_price ?? summary.supplier_best_offer ?? null;
+                    const qty = meta?.quantity || 1;
+                    const rounds = summary.rounds_taken ?? meta?.current_round ?? selected?.rounds_taken ?? 0;
+                    const savings = (initialQuote !== null && finalPrice !== null) ? (initialQuote - finalPrice) * qty : null;
+                    const savingsPct = (initialQuote && finalPrice !== null) ? ((initialQuote - finalPrice) / initialQuote) * 100 : null;
+
+                    let reward = null;
+                    const rlMsg = (transcript || []).find(m => m.type === 'rl_update' || String(m.text || m.message || '').includes('reward='));
+                    if (rlMsg) {
+                        const match = String(rlMsg.text || rlMsg.message || '').match(/reward=([0-9.+-]+)/i);
+                        reward = match ? match[1] : null;
+                    }
+                    if (!reward && savingsPct !== null && Number.isFinite(savingsPct)) {
+                        reward = (savingsPct / 100).toFixed(2);
+                    }
+                    if (!reward && finalPrice !== null) {
+                        reward = '0.10';
+                    }
+
+                    return [
+                        { label: 'Initial Quote', value: initialQuote !== null ? formatMoney(initialQuote, 'EUR') : '—' },
+                        { label: 'Final Agreement', value: finalPrice !== null ? formatMoney(finalPrice, 'EUR') : '—', highlight: true },
+                        {
+                            label: 'Direct Savings',
+                            value: savings !== null ? `${formatMoney(savings, 'EUR')}${(savingsPct !== null && Number.isFinite(savingsPct)) ? ` (${savingsPct.toFixed(1)}%)` : ''}` : '—',
+                            highlight: true
+                        },
+                        { label: 'Rounds Negotiated', value: String(rounds ?? 0) },
+                        { label: 'RL-Inspired Reward', value: reward || '—', highlight: true }
+                    ];
+                };
+
+                const buildSelectionRationale = ({ meta, selected }) => {
+                    const supplierId = meta?.supplier_id || selected?.supplier_id;
+                    if (!supplierId) return [];
+                    const shortlist = Array.isArray(meta?.shortlist) ? meta.shortlist.map(normalizeQuote) : [];
+                    if (!shortlist.length) return [];
+
+                    const chosen = shortlist.find(q => q.supplier_id === supplierId);
+                    if (!chosen) return [];
+
+                    const byPrice = [...shortlist].filter(q => q.unit_price !== null && q.unit_price !== undefined).sort((a, b) => a.unit_price - b.unit_price);
+                    const byLead = [...shortlist].filter(q => q.lead_time_days !== null && q.lead_time_days !== undefined).sort((a, b) => a.lead_time_days - b.lead_time_days);
+
+                    const priceRank = byPrice.findIndex(q => q.supplier_id === supplierId) + 1;
+                    const leadRank = byLead.findIndex(q => q.supplier_id === supplierId) + 1;
+
+                    const supplier = getSupplierById(supplierId);
+                    const reasons = [
+                        `Selected supplier: ${chosen.supplier_name || supplierId}.`,
+                        (chosen.unit_price !== null ? `Unit price: ${formatMoney(chosen.unit_price, chosen.currency || 'EUR')} (rank ${priceRank} of ${byPrice.length}).` : null),
+                        (chosen.lead_time_days !== null ? `Lead time: ${chosen.lead_time_days} days (rank ${leadRank} of ${byLead.length}).` : null),
+                        (chosen.certifications && chosen.certifications.length ? `Certifications: ${chosen.certifications.join(', ')}.` : null),
+                        (supplier?.trust_score !== undefined ? `Trust score: ${Number(supplier.trust_score).toFixed(2)}.` : null),
+                        (supplier?.capabilities && supplier.capabilities.length ? `Capabilities: ${supplier.capabilities.join(', ')}.` : null),
+                        (chosen.rationale ? `Supplier rationale: ${chosen.rationale}` : null)
+                    ].filter(Boolean);
+
+                    return reasons;
+                };
+
+                const mapTranscriptToChat = (transcript, meta, selected) => {
+                    const supplierId = meta?.supplier_id || selected?.supplier_id;
+                    const supplierName = meta?.supplier_name || selected?.supplier_name || supplierId || 'Supplier';
+                    const buyerName = user.value?.role === 'Supplier'
+                        ? 'Buyer Agent'
+                        : (user.value?.name ? `${user.value.name} Buyer Agent` : 'Buyer Agent');
+
+                    return (transcript || []).map((m) => {
+                        const role = String(m.sender || '').toLowerCase() === 'supplier' ? 'seller'
+                            : String(m.sender || '').toLowerCase() === 'buyer' ? 'buyer' : 'system';
+                        const label = role === 'seller' ? supplierName : role === 'buyer' ? buyerName : 'System';
+                        const text = m.text || m.message || (m.type ? String(m.type).replace(/_/g, ' ') : '');
+                        return {
+                            role: role === 'system' ? 'buyer' : role,
+                            label,
+                            text,
+                            offer: (m.offer === undefined ? m.price : m.offer),
+                            type: m.type,
+                            round: m.round,
+                            timestamp: m.timestamp
+                        };
+                    });
+                };
+
+                const buildLogisticsTimeline = (order) => {
+                    const now = new Date();
+                    const steps = [
+                        { title: 'PO Signed • Order Confirmed', offsetHours: -96 },
+                        { title: 'Packed at Origin Facility', offsetHours: -72 },
+                        { title: 'Departed HUB • Air Freight', offsetHours: -48 },
+                        { title: 'In Transit • Overflight', offsetHours: -18 },
+                        { title: 'Customs Clearance', offsetHours: 12 },
+                        { title: 'Out for Delivery', offsetHours: 48 },
+                        { title: 'Delivered', offsetHours: 72 }
+                    ];
+                    return steps.map((s, idx) => {
+                        const ts = new Date(now.getTime() + s.offsetHours * 3600 * 1000);
+                        const time = ts.toLocaleString([], { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                        return {
+                            title: s.title,
+                            time,
+                            done: idx < 3,
+                            active: idx === 3
+                        };
+                    });
+                };
+
+                const buildLogisticsSummary = (order) => {
+                    const locations = ['Mid-Atlantic', 'Frankfurt Hub', "Chicago O'Hare", 'Dubai Hub', 'Lisbon Airspace'];
+
+                    const carriers = ['DHL Express', 'FedEx Air', 'UPS Worldwide', 'Maersk Air', 'Lufthansa Cargo'];
+                    const pick = (arr, seed) => arr[seed % arr.length];
+                    const seed = order?.po_id ? order.po_id.length : 1;
+                    return {
+                        current_location: pick(locations, seed),
+                        altitude_ft: 34000 + (seed * 120),
+                        carrier: `${pick(carriers, seed)} • NX${700 + seed}`
+                    };
+                };
+
+                const trustAnalytics = computed(() => {
+                    const order = selectedOrder.value;
+                    const supplier = order ? getSupplierById(order.supplier_id) : null;
+                    const base = Number(supplier?.trust_score ?? 0.82);
+                    const gain = 0.04;
+                    const projected = Math.min(base + gain, 0.99);
+                    return {
+                        projectedGain: `+${gain.toFixed(2)} on delivery`,
+                        partnerName: supplier?.company_name || supplier?.name || order?.supplier_name || 'Preferred Supplier',
+                        scoreLine: `${base.toFixed(2)} → ${projected.toFixed(2)}`
+                    };
+                });
+
+                const computeStats = () => {
+                    const savingsVals = buyerOrders.value
+                        .map(o => Number(o.savings_pct))
+                        .filter(n => Number.isFinite(n));
+                    const avgSavings = savingsVals.length ? `${(savingsVals.reduce((a, b) => a + b, 0) / savingsVals.length).toFixed(1)}%` : '—';
+                    const pipeline = buyerOrders.value
+                        .map(o => Number(o.total_amount))
+                        .filter(n => Number.isFinite(n))
+                        .reduce((a, b) => a + b, 0);
+                    const pipelineValue = pipeline ? formatMoney(pipeline, 'EUR') : '—';
+                    stats.value = stats.value.map((s, idx) => {
+                        if (idx === 0) return { ...s, value: String(suppliers.value.length) };
+                        if (idx === 1) return { ...s, value: String(buyerOrders.value.length) };
+                        if (idx === 2) return { ...s, value: avgSavings };
+                        if (idx === 3) return { ...s, value: pipelineValue };
+                        return s;
+                    });
+                };
+
+                const addCompletedDeal = (negotiation) => {
+
+                    if (!negotiation?.supplier_id) return;
+                    const now = new Date();
+                    const eta = new Date(now.getTime() + 5 * 24 * 3600 * 1000);
+                    const delivery_by = eta.toLocaleDateString([], { month: 'short', day: '2-digit' });
+                    const logistics = buildLogisticsSummary(negotiation);
+                    const order = {
+                        po_id: `PO-${String(negotiation.session_id || negotiation.negotiation_id || negotiation.supplier_id).slice(-6).toUpperCase()}`,
+                        item_summary: negotiation.product || negotiation.product_summary || 'Autonomous Procurement',
+                        supplier_id: negotiation.supplier_id,
+                        supplier_name: negotiation.supplier_name || negotiation.supplier_id,
+                        status: 'In Transit',
+                        currency: negotiation.currency || 'EUR',
+                        total_amount: negotiation.final_price ? Number(negotiation.final_price) * (negotiation.quantity || 1) : null,
+                        savings_pct: negotiation.savings_pct ?? null,
+                        delivery_by,
+                        current_location: logistics.current_location,
+                        altitude_ft: logistics.altitude_ft,
+                        carrier: logistics.carrier,
+                        timeline: buildLogisticsTimeline(negotiation)
+                    };
+
+                    const exists = buyerOrders.value.find(o => o.po_id === order.po_id);
+                    if (!exists) {
+                        buyerOrders.value = [order, ...buyerOrders.value];
+                        recentOrders.value = buyerOrders.value.slice(0, 4).map(o => ({
+                            id: o.po_id,
+                            role: 'Buyer',
+                            item: o.item_summary || o.po_id,
+                            date: `ETA ${o.delivery_by}`,
+                            partner: o.supplier_name || o.supplier_id,
+                            amount: o.total_amount !== null ? formatMoney(o.total_amount, o.currency) : '—',
+                            status: o.status
+                        }));
+                        computeStats();
+                    }
+                };
+
+
+
+                const selectedNegotiation = computed(() => {
+                    const pool = visibleNegotiations.value;
+                    const bySession = selectedNegotiationId.value ? pool.find(n => n.session_id === selectedNegotiationId.value) : null;
+                    if (bySession) return bySession;
+                    const bySupplier = selectedSupplierId.value ? pool.find(n => n.supplier_id === selectedSupplierId.value) : null;
+                    const fallback = user.value?.role === 'Supplier' ? null : winnerDeal.value;
+                    return bySupplier || fallback || pool[0] || null;
+                });
+
+
+                const buyerDisplayName = computed(() => (user.value?.role === 'Supplier'
+                    ? 'Buyer Agent'
+                    : (user.value?.name || 'Buyer Agent')));
+
+                const supplierDisplayName = computed(() => {
+                    if (user.value?.role === 'Supplier') return user.value?.name || 'Supplier';
+                    return negotiationMeta.value?.supplier_name || selectedNegotiation.value?.supplier_name || selectedNegotiation.value?.supplier_id || 'Supplier';
+                });
+
+                const selectNegotiation = (negotiation) => {
+                    if (!negotiation) return;
+                    if (typeof negotiation === 'string') {
+                        selectedNegotiationId.value = negotiation;
+                        return;
+                    }
+                    selectedNegotiationId.value = negotiation.session_id || null;
+                    if (negotiation.supplier_id) {
+                        selectedSupplierId.value = negotiation.supplier_id;
+                    }
+                };
+
+
+                watch(supplierAccessId, (nextId) => {
+                    if (user.value?.role !== 'Supplier') return;
+                    if (!nextId) return;
+                    applySupplierSelection(nextId);
+                });
+
+
+                watch([selectedNegotiation, negotiationMeta, suppliers], ([n, meta]) => {
+                    const t = (n && n.transcript) ? n.transcript : [];
+                    negotiationMessages.value = mapTranscriptToChat(t, meta, n);
+                    negotiationTimeline.value = buildNegotiationTimeline(t, meta, n);
+                    savingsData.value = computeSavingsData({ meta, selected: n, transcript: t });
+                    selectionRationale.value = buildSelectionRationale({ meta, selected: n });
+                }, { immediate: true });
+
+
+
+                const selectedOrder = computed(() => {
+                    const pool = user.value?.role === 'Supplier' ? supplierOrders.value : buyerOrders.value;
+                    const byId = pool.find(o => o.po_id === selectedOrderId.value);
+                    return byId || pool[0] || null;
+                });
+
+
+                const selectedOrderContractText = computed(() => {
+                    try {
+                        if (contractDraftText.value) return contractDraftText.value;
+                        return (selectedOrderDetail.value && selectedOrderDetail.value.order && selectedOrderDetail.value.order.document_text) ? selectedOrderDetail.value.order.document_text : '';
+                    } catch (_) {
+                        return '';
+                    }
+                });
+
+
+                const selectOrder = (poId) => {
+                    selectedOrderId.value = poId;
+                    loadOrderDetail(poId).catch(() => {});
+                };
+
+
+
+
+                const API_BASE = window.NEXUS_API_BASE || '';
+
+                const fetchJson = async (url) => {
+                    const res = await fetch(`${API_BASE}${url}`);
+                    if (!res.ok) {
+                        const text = await res.text();
+                        throw new Error(`${res.status} ${res.statusText}: ${text}`);
+                    }
+                    return await res.json();
+                };
+
+                const postJson = async (url, body) => {
+                    const res = await fetch(`${API_BASE}${url}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body || {})
+                    });
+                    if (!res.ok) {
+                        const text = await res.text();
+                        throw new Error(`${res.status} ${res.statusText}: ${text}`);
+                    }
+                    return await res.json();
+                };
+
+
+
+
+
+
+
+
+                const loadNegotiationMeta = async (negotiationId) => {
+                    negotiationMeta.value = null;
+                    selectedSuppliers.value = [];
+                    if (!negotiationId) return;
+                    try {
+                        const meta = await fetchJson(`/negotiations/${encodeURIComponent(negotiationId)}`);
+                        if (meta && !meta.error) {
+                            const shortlist = Array.isArray(meta?.shortlist) ? meta.shortlist.map(normalizeQuote) : [];
+                            negotiationMeta.value = { ...meta, shortlist };
+                            selectedSuppliers.value = shortlist.map((q) => ({
+                                supplier_id: q.supplier_id,
+                                supplier_name: q.supplier_name,
+                                unit_price: q.unit_price,
+                                total_price: q.total_price,
+                                lead_time_days: q.lead_time_days,
+                                certifications: q.certifications,
+                                rationale: q.rationale
+                            }));
+                        } else {
+                            negotiationMeta.value = null;
+                            selectedSuppliers.value = [];
+                        }
+                    } catch (e) {
+                        negotiationMeta.value = null;
+                        selectedSuppliers.value = [];
+                    }
+                };
+
+
+                const loadContractDraft = async (negotiationId) => {
+                    contractDraftText.value = '';
+                    if (!negotiationId) return;
+                    try {
+                        const res = await fetch(`${API_BASE}/negotiations/${encodeURIComponent(negotiationId)}/contract`);
+                        if (!res.ok) return;
+                        contractDraftText.value = await res.text();
+                    } catch (e) {
+                        contractDraftText.value = '';
+                    }
+                };
+
+                const loadOrderDetail = async (poId) => {
+                    selectedOrderDetail.value = null;
+                };
+
+
+                const loadBuyerOrders = async () => {
+                    buyerOrders.value = [];
+                    recentOrders.value = [];
+                };
+
+
+
+                const loadRegistryAgents = async () => {
+                    try {
+                        await fetchJson('/health');
+                    } catch (e) {
+                        // ignore health errors
+                    }
+                };
+
+
+                const loadSuppliers = async () => {
+                    try {
+                        const data = await fetchJson('/suppliers');
+                        const list = Array.isArray(data) ? data : (Array.isArray(data?.suppliers) ? data.suppliers : []);
+                        suppliers.value = list.map(normalizeSupplier);
+                        if (user.value?.role === 'Supplier') ensureSupplierSelection();
+                    } catch (e) {
+                        suppliers.value = [];
+                        if (user.value?.role === 'Supplier') ensureSupplierSelection();
+                    }
+                };
+
+
+
+
+
+                const loadSupplierCatalog = async () => {
+                    supplierCatalog.value = [];
+                };
+
+
+                const refreshDashboard = async () => {
+                    if (!user.value) return;
+                    await Promise.allSettled([loadRegistryAgents(), loadSuppliers()]);
+                    computeStats();
+                };
+
+
+
+
+
+
+                // Methods
+                const moveCursor = (e) => {
+                    cursorX.value = e.clientX;
+                    cursorY.value = e.clientY;
+                    // Lag for the ring
+                    setTimeout(() => {
+                        ringX.value = e.clientX;
+                        ringY.value = e.clientY;
+                    }, 50);
+                };
+
+                const signIn = (role) => {
+                    const id = role === 'Buyer' ? 'buyer-nexus' : 'supplier-portal';
+                    const name = role === 'Buyer' ? 'ABC Industrial' : 'Supplier Portal';
+                    user.value = { name, role: role, id };
+                    if (role === 'Supplier') {
+                        try {
+                            if (!supplierAccessId.value) {
+                                supplierAccessId.value = suppliers.value.length ? (suppliers.value[0].supplier_id || suppliers.value[0].id) : '__new__';
+                            }
+                            applySupplierSelection(supplierAccessId.value);
+                            activeTab.value = 'catalog';
+                        } catch (e) {
+                            console.error('Supplier sign-in failed:', e);
+                            activeTab.value = 'home';
+                        }
+                    } else {
+                        activeTab.value = 'home';
+                    }
+
+                    nextTick(() => lucide.createIcons());
+                    refreshDashboard().catch(() => {});
+                };
+
+
+
+                const handleSignIn = () => {
+                    loading.value = true;
+                    setTimeout(() => {
+                        signIn('Buyer');
+                        loading.value = false;
+                    }, 1500);
+                };
+
+                const addLog = (agent, to, msg) => {
+                    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    logs.value.push({ time, agent, to, msg });
+                    nextTick(() => {
+                        const container = document.querySelector('.terminal-bg');
+                        if (container) container.scrollTop = container.scrollHeight;
+                    });
+                };
+
+                const startProcurement = async () => {
+                    activeTab.value = 'live';
+                    workflowActive.value = true;
+                    logs.value = [];
+                    procurementNotice.value = null;
+                    selectedSuppliers.value = [];
+
+                    negotiationMeta.value = null;
+                    contractDraftText.value = '';
+                    winnerDeal.value = null;
+                    selectedSupplierId.value = null;
+                    selectedNegotiationId.value = null;
+                    negotiationMessages.value = [];
+
+
+                    savingsData.value = [
+                        { label: 'Initial Quote', value: '—' },
+                        { label: 'Final Agreement', value: '—', highlight: true },
+                        { label: 'Direct Savings', value: '—', highlight: true },
+                        { label: 'Rounds Negotiated', value: '0' },
+                        { label: 'RL-Inspired Reward', value: '—', highlight: true }
+                    ];
+
+                    workflowSteps.value.forEach(s => {
+                        s.status = 'pending';
+                        if (s.quotes) s.quotes = [];
+                    });
+
+                    const query = procurementPrompt.value || '500 temperature sensors, budget €2000, deliver to Munich in 10 days';
+
+                    try {
+                        addLog('BuyerAgent', 'BACKEND', 'POST /procure');
+                        const result = await postJson('/procure', { request: query });
+                        addLog('BuyerAgent', 'BACKEND', JSON.stringify(result, null, 2));
+
+                        if (result?.negotiation_id) {
+                            const negotiationId = result.negotiation_id;
+                            const transcriptPromise = fetchJson(`/negotiations/${encodeURIComponent(negotiationId)}/transcript`);
+                            const metaPromise = loadNegotiationMeta(negotiationId);
+                            const contractPromise = loadContractDraft(negotiationId);
+                            const t = await transcriptPromise;
+                            await Promise.allSettled([metaPromise, contractPromise]);
+                            const transcript = Array.isArray(t?.transcript) ? t.transcript : [];
+                            const summary = t?.summary || {};
+
+                            const normalizedTranscript = transcript.map(m => ({
+                                sender: m.sender,
+                                type: m.type,
+                                message: m.message,
+                                price: m.price,
+                                round: m.round,
+                                timestamp: m.timestamp
+                            }));
+
+                            const newNegotiation = {
+                                supplier_id: result.supplier_id,
+                                supplier_name: result.supplier_name || (negotiationMeta.value && negotiationMeta.value.supplier_name) || result.supplier_id,
+                                session_id: negotiationId,
+                                status: result?.success ? 'accepted' : 'failed',
+                                initial_price: summary?.supplier_initial_ask ?? null,
+                                final_price: result?.final_price ?? negotiationMeta.value?.final_price ?? null,
+                                currency: 'EUR',
+                                rounds_taken: summary?.rounds_taken ?? result?.rounds_taken ?? 0,
+                                summary,
+                                transcript: normalizedTranscript
+                            };
+                            const existingIdx = negotiations.value.findIndex(n => n.session_id === newNegotiation.session_id);
+                            if (existingIdx >= 0) {
+                                negotiations.value.splice(existingIdx, 1, newNegotiation);
+                            } else {
+                                negotiations.value = [newNegotiation, ...negotiations.value];
+                            }
+                            selectedNegotiationId.value = newNegotiation.session_id;
+
+
+                            selectedSupplierId.value = result.supplier_id;
+                            const currentNegotiation = negotiations.value[0];
+                            negotiationMessages.value = mapTranscriptToChat(normalizedTranscript, negotiationMeta.value, currentNegotiation);
+                            negotiationTimeline.value = buildNegotiationTimeline(normalizedTranscript, negotiationMeta.value, currentNegotiation);
+                            savingsData.value = computeSavingsData({ meta: negotiationMeta.value, selected: currentNegotiation, transcript: normalizedTranscript });
+                            selectionRationale.value = buildSelectionRationale({ meta: negotiationMeta.value, selected: currentNegotiation });
+                        }
+
+
+                        if (result?.success) {
+                            const initialAsk = negotiations.value[0]?.initial_price ?? negotiationMeta.value?.open_offer ?? null;
+                            const finalPrice = result.final_price ?? negotiationMeta.value?.final_price ?? null;
+                            const savingsPct = (initialAsk && finalPrice !== null) ? (((initialAsk - finalPrice) / initialAsk) * 100).toFixed(1) : '—';
+                            winnerDeal.value = {
+                                final_price: finalPrice,
+                                currency: 'EUR',
+                                payment_terms: 'Net-30',
+                                savings_pct: savingsPct
+                            };
+                            addCompletedDeal({
+                                session_id: result.negotiation_id,
+                                supplier_id: result.supplier_id,
+                                supplier_name: result.supplier_name || negotiationMeta.value?.supplier_name,
+                                final_price: finalPrice,
+                                currency: 'EUR',
+                                quantity: negotiationMeta.value?.quantity,
+                                savings_pct: Number.isFinite(Number(savingsPct)) ? Number(savingsPct) : null,
+                                product: negotiationMeta.value?.product || procurementPrompt.value || 'Autonomous Procurement'
+                            });
+
+                        }
+
+
+                        if (!result?.success) {
+                            const reason = result?.failure_reason ? ` (${result.failure_reason})` : '';
+                            procurementNotice.value = `Item not available${reason}.`;
+                            savingsData.value = computeSavingsData({ meta: negotiationMeta.value, selected: negotiations.value[0] || null, transcript: negotiations.value[0]?.transcript || [] });
+                        }
+
+
+
+                        workflowSteps.value.forEach(s => {
+                            if (s.status === 'pending' || s.status === 'active') s.status = 'done';
+                        });
+
+                        workflowActive.value = false;
+                        refreshDashboard().catch(() => {});
+                        nextTick(() => lucide.createIcons());
+                    } catch (e) {
+                        addLog('PLATFORM', 'BUYER_UI', e?.message || String(e));
+                        workflowActive.value = false;
+                    }
+                };
+
+
+                const _csvList = (text) => {
+                    if (!text) return [];
+                    return String(text)
+                        .split(',')
+                        .map(s => s.trim())
+                        .filter(Boolean);
+                };
+
+                const registerSupplier = async () => {
+                    const trimmedId = (supplierProfile.value.supplier_id || '').trim();
+                    const supplierId = trimmedId || `sup-${Date.now().toString().slice(-6)}`;
+                    const certifications = _csvList(supplierProfile.value.certificationsText);
+                    const capabilities = _csvList(supplierProfile.value.capabilitiesText);
+                    const payload = {
+                        supplier_id: supplierId,
+                        company_name: (supplierProfile.value.company_name || '').trim() || supplierId,
+                        country: (supplierProfile.value.country || '').trim() || 'Unknown',
+                        region: (supplierProfile.value.region || '').trim() || 'Global',
+                        trust_score: Number(supplierProfile.value.trust_score ?? 0.5),
+                        certifications,
+                        capabilities
+                    };
+
+                    try {
+                        const saved = await postJson('/suppliers', payload);
+                        const normalized = normalizeSupplier(saved);
+                        const idx = suppliers.value.findIndex(s => s.supplier_id === supplierId || s.id === supplierId);
+                        if (idx >= 0) {
+                            suppliers.value.splice(idx, 1, { ...suppliers.value[idx], ...normalized });
+                        } else {
+                            suppliers.value = [{ ...normalized }, ...suppliers.value];
+                        }
+                        supplierProfileStatus.value = { ok: true, msg: 'Supplier saved to backend registry.' };
+
+                        supplierProfile.value = {
+                            ...supplierProfile.value,
+                            supplier_id: normalized.supplier_id,
+                            company_name: normalized.company_name,
+                            country: normalized.country,
+                            region: normalized.region,
+                            certificationsText: certifications.join(', '),
+                            capabilitiesText: capabilities.join(', '),
+                            trust_score: normalized.trust_score
+                        };
+                        supplierAccessId.value = normalized.supplier_id;
+                        applySupplierSelection(normalized.supplier_id);
+                        if (workflowActive.value) {
+                            const exists = selectedSuppliers.value.some(s => (s.supplier_id || s.id) === normalized.supplier_id);
+                            if (!exists) {
+                                selectedSuppliers.value = [{
+                                    supplier_id: normalized.supplier_id,
+                                    supplier_name: normalized.company_name || normalized.supplier_id,
+                                    unit_price: null,
+                                    total_price: null,
+                                    lead_time_days: null,
+                                    certifications: normalized.certifications || [],
+                                    rationale: 'Newly registered supplier.'
+                                }, ...selectedSuppliers.value];
+                            }
+                        }
+                        await loadSuppliers();
+                        computeStats();
+
+                    } catch (e) {
+                        supplierProfileStatus.value = { ok: false, msg: e?.message || 'Failed to save supplier to backend.' };
+                    }
+                };
+
+
+
+
+                const openAddProduct = () => {
+                    addProductStatus.value = null;
+                    showAddProduct.value = true;
+                };
+
+                const submitAddProduct = async () => {
+                    addProductStatus.value = { ok: false, msg: 'Catalog updates are not supported in backend-new.' };
+                };
+
+
+                const statusClass = (status) => {
+
+                    const map = {
+                        'In Transit': 'bg-[#b8f0ff]/20 text-[#0C447C]',
+                        'Negotiating': 'bg-[#ff7eb3]/20 text-[#633806]',
+                        'Completed': 'bg-[#c8ff00]/20 text-[#3B6D11]',
+                        'Delivered': 'bg-[#c8ff00]/20 text-[#3B6D11]'
+                    };
+                    return map[status] || 'bg-gray-100 text-gray-500';
+                };
+
+                const workflowStatusClass = (status) => {
+                    if (status === 'done') return 'bg-[#c8ff00] text-[#2d2a4a]';
+                    if (status === 'active') return 'bg-[#ff7eb3] text-white animate-pulse shadow-[0_0_15px_var(--accent-pink)]';
+                    return 'bg-[#2d2a4a]/5 text-[#2d2a4a]/20';
+                };
+
+                onMounted(() => {
+                    lucide.createIcons();
+                    Promise.allSettled([loadRegistryAgents(), loadSuppliers()]).catch(() => {});
+                });
+
+
+                return {
+                    user, activeTab, isHovered, loading, loginEmail, loginPass,
+                    cursorX, cursorY, ringX, ringY,
+                    procurementPrompt, procurementNotice, workflowActive, logs, workflowSteps, chips, procurementOptions,
+
+                    stats, buyerOrders, selectedOrder, selectedOrderDetail, selectedOrderContractText, selectOrder, recentOrders, supplierCatalog,
+
+                    suppliers, supplierAccessId, regionOptions, activeAgents, activeAgentsCount,
+                    showAddProduct, supplierProfile, supplierProfileStatus, isNewSupplier, addProductForm, addProductStatus,
+                    negotiations, selectedSuppliers, negotiationMeta, contractDraftText, winnerDeal, selectedSupplierId, selectedNegotiationId, selectedNegotiation, selectNegotiation,
+                    supplierOrders, visibleNegotiations, buyerDisplayName, supplierDisplayName,
+                    negotiationMessages, negotiationTimeline, selectionRationale, savingsData, trackingMilestones, risks, trustAnalytics,
+
+
+
+                    currentTabLabel, availableTabs,
+                    formatMoney,
+                    moveCursor, signIn, handleSignIn, startProcurement, statusClass, workflowStatusClass,
+                    registerSupplier, openAddProduct, submitAddProduct
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

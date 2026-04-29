@@ -1,0 +1,30 @@
+{
+  "suppliers": [
+    {
+      "supplier_id": "supplier-custom-001",
+      "company_name": "Your Company Name Ltd",
+      "country": "Country Name",
+      "region": "Region (EU/Asia/US/North America/etc)",
+      "certifications": [
+        "CE",
+        "ISO9001"
+      ],
+      "contact_email": "sales@yourcompany.com",
+      "trust_score": 0.75,
+      "negotiation_style": "balanced",
+      "products": [
+        {
+          "product_id": "prod-custom-001",
+          "product_name": "Your Product Name",
+          "category": "product_category",
+          "unit_price": 10.00,
+          "stock_quantity": 1000,
+          "lead_time_days": 7,
+          "certifications_required": [
+            "CE"
+          ]
+        }
+      ]
+    }
+  ]
+}
