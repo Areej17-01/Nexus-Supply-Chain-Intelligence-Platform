@@ -1,1 +1,0 @@
-# Supplier Quote Agent Module

@@ -118,8 +118,34 @@ def upsert_supplier(payload: SupplierUpsert):
         except Exception:
             return [v.strip() for v in str(value).split(',') if v.strip()]
 
-    def _map_for_caps(caps, default_price):
-        return {**{c: default_price for c in caps}, "default": default_price}
+    def _normalize_map(value):
+        if not value:
+            return {}
+        if isinstance(value, dict):
+            return value
+        try:
+            parsed = json.loads(value)
+            return parsed if isinstance(parsed, dict) else {}
+        except Exception:
+            return {}
+
+    def _to_float(value, fallback):
+        try:
+            n = float(value)
+            return n if n > 0 else fallback
+        except Exception:
+            return fallback
+
+    def _to_discount(value, fallback):
+        try:
+            n = float(value)
+            if n < 0:
+                return 0.0
+            if n > 95:
+                return 95.0
+            return n
+        except Exception:
+            return fallback
 
     caps = _normalize_list(payload.capabilities)
     certs = _normalize_list(payload.certifications)
@@ -130,10 +156,28 @@ def upsert_supplier(payload: SupplierUpsert):
     trust_score = payload.trust_score if payload.trust_score is not None else 0.75
     lead_time_days = payload.lead_time_days if payload.lead_time_days is not None else 14
 
+    input_base_map = _normalize_map(payload.base_price_map)
+    input_discount_map = _normalize_map(payload.discount_percent_map)
+
+    if not caps and input_base_map:
+        caps = [k for k in input_base_map.keys() if k and k != "default"]
+
+    base_price_map = {}
+    price_floor_map = {}
+    for cap in caps:
+        base_price = round(_to_float(input_base_map.get(cap, input_base_map.get("default", 5.0)), 5.0), 2)
+        discount_pct = _to_discount(input_discount_map.get(cap, input_discount_map.get("default", 10.0)), 10.0)
+        floor_price = round(max(base_price * (1 - (discount_pct / 100.0)), 0.01), 2)
+        base_price_map[cap] = base_price
+        price_floor_map[cap] = floor_price
+
+    default_base = round(_to_float(input_base_map.get("default", 5.0), 5.0), 2)
+    default_discount = _to_discount(input_discount_map.get("default", 10.0), 10.0)
+    base_price_map["default"] = default_base
+    price_floor_map["default"] = round(max(default_base * (1 - (default_discount / 100.0)), 0.01), 2)
+
     with get_db_session() as db:
         existing = db.query(Supplier).filter(Supplier.id == supplier_id).first()
-        base_price_map = _map_for_caps(caps, 5.0)
-        price_floor_map = _map_for_caps(caps, 4.5)
 
         if existing:
             existing.name = company_name
@@ -144,10 +188,8 @@ def upsert_supplier(payload: SupplierUpsert):
             existing.certifications = json.dumps(certs)
             existing.trust_score = trust_score
             existing.lead_time_days = lead_time_days
-            if not existing.base_price_map:
-                existing.base_price_map = json.dumps(base_price_map)
-            if not existing.price_floor_map:
-                existing.price_floor_map = json.dumps(price_floor_map)
+            existing.base_price_map = json.dumps(base_price_map)
+            existing.price_floor_map = json.dumps(price_floor_map)
             db.add(existing)
             db.commit()
             db.refresh(existing)
@@ -180,6 +222,9 @@ def upsert_supplier(payload: SupplierUpsert):
         "certifications": certs,
         "trust_score": supplier.trust_score,
         "fit_score": supplier.fit_score,
+        "lead_time_days": supplier.lead_time_days,
+        "base_price_map": base_price_map,
+        "price_floor_map": price_floor_map,
         "total_deals": supplier.total_deals,
         "successful_deals": supplier.successful_deals,
     }
@@ -198,6 +243,17 @@ def list_suppliers():
         except Exception:
             return [v.strip() for v in str(value).split(',') if v.strip()]
 
+    def _parse_map(value):
+        if isinstance(value, dict):
+            return value
+        if not value:
+            return {}
+        try:
+            parsed = json.loads(value)
+            return parsed if isinstance(parsed, dict) else {}
+        except Exception:
+            return {}
+
     with get_db_session() as db:
         suppliers = db.query(Supplier).all()
         return [
@@ -210,6 +266,9 @@ def list_suppliers():
                 "certifications": _parse_list(s.certifications),
                 "trust_score": s.trust_score,
                 "fit_score": s.fit_score,
+                "lead_time_days": s.lead_time_days,
+                "base_price_map": _parse_map(s.base_price_map),
+                "price_floor_map": _parse_map(s.price_floor_map),
                 "total_deals": s.total_deals,
                 "successful_deals": s.successful_deals,
             }

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Literal, Optional
+from typing import Dict, List, Literal, Optional
 
 from pydantic import BaseModel
 
@@ -114,3 +114,5 @@ class SupplierUpsert(BaseModel):
     certifications: List[str] = []
     trust_score: Optional[float] = None
     lead_time_days: Optional[int] = None
+    base_price_map: Optional[Dict[str, float]] = None
+    discount_percent_map: Optional[Dict[str, float]] = None

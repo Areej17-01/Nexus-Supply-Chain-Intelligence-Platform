@@ -1,4 +1,4 @@
- a<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -852,8 +852,34 @@
                                             <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Trust Score (0–1)</label>
                                             <input v-model.number="supplierProfile.trust_score" type="number" min="0" max="1" step="0.01" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" />
                                         </div>
-                                        <div class="flex items-end pb-1">
-                                            <p class="text-[9px] text-[#2d2a4a]/30 font-mono leading-relaxed">Once saved, buyers' procurement runs will see you as an eligible supplier.</p>
+                                        <div>
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Lead Time (days)</label>
+                                            <input v-model.number="supplierProfile.lead_time_days" type="number" min="1" step="1" class="w-full bg-[#2d2a4a]/5 border-2 border-[#2d2a4a]/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff7eb3]/30" />
+                                        </div>
+
+                                        <div class="md:col-span-2 mt-2">
+                                            <label class="block text-[10px] text-[#2d2a4a]/40 uppercase tracking-widest font-mono mb-2">Product Pricing + Max Discount</label>
+                                            <div v-if="!supplierProfile.selectedCapabilities.length" class="text-[10px] text-[#2d2a4a]/35 font-mono">Select at least one capability above to configure product prices and discounts.</div>
+                                            <div v-else class="space-y-2">
+                                                <div v-for="cap in supplierProfile.selectedCapabilities" :key="`price-${cap}`" class="grid grid-cols-12 gap-2 items-center p-3 rounded-xl bg-[#2d2a4a]/5 border border-[#2d2a4a]/10">
+                                                    <div class="col-span-12 md:col-span-4 text-[10px] font-bold uppercase tracking-wider font-mono text-[#2d2a4a]/70">{{ cap }}</div>
+                                                    <div class="col-span-6 md:col-span-4">
+                                                        <label class="block text-[9px] text-[#2d2a4a]/35 font-mono mb-1 uppercase">Base Price</label>
+                                                        <input v-model.number="supplierProfile.productPricing[cap].base_price" type="number" min="0.01" step="0.01" class="w-full bg-white border border-[#2d2a4a]/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#ff7eb3]/30" />
+                                                    </div>
+                                                    <div class="col-span-6 md:col-span-4">
+                                                        <label class="block text-[9px] text-[#2d2a4a]/35 font-mono mb-1 uppercase">Max Discount %</label>
+                                                        <input v-model.number="supplierProfile.productPricing[cap].discount_pct" type="number" min="0" max="95" step="0.1" class="w-full bg-white border border-[#2d2a4a]/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-[#ff7eb3]/30" />
+                                                    </div>
+                                                    <div class="col-span-12 text-[10px] font-mono text-[#3B6D11]">
+                                                        Floor price: {{ formatMoney((Number(supplierProfile.productPricing[cap].base_price || 0) * (1 - (Number(supplierProfile.productPricing[cap].discount_pct || 0) / 100))), 'EUR') }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="md:col-span-2 flex items-end pb-1">
+                                            <p class="text-[9px] text-[#2d2a4a]/30 font-mono leading-relaxed">You now register supplier profile + product pricing in one save. Floor price is computed from base price × (1 − discount%).</p>
                                         </div>
                                     </div>
 
@@ -1120,10 +1146,30 @@
                 const capabilityOptions = ['sensors', 'motors', 'cables', 'connectors', 'displays', 'batteries', 'other'];
                 const certificationOptions = ['CE', 'ISO-9001', 'ISO-14001', 'UL', 'ITAR', 'KS', 'JIS', 'RoHS'];
 
+                const ensureCapabilityPricing = (caps, baseMap = {}, floorMap = {}) => {
+                    const nextPricing = { ...(supplierProfile.value.productPricing || {}) };
+                    (caps || []).forEach((cap) => {
+                        if (!nextPricing[cap]) {
+                            const base = Number(baseMap?.[cap] ?? baseMap?.default ?? 5);
+                            const floor = Number(floorMap?.[cap] ?? floorMap?.default ?? (base * 0.9));
+                            const discount = base > 0 ? Math.max(0, Math.min(95, ((base - floor) / base) * 100)) : 10;
+                            nextPricing[cap] = {
+                                base_price: Number.isFinite(base) && base > 0 ? Number(base.toFixed(2)) : 5,
+                                discount_pct: Number.isFinite(discount) ? Number(discount.toFixed(1)) : 10
+                            };
+                        }
+                    });
+                    Object.keys(nextPricing).forEach((k) => {
+                        if (!(caps || []).includes(k)) delete nextPricing[k];
+                    });
+                    supplierProfile.value.productPricing = nextPricing;
+                };
+
                 const toggleCapability = (cap) => {
                     const idx = supplierProfile.value.selectedCapabilities.indexOf(cap);
                     if (idx >= 0) supplierProfile.value.selectedCapabilities.splice(idx, 1);
                     else supplierProfile.value.selectedCapabilities.push(cap);
+                    ensureCapabilityPricing(supplierProfile.value.selectedCapabilities);
                 };
 
                 const toggleCertification = (cert) => {
@@ -1153,8 +1199,10 @@
                     capabilitiesText: '',
                     selectedCapabilities: [],
                     selectedCertifications: [],
+                    productPricing: {},
                     contact_email: '',
                     trust_score: 0.5,
+                    lead_time_days: 14,
                     negotiation_style: 'balanced'
                 });
 
@@ -1264,6 +1312,22 @@
                     return [];
                 };
 
+                const parseMap = (val) => {
+                    if (!val) return {};
+                    if (typeof val === 'object' && !Array.isArray(val)) return val;
+                    if (typeof val === 'string') {
+                        const trimmed = val.trim();
+                        if (!trimmed) return {};
+                        try {
+                            const parsed = JSON.parse(trimmed);
+                            return (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};
+                        } catch (_) {
+                            return {};
+                        }
+                    }
+                    return {};
+                };
+
                 const normalizeSupplier = (s) => {
                     const certifications = parseList(s.certifications || s.certs || s.certification_list);
                     const capabilities = parseList(s.capabilities || s.categories);
@@ -1273,6 +1337,9 @@
                         country: s.country || s.country_code || s.location || '—',
                         region: s.region || s.region_code || '—',
                         trust_score: Number(s.trust_score ?? s.trustScore ?? s.score ?? 0),
+                        lead_time_days: Number(s.lead_time_days ?? s.leadTimeDays ?? 14),
+                        base_price_map: parseMap(s.base_price_map || s.basePriceMap),
+                        price_floor_map: parseMap(s.price_floor_map || s.priceFloorMap),
                         certifications,
                         capabilities
                     };
@@ -1347,7 +1414,9 @@
                             capabilitiesText: '',
                             selectedCapabilities: [],
                             selectedCertifications: [],
+                            productPricing: {},
                             trust_score: 0.5,
+                            lead_time_days: 14,
                             contact_email: loginEmail.value || supplierProfile.value.contact_email || '',
                             negotiation_style: supplierProfile.value.negotiation_style || 'balanced'
                         };
@@ -1359,6 +1428,7 @@
                     }
                     const supplier = getSupplierById(supplierId);
                     if (!supplier) return;
+                    const selectedCapabilities = (supplier.capabilities || []).filter(c => capabilityOptions.includes(c));
                     supplierProfile.value = {
                         ...supplierProfile.value,
                         supplier_id: supplier.supplier_id,
@@ -1367,11 +1437,14 @@
                         region: supplier.region || '',
                         certificationsText: (supplier.certifications || []).join(', '),
                         capabilitiesText: (supplier.capabilities || []).join(', '),
-                        selectedCapabilities: (supplier.capabilities || []).filter(c => capabilityOptions.includes(c)),
+                        selectedCapabilities,
                         selectedCertifications: (supplier.certifications || []).filter(c => certificationOptions.includes(c)),
+                        productPricing: {},
                         trust_score: Number(supplier.trust_score ?? 0.5),
+                        lead_time_days: Number(supplier.lead_time_days ?? 14),
                         contact_email: supplierProfile.value.contact_email || loginEmail.value || ''
                     };
+                    ensureCapabilityPricing(selectedCapabilities, supplier.base_price_map || {}, supplier.price_floor_map || {});
 
 
                     user.value = { ...user.value, id: supplier.supplier_id, name: supplier.company_name || supplier.supplier_id };
@@ -2043,14 +2116,35 @@
                     const certifications = supplierProfile.value.selectedCertifications.length
                         ? supplierProfile.value.selectedCertifications
                         : _csvList(supplierProfile.value.certificationsText);
+
+                    ensureCapabilityPricing(capabilities);
+                    const base_price_map = {};
+                    const discount_percent_map = {};
+                    capabilities.forEach((cap) => {
+                        const row = supplierProfile.value.productPricing?.[cap] || {};
+                        const base = Number(row.base_price ?? 5);
+                        const discount = Number(row.discount_pct ?? 10);
+                        base_price_map[cap] = Number.isFinite(base) && base > 0 ? Number(base.toFixed(2)) : 5;
+                        discount_percent_map[cap] = Number.isFinite(discount) ? Math.max(0, Math.min(95, Number(discount.toFixed(1)))) : 10;
+                    });
+                    if (capabilities.length) {
+                        const avgBase = capabilities.reduce((sum, cap) => sum + Number(base_price_map[cap] || 0), 0) / capabilities.length;
+                        const avgDiscount = capabilities.reduce((sum, cap) => sum + Number(discount_percent_map[cap] || 0), 0) / capabilities.length;
+                        base_price_map.default = Number(avgBase.toFixed(2));
+                        discount_percent_map.default = Number(avgDiscount.toFixed(1));
+                    }
+
                     const payload = {
                         supplier_id: supplierId,
                         company_name: (supplierProfile.value.company_name || '').trim() || supplierId,
                         country: (supplierProfile.value.country || '').trim() || 'Unknown',
                         region: (supplierProfile.value.region || '').trim() || 'Global',
                         trust_score: Number(supplierProfile.value.trust_score ?? 0.5),
+                        lead_time_days: Math.max(1, Number(supplierProfile.value.lead_time_days ?? 14)),
                         certifications,
-                        capabilities
+                        capabilities,
+                        base_price_map,
+                        discount_percent_map
                     };
 
                     try {
@@ -2074,8 +2168,11 @@
                             capabilitiesText: capabilities.join(', '),
                             selectedCapabilities: capabilities,
                             selectedCertifications: certifications,
-                            trust_score: normalized.trust_score
+                            trust_score: normalized.trust_score,
+                            lead_time_days: Number(normalized.lead_time_days ?? payload.lead_time_days ?? 14),
+                            productPricing: supplierProfile.value.productPricing || {}
                         };
+                        ensureCapabilityPricing(capabilities, normalized.base_price_map || payload.base_price_map || {}, normalized.price_floor_map || {});
                         supplierAccessId.value = normalized.supplier_id;
                         applySupplierSelection(normalized.supplier_id);
                         if (workflowActive.value) {
