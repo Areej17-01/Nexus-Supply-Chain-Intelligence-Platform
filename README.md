@@ -2,7 +2,7 @@
 
 # NEXUS Supply Chain Intelligence Platform
 
-Deployed Demo : [https://huggingface.co/spaces/AreejMehboob17/Nexus-Supply-Chain-Intelligence-Platform?logs=container](https://huggingface.co/spaces/AreejMehboob17/Nexus-Supply-Chain-Intelligence-Platform)
+Deployed Demo : https://huggingface.co/spaces/AreejMehboob17/Nexus-Supply-Chain-Intelligence-Platform
 
 NEXUS is an AI-driven procurement platform where buyer and supplier agents handle:
 - intent parsing,
