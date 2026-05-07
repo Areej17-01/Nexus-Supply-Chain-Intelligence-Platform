@@ -25,7 +25,7 @@ Base = declarative_base()
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
+    pool_pre_ping=True,
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -174,7 +174,9 @@ def cleanup_expired_negotiations() -> int:
         if not expired:
             return 0
         expired_ids = [n.id for n in expired]
+        # Delete child records first to avoid foreign key constraint violations
         db.query(Message).filter(Message.negotiation_id.in_(expired_ids)).delete(synchronize_session=False)
+        db.query(Contract).filter(Contract.negotiation_id.in_(expired_ids)).delete(synchronize_session=False)
         db.query(Negotiation).filter(Negotiation.id.in_(expired_ids)).delete(synchronize_session=False)
         db.commit()
         return len(expired_ids)
